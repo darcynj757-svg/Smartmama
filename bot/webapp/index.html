@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#FDF6EF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Смарт Мама</title>
+  <!-- Critical inline CSS for skeleton/frame to avoid blank flash -->
+  <style>
+    :root{--brand-bg:#FAF3E7;--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px)}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{background:var(--brand-bg);min-height:100vh;font-family:Nunito,sans-serif}
+    #topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:#fff;height:calc(var(--safe-top) + 52px);display:flex;align-items:flex-end;justify-content:center;padding-bottom:10px;border-bottom:1px solid rgba(248,193,204,.3)}
+    #bottom-nav{position:fixed;bottom:0;left:0;right:0;height:calc(var(--safe-bottom)+62px);background:#fff;border-top:1px solid rgba(248,193,204,.3);display:flex}
+    #app{padding-top:calc(var(--safe-top)+62px);padding-bottom:calc(var(--safe-bottom)+70px);min-height:100vh}
+  </style>
+  <link rel="stylesheet" href="styles.css" onerror="this.onerror=null;this.href=''">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+
+<!-- Topbar -->
+<div id="topbar">
+  <div class="topbar-logo">🌸 <span>Смарт</span> Мама</div>
+  <button id="profile-btn" onclick="go('profile')">👩</button>
+</div>
+
+<!-- App content -->
+<div id="app">
+
+  <!-- ────────────── ГЛАВНАЯ ────────────── -->
+  <section id="screen-home" class="screen active">
+    <div class="home-children-bar" id="home-children-bar"></div>
+
+    <!-- Дневник -->
+    <div class="tile tile-full" onclick="go('diary')">
+      <div class="tile-ico tile-dr" style="margin:0">📔</div>
+      <div class="tile-text">
+        <div class="tile-name">Дневник ребёнка</div>
+        <div class="tile-sub">История малыша · Заметки</div>
+      </div>
+    </div>
+
+    <!-- AI баннер -->
+    <div class="ai-banner" onclick="go('aichat')">
+      <div class="banner-ico">👩‍💼</div>
+      <div class="banner-text">
+        <div class="banner-title">AI Smart Mama чат</div>
+        <div class="banner-sub">Спроси всё о своём малыше</div>
+      </div>
+      <div class="banner-arrow">›</div>
+    </div>
+
+    <!-- Чипы категорий -->
+    <div class="ai-caps">
+      <button class="ai-cap" onclick="openChatWith('aichat','Посоветуй упражнения для развития речи')">🗣 Речь</button>
+      <button class="ai-cap" onclick="openChatWith('games','Игра на сегодня')">🎮 Игры</button>
+      <button class="ai-cap" onclick="openChatWith('health','Как понять, что малыш здоров?')">🏥 Здоровье</button>
+      <button class="ai-cap" onclick="openChatWith('nutrition','Что приготовить малышу?')">🥗 Рецепты</button>
+      <button class="ai-cap" onclick="openChatWith('aichat','Дай совет на сегодня')">💡 Советы</button>
+      <button class="ai-cap" onclick="openChatWith('aichat','Расскажи о развитии малыша по неделям')">📅 Развитие</button>
+    </div>
+
+    <!-- Трекеры -->
+    <div class="sec-title">Трекеры</div>
+    <div class="section-grid">
+      <div class="tile" onclick="go('feed')">
+        <div class="tile-top tile-ac-b"></div>
+        <div class="tile-ico tile-ac">🍼</div>
+        <div class="tile-name">Трекер питания</div>
+        <div class="tile-sub">Кормления и нормы</div>
+        <div class="tile-stat" id="tile-feed-stat"></div>
+      </div>
+      <div class="tile" onclick="go('sleep')">
+        <div class="tile-top tile-dr-b"></div>
+        <div class="tile-ico tile-dr">💤</div>
+        <div class="tile-name">Трекер сна</div>
+        <div class="tile-sub">Нормы и статистика</div>
+        <div class="tile-stat" id="tile-sleep-stat"></div>
+      </div>
+    </div>
+
+    <!-- Инструменты -->
+    <div class="sec-title">Инструменты</div>
+    <div class="section-grid">
+      <div class="tile" onclick="go('nutrition')">
+        <div class="tile-top tile-gr-b"></div>
+        <div class="tile-ico tile-gr">🥗</div>
+        <div class="tile-name">Питание</div>
+        <div class="tile-sub">AI рецепты · Фото еды</div>
+      </div>
+      <div class="tile" onclick="go('benefits')">
+        <div class="tile-top tile-fd-b"></div>
+        <div class="tile-ico tile-fd">💰</div>
+        <div class="tile-name">Выплаты</div>
+        <div class="tile-sub">По твоему региону</div>
+      </div>
+    </div>
+
+    <!-- Нейрофото -->
+    <div class="neuro-banner" onclick="go('neuro')">
+      <div class="banner-ico">📸</div>
+      <div class="banner-text">
+        <div class="banner-title">Нейрофотосессия</div>
+        <div class="banner-sub">AI-портреты малыша в 16 стилях</div>
+      </div>
+      <div class="banner-arrow" style="color:rgba(255,255,255,.7)">›</div>
+    </div>
+
+    <!-- Чат мам -->
+    <div class="moms-chat-banner" onclick="openTgLink('https://t.me/smart_mama_channel')">
+      <div class="banner-ico">💬</div>
+      <div class="banner-text">
+        <div class="banner-title">Чат для умных мам</div>
+        <div class="banner-sub">Советы, поддержка и общение с мамами</div>
+      </div>
+      <div class="banner-arrow" style="color:rgba(255,255,255,.7)">›</div>
+    </div>
+
+    <!-- Тариф баннер -->
+    <div class="price-banner" onclick="go('pricing')">
+      <div class="banner-ico">💎</div>
+      <div class="banner-text">
+        <div class="banner-title" id="home-plan-title">Стартер 290 ₽/мес · Премиум 490 ₽/мес</div>
+        <div class="banner-sub" id="home-plan-sub">Попробуй бесплатно</div>
+      </div>
+    </div>
+
+    <!-- Реферальная программа -->
+    <div class="ref-home-banner" onclick="go('referral')">
+      <div class="banner-ico">🎁</div>
+      <div class="banner-text">
+        <div class="banner-title">Программа Амбассадоров</div>
+        <div class="banner-sub">Приглашай подруг — получай бонусы</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────────── AI ЧАТ ────────────── -->
+  <section id="screen-aichat" class="screen">
+    <div class="chat-hdr pink">
+      <button class="back-btn" onclick="goBack()">‹</button>
+      <div class="chat-hdr-ico">👩‍💼</div>
+      <div>
+        <div class="chat-hdr-title">AI Smart Mama</div>
+        <div class="chat-hdr-sub">Отвечу на любой вопрос о малыше</div>
+      </div>
+    </div>
+    <div class="chips-scroll" id="aichat-chips">
+      <button class="chip" onclick="sendChip('aichat','Что делать сегодня?')">Что делать сегодня?</button>
+      <button class="chip" onclick="sendChip('aichat','Плохо спит — что делать?')">Плохо спит</button>
+      <button class="chip" onclick="sendChip('aichat','Как приучить к горшку?')">Горшок</button>
+      <button class="chip" onclick="sendChip('aichat','Какие игрушки подходят?')">Игрушки</button>
+      <button class="chip" onclick="sendChip('aichat','Расскажи о нормах для возраста малыша')">Нормы возраста</button>
+      <button class="chip" onclick="sendChip('aichat','Упражнения для развития речи')">Развитие речи</button>
+    </div>
+    <div class="msgs-area" id="aichat-msgs"></div>
+    <div class="ai-counter" id="aichat-ai-counter" style="display:none"></div>
+    <div class="chat-bar">
+      <button class="chat-btn btn-cam" onclick="document.getElementById('aichat-photo-input').click()">📷</button>
+      <input type="file" id="aichat-photo-input" accept="image/*" style="display:none" onchange="sendPhotoChat('aichat',this)">
+      <textarea id="aichat-input" placeholder="Задай вопрос о малыше..." rows="1" onkeydown="chatKeydown(event,'aichat')" oninput="autoResize(this)"></textarea>
+      <button class="chat-btn btn-send" onclick="sendChat('aichat')">➤</button>
+    </div>
+  </section>
+
+  <!-- ────────────── РАЗВИТИЕ РЕЧИ ────────────── -->
+  <section id="screen-speech" class="screen">
+    <div class="chat-hdr pink">
+      <button class="back-btn" onclick="goBack()">‹</button>
+      <div class="chat-hdr-ico">🗣</div>
+      <div>
+        <div class="chat-hdr-title">Развитие речи</div>
+        <div class="chat-hdr-sub">AI подберёт упражнение</div>
+      </div>
+    </div>
+    <div class="chips-scroll">
+      <button class="chip" onclick="sendChip('speech','Дай упражнение прямо сейчас')">Упражнение сейчас</button>
+      <button class="chip" onclick="sendChip('speech','Нормально ли развивается речь?')">Норма или нет?</button>
+      <button class="chip" onclick="sendChip('speech','Игры для развития речи дома')">Игры дома</button>
+      <button class="chip" onclick="sendChip('speech','Артикуляционная гимнастика для малыша')">Гимнастика</button>
+      <button class="chip" onclick="sendChip('speech','Когда нужно идти к логопеду?')">Когда к логопеду?</button>
+      <button class="chip" onclick="sendChip('speech','Первые слова — когда ждать?')">Первые слова</button>
+    </div>
+    <div class="msgs-area" id="speech-msgs"></div>
+    <div class="chat-bar">
+      <textarea id="speech-input" placeholder="Вопрос о речи малыша..." rows="1" onkeydown="chatKeydown(event,'speech')" oninput="autoResize(this)"></textarea>
+      <button class="chat-btn btn-send" onclick="sendChat('speech')">➤</button>
+    </div>
+  </section>
+
+  <!-- ────────────── РАЗВИВАЮЩИЕ ИГРЫ ────────────── -->
+  <section id="screen-games" class="screen">
+    <div class="chat-hdr green">
+      <button class="back-btn" onclick="goBack()">‹</button>
+      <div class="chat-hdr-ico">🎮</div>
+      <div>
+        <div class="chat-hdr-title">Развивающие игры</div>
+        <div class="chat-hdr-sub">Идеи игр по возрасту</div>
+      </div>
+    </div>
+    <div class="chips-scroll">
+      <button class="chip" onclick="sendChip('games','Игра на сегодня')">Игра на сегодня</button>
+      <button class="chip" onclick="sendChip('games','Тихая игра дома')">Тихая игра</button>
+      <button class="chip" onclick="sendChip('games','Творческая игра')">Творческая</button>
+      <button class="chip" onclick="sendChip('games','Активная физическая игра')">Активная</button>
+      <button class="chip" onclick="sendChip('games','Развитие мелкой моторики')">Моторика</button>
+      <button class="chip" onclick="sendChip('games','Игра на улице')">На улице</button>
+    </div>
+    <div class="msgs-area" id="games-msgs"></div>
+    <div class="chat-bar">
+      <textarea id="games-input" placeholder="Идея игры для малыша..." rows="1" onkeydown="chatKeydown(event,'games')" oninput="autoResize(this)"></textarea>
+      <button class="chat-btn btn-send" onclick="sendChat('games')">➤</button>
+    </div>
+  </section>
+
+  <!-- ────────────── ПИТАНИЕ ────────────── -->
+  <section id="screen-nutrition" class="screen">
+    <div class="chat-hdr teal">
+      <button class="back-btn" onclick="goBack()">‹</button>
+      <div class="chat-hdr-ico">🥗</div>
+      <div>
+        <div class="chat-hdr-title">Питание</div>
+        <div class="chat-hdr-sub">📷 Фото еды · AI рецепты</div>
+      </div>
+    </div>
+    <div class="chips-scroll">
+      <button class="chip" onclick="sendChip('nutrition','Что приготовить малышу?')">Что приготовить?</button>
+      <button class="chip" onclick="sendChip('nutrition','Идеи для завтрака малышу')">Завтрак</button>
+      <button class="chip" onclick="sendChip('nutrition','Как начать первый прикорм?')">Первый прикорм</button>
+      <button class="chip" onclick="sendChip('nutrition','Рецепт пюре для малыша')">Пюре малышу</button>
+      <button class="chip" onclick="sendChip('nutrition','Малыш плохо ест — что делать?')">Плохо ест</button>
+    </div>
+    <!-- Кнопка фото холодильника -->
+    <div class="form-card" style="text-align:center">
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px">Сфотографируй холодильник — AI предложит блюда 🥦</p>
+      <button class="btn-pri" onclick="document.getElementById('fridge-photo').click()" style="max-width:240px">📷 Фото холодильника</button>
+      <input type="file" id="fridge-photo" accept="image/*" capture="environment" style="display:none" onchange="analyzeFridge(this)">
+    </div>
+    <div id="fridge-dishes" style="display:none">
+      <div class="sec-title">Блюда из вашего холодильника</div>
+      <ul class="dish-list" id="dish-list"></ul>
+    </div>
+    <div class="msgs-area" id="nutrition-msgs" style="min-height:200px"></div>
+    <div class="chat-bar">
+      <textarea id="nutrition-input" placeholder="Вопрос о питании..." rows="1" onkeydown="chatKeydown(event,'nutrition')" oninput="autoResize(this)"></textarea>
+      <button class="chat-btn btn-send" onclick="sendChat('nutrition')">➤</button>
+    </div>
+  </section>
+
+  <!-- ────────────── ЗДОРОВЬЕ ────────────── -->
+  <section id="screen-health" class="screen">
+    <div class="chat-hdr lav">
+      <button class="back-btn" onclick="goBack()">‹</button>
+      <div class="chat-hdr-ico">🏥</div>
+      <div>
+        <div class="chat-hdr-title">Здоровье</div>
+        <div class="chat-hdr-sub">AI-консультация педиатра</div>
+      </div>
+    </div>
+    <div class="health-alert">⚠️ При тревожных симптомах — срочно 103 или 112</div>
+    <div class="chips-scroll">
+      <button class="chip" onclick="sendChip('health','🌡 Поднялась температура — что делать?')">🌡 Температура</button>
+      <button class="chip" onclick="sendChip('health','😷 Малыш кашляет — что делать?')">😷 Кашель</button>
+      <button class="chip" onclick="sendChip('health','Малыш отказывается от еды — почему?')">🍽 Не ест</button>
+      <button class="chip" onclick="sendChip('health','Стул малыша — что является нормой?')">🚽 Стул</button>
+      <button class="chip" onclick="sendChip('health','Когда нужно идти к врачу?')">👨‍⚕️ К врачу</button>
+      <button class="chip" onclick="sendChip('health','Малыш подавился — что делать прямо сейчас!')">🚨 Подавился</button>
+      <button class="chip" onclick="sendChip('health','Расскажи о прививках по возрасту')">💉 Прививки</button>
+    </div>
+    <div class="msgs-area" id="health-msgs"></div>
+    <div class="chat-bar">
+      <button class="chat-btn btn-cam" onclick="document.getElementById('health-photo-input').click()">📷</button>
+      <input type="file" id="health-photo-input" accept="image/*" style="display:none" onchange="sendPhotoChat('health',this)">
+      <textarea id="health-input" placeholder="Опиши симптомы..." rows="1" onkeydown="chatKeydown(event,'health')" oninput="autoResize(this)"></textarea>
+      <button class="chat-btn btn-send" onclick="sendChat('health')">➤</button>
+    </div>
+  </section>
+
+  <!-- ────────────── ТРЕКЕР СНА ────────────── -->
+  <section id="screen-sleep" class="screen">
+    <div class="page-title">💤 Трекер сна</div>
+    <div class="tr-card pink">
+      <div class="tr-title">Сон сегодня</div>
+      <div class="tr-val" id="sleep-val">0ч 0мин</div>
+      <div class="tr-norm" id="sleep-norm-txt">Норма: —</div>
+      <div class="tr-bar-bg"><div class="tr-bar" id="sleep-bar" style="width:0%"></div></div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-toggle" onclick="toggleForm('sleep-form')">
+        <span class="form-toggle-title">+ Записать сон</span>
+        <span id="sleep-form-arrow">▼</span>
+      </div>
+      <div class="form-body" id="sleep-form" style="display:none">
+        <label class="field-label">Уложила</label>
+        <input type="time" class="field-input" id="sleep-start" value="">
+        <label class="field-label">Проснулся</label>
+        <input type="time" class="field-input" id="sleep-end" value="">
+        <label class="field-label">Заметка</label>
+        <input type="text" class="field-input" id="sleep-note" placeholder="дневной, ночной...">
+        <div class="form-btns">
+          <button class="btn-out" onclick="toggleForm('sleep-form')">Отмена</button>
+          <button class="btn-pri" onclick="saveSleep()">Сохранить</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Сегодня</div>
+    <ul class="entry-list" id="sleep-list"></ul>
+
+    <button class="collapse-toggle" onclick="toggleCollapse('sleep-history-body','sleep-history-arrow')">
+      📋 История сна <span id="sleep-history-arrow">▼</span>
+    </button>
+    <div id="sleep-history-body" style="display:none">
+      <ul class="entry-list" id="sleep-history-list"></ul>
+    </div>
+
+    <div class="sec-title" style="margin-top:18px">Нормы сна по возрасту</div>
+    <div class="norm-list">
+      <div class="norm-item"><span>0–3 месяца</span><span class="norm-val">14–17 ч/сут</span></div>
+      <div class="norm-item"><span>3–6 месяцев</span><span class="norm-val">12–16 ч/сут</span></div>
+      <div class="norm-item"><span>6–12 месяцев</span><span class="norm-val">12–15 ч/сут</span></div>
+      <div class="norm-item"><span>1–2 года</span><span class="norm-val">11–14 ч/сут</span></div>
+      <div class="norm-item"><span>2–3 года</span><span class="norm-val">10–13 ч/сут</span></div>
+    </div>
+  </section>
+
+  <!-- ────────────── ТРЕКЕР ПИТАНИЯ ────────────── -->
+  <section id="screen-feed" class="screen">
+    <div class="page-title">🍼 Трекер питания</div>
+    <div class="tr-card teal">
+      <div class="tr-title">Кормлений сегодня</div>
+      <div class="tr-val" id="feed-val">0</div>
+      <div class="tr-norm" id="feed-norm-txt">Норма: —</div>
+      <div class="tr-bar-bg"><div class="tr-bar" id="feed-bar" style="width:0%"></div></div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-toggle" onclick="toggleForm('feed-form')">
+        <span class="form-toggle-title">+ Добавить кормление</span>
+        <span id="feed-form-arrow">▼</span>
+      </div>
+      <div class="form-body" id="feed-form" style="display:none">
+        <label class="field-label">Время</label>
+        <input type="time" class="field-input" id="feed-time" value="">
+        <label class="field-label">Тип питания</label>
+        <select class="field-select" id="feed-type">
+          <option value="breast">🤱 Грудь</option>
+          <option value="formula">🍼 Смесь</option>
+          <option value="puree">🥄 Пюре</option>
+          <option value="porridge">🥣 Каша</option>
+          <option value="soup">🍲 Суп</option>
+          <option value="fruit">🍎 Фрукт</option>
+          <option value="water">💧 Вода</option>
+          <option value="other">🍽 Другое</option>
+        </select>
+        <label class="field-label">Количество</label>
+        <input type="text" class="field-input" id="feed-amount" placeholder="150 мл, 100 г...">
+        <div class="form-btns">
+          <button class="btn-out" onclick="toggleForm('feed-form')">Отмена</button>
+          <button class="btn-pri" onclick="saveFeed()">Сохранить</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title">Сегодня</div>
+    <ul class="entry-list" id="feed-list"></ul>
+
+    <div class="sec-title" style="margin-top:18px">Нормы питания по возрасту</div>
+    <div class="norm-list">
+      <div class="norm-item"><span>до 6 мес (ГВ/смесь)</span><span class="norm-val">8–12 раз/сут</span></div>
+      <div class="norm-item"><span>6–9 мес</span><span class="norm-val">ГВ + прикорм 1–2 раза</span></div>
+      <div class="norm-item"><span>9–12 мес</span><span class="norm-val">4–5 кормлений/сут</span></div>
+      <div class="norm-item"><span>1–3 года</span><span class="norm-val">4–5 приёмов пищи/сут</span></div>
+    </div>
+  </section>
+
+  <!-- ────────────── ДНЕВНИК ────────────── -->
+  <section id="screen-diary" class="screen">
+    <div class="diary-child-card" id="diary-child-card">
+      <div class="diary-child-ico">👶</div>
+      <div>
+        <div class="diary-child-name" id="diary-child-name">Малыш</div>
+        <div class="diary-child-info" id="diary-child-info">Загрузка...</div>
+      </div>
+    </div>
+
+    <div class="sec-title">Документы</div>
+    <div class="diary-docs-grid">
+      <div class="doc-item" onclick="openDocModal('Паспорт','📗')"><div class="doc-ico">📗</div><div class="doc-name">Паспорт</div></div>
+      <div class="doc-item" onclick="openDocModal('СНИЛС','🪪')"><div class="doc-ico">🪪</div><div class="doc-name">СНИЛС</div></div>
+      <div class="doc-item" onclick="openDocModal('Полис ОМС','🏥')"><div class="doc-ico">🏥</div><div class="doc-name">Полис ОМС</div></div>
+      <div class="doc-item" onclick="openDocModal('Свидетельство о рождении','📜')"><div class="doc-ico">📜</div><div class="doc-name">Свид. о рождении</div></div>
+      <div class="doc-item" onclick="openDocModal('Справка от врача','👨‍⚕️')"><div class="doc-ico">👨‍⚕️</div><div class="doc-name">Справка врача</div></div>
+      <div class="doc-item" onclick="openDocModal('Рецепт','💊')"><div class="doc-ico">💊</div><div class="doc-name">Рецепт</div></div>
+      <div class="doc-item" onclick="openDocModal('Прививочная карта','💉')"><div class="doc-ico">💉</div><div class="doc-name">Прививки</div></div>
+      <div class="doc-item" onclick="openDocModal('Другое','📁')"><div class="doc-ico">📁</div><div class="doc-name">Другое</div></div>
+    </div>
+
+    <div style="display:flex;justify-content:flex-end;margin-bottom:14px">
+      <button class="btn-pri" onclick="openAddDiaryModal()" style="max-width:200px">+ Добавить запись</button>
+    </div>
+
+    <div class="diary-tabs" id="diary-tabs">
+      <button class="diary-tab active" onclick="setDiaryTab('all',this)">Все</button>
+      <button class="diary-tab" onclick="setDiaryTab('height',this)">Рост</button>
+      <button class="diary-tab" onclick="setDiaryTab('vaccine',this)">Прививки</button>
+      <button class="diary-tab" onclick="setDiaryTab('illness',this)">Болезни</button>
+      <button class="diary-tab" onclick="setDiaryTab('event',this)">События</button>
+    </div>
+    <ul class="entry-list" id="diary-list"></ul>
+  </section>
+
+  <!-- ────────────── ВЫПЛАТЫ ────────────── -->
+  <section id="screen-benefits" class="screen">
+    <div class="page-title">💰 Выплаты и пособия</div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <input type="text" class="field-input" id="benefits-region-input" placeholder="Введи регион..." style="margin-bottom:0;flex:1">
+      <button class="btn-pri" onclick="loadBenefits()" style="white-space:nowrap;padding:11px 16px">Найти</button>
+    </div>
+    <div class="benefits-chips">
+      <button class="benefits-chip" onclick="setBenefitsRegion('Москва')">Москва</button>
+      <button class="benefits-chip" onclick="setBenefitsRegion('Санкт-Петербург')">СПб</button>
+      <button class="benefits-chip" onclick="setBenefitsRegion('Краснодар')">Краснодар</button>
+      <button class="benefits-chip" onclick="setBenefitsRegion('Казань')">Казань</button>
+      <button class="benefits-chip" onclick="setBenefitsRegion('Екатеринбург')">Екатеринбург</button>
+      <button class="benefits-chip" onclick="setBenefitsRegion('Новосибирск')">Новосибирск</button>
+      <button class="benefits-chip" onclick="setBenefitsRegion('Ростов-на-Дону')">Ростов</button>
+      <button class="benefits-chip" onclick="setBenefitsRegion('Нижний Новгород')">Н.Новгород</button>
+    </div>
+    <div id="benefits-result" style="display:none">
+      <div class="region-badge" id="benefits-region-badge">🗺 Регион</div>
+      <div class="benefits-result">
+        <div class="ai-response" id="benefits-text"></div>
+      </div>
+    </div>
+    <div id="benefits-loader" style="display:none"><div class="spinner"></div></div>
+  </section>
+
+  <!-- ────────────── НЕЙРОФОТО ────────────── -->
+  <section id="screen-neuro" class="screen">
+    <div class="page-title">📸 Нейрофотосессия</div>
+    <div class="form-card" style="text-align:center">
+      <p style="font-size:14px;font-weight:700;margin-bottom:6px">AI-портреты малыша в 16 стилях ✨</p>
+      <p style="font-size:12px;color:var(--text-secondary)">Загрузи фото малыша и выбери стиль</p>
+      <div id="neuro-usage-badge" style="margin:10px 0"></div>
+    </div>
+
+    <div class="sec-title">Выбери стиль</div>
+    <div class="neuro-styles-grid" id="neuro-styles">
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Реалистичный портрет')">🎨 Реалистичный</button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Аниме')">🗾 Аниме</button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Disney/Pixar')">🏰 Disney/Pixar</button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Акварель')">🎨 Акварель</button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Масляная живопись')">🖼 Масло</button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Цифровой арт')">💻 Цифровой арт</button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Винтаж')">📷 Винтаж</button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Сказочный')">🧚 Сказочный</button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Космический')">🚀 Космический</button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Подводный')">🐠 Подводный</button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Лесной')">🌲 Лесной</button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Праздничный')">🎉 Праздничный</button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Чёрно-белый')">⚫ Ч/б</button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Поп-арт')">🌈 Поп-арт</button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Минимализм')">⬜ Минимализм</button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'custom')">✏️ Свой стиль</button>
+    </div>
+    <div id="neuro-custom-style" style="display:none;margin-bottom:12px">
+      <textarea class="field-textarea" id="neuro-custom-input" placeholder="Опиши свой стиль..."></textarea>
+    </div>
+
+    <div class="upload-area" onclick="document.getElementById('neuro-photo-input').click()" id="neuro-upload">
+      <p style="font-size:13px;color:var(--text-secondary)">📷 Загрузи фото малыша</p>
+    </div>
+    <input type="file" id="neuro-photo-input" accept="image/*" style="display:none" onchange="previewNeuroPhoto(this)">
+
+    <button class="btn-pri" id="neuro-create-btn" onclick="createNeuroPhoto()" disabled>✨ Создать портрет</button>
+
+    <div id="neuro-result" class="neuro-result" style="display:none">
+      <img id="neuro-result-img" src="" alt="AI Portrait">
+      <button class="btn-pri" style="margin-top:12px" onclick="downloadNeuroPhoto()">💾 Сохранить</button>
+    </div>
+    <div id="neuro-loader" style="display:none"><div class="spinner"></div><p style="text-align:center;font-size:13px;color:var(--text-secondary)">Создаём портрет... это займёт ~20 сек</p></div>
+  </section>
+
+  <!-- ────────────── ТАРИФЫ ────────────── -->
+  <section id="screen-pricing" class="screen">
+    <div class="page-title">💎 Тарифы</div>
+    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px">Начни бесплатно, расширяй возможности когда нужно</p>
+
+    <div class="period-toggle">
+      <button class="period-btn active" onclick="setPeriod(1,this)">1 мес</button>
+      <button class="period-btn" onclick="setPeriod(3,this)">3 мес<span class="period-badge">-5%</span></button>
+      <button class="period-btn" onclick="setPeriod(6,this)">6 мес<span class="period-badge">-10%</span></button>
+      <button class="period-btn" onclick="setPeriod(12,this)">12 мес<span class="period-badge">-15%</span></button>
+    </div>
+
+    <!-- Бесплатно -->
+    <div class="price-card free-c">
+      <div class="price-ico">🆓</div>
+      <div class="price-name">Бесплатно</div>
+      <div class="price-amount">0 ₽</div>
+      <ul class="price-features">
+        <li>Все 8 разделов приложения</li>
+        <li>Трекеры сна и питания</li>
+        <li>Дневник малыша</li>
+        <li>10 AI-ответов в день</li>
+        <li class="no">AI речь / игры / здоровье</li>
+        <li class="no">Нейрофото</li>
+        <li class="no">Гайд по пособиям</li>
+      </ul>
+      <button class="price-btn current">Текущий тариф</button>
+    </div>
+
+    <!-- Стартер -->
+    <div class="price-card start-c">
+      <div class="price-card-badge">Популярный</div>
+      <div class="price-ico">🌸</div>
+      <div class="price-name">Стартер</div>
+      <div class="price-amount" id="starter-price">290 ₽<span>/мес</span></div>
+      <div class="price-total" id="starter-total"></div>
+      <ul class="price-features">
+        <li>Всё из бесплатного</li>
+        <li>20 AI-ответов в день в каждом чате</li>
+        <li>AI речь / игры / здоровье</li>
+        <li>5 анализов холодильника/день</li>
+        <li>2 нейрофото в месяц</li>
+        <li class="no">Гайд по пособиям (149 ₽ отдельно)</li>
+        <li class="no">Программа развития по неделям</li>
+      </ul>
+      <button class="price-btn starter-btn" onclick="buyPlan('starter')">Подключить Стартер</button>
+    </div>
+
+    <!-- Премиум -->
+    <div class="price-card prem-c">
+      <div class="price-card-badge">Хит 🔥</div>
+      <div class="price-ico">💎</div>
+      <div class="price-name">Премиум</div>
+      <div class="price-amount" id="premium-price">490 ₽<span>/мес</span></div>
+      <div class="price-total" id="premium-total"></div>
+      <ul class="price-features">
+        <li>Всё из Стартера</li>
+        <li>Безлимитный AI 24/7</li>
+        <li>20 нейрофото в месяц</li>
+        <li>Гайд по пособиям включён</li>
+        <li>Программа развития по неделям</li>
+        <li>Приоритетная поддержка</li>
+      </ul>
+      <button class="price-btn prem-btn" onclick="buyPlan('premium')">Подключить Премиум</button>
+    </div>
+
+    <p style="text-align:center;font-size:12px;color:var(--text-secondary);padding:12px 0">
+      💳 Оплата картой, СБП или Telegram Stars.<br>Поддержка: @polyakovalinka
+    </p>
+  </section>
+
+  <!-- ────────────── РЕФЕРАЛЬНАЯ ПРОГРАММА ────────────── -->
+  <section id="screen-referral" class="screen">
+    <div class="page-title">🎁 Программа Амбассадоров</div>
+
+    <div class="ref-stats-bar">
+      <div class="ref-stat">
+        <div class="ref-stat-val" id="ref-invited-count">0</div>
+        <div class="ref-stat-label">Подруг приглашено</div>
+      </div>
+      <div class="ref-stat">
+        <div class="ref-stat-val" id="ref-level-label">—</div>
+        <div class="ref-stat-label">Твой статус</div>
+      </div>
+    </div>
+
+    <div class="amb-card level-1">
+      <div class="amb-badge">🌸</div>
+      <div class="amb-title">Мама-Помощница</div>
+      <div class="amb-req">2 оплаченные подруги</div>
+      <ul class="amb-rewards">
+        <li>+15 AI-запросов/день</li>
+        <li>Значок 🌸 в профиле</li>
+      </ul>
+    </div>
+    <div class="amb-card level-2">
+      <div class="amb-badge">⭐</div>
+      <div class="amb-title">Мама-Звезда</div>
+      <div class="amb-req">5 оплаченных подруг</div>
+      <ul class="amb-rewards">
+        <li>Стартер бесплатно пока 5+ активных</li>
+        <li>Ранний доступ к новым функциям</li>
+        <li>Значок ⭐</li>
+      </ul>
+    </div>
+    <div class="amb-card level-3">
+      <div class="amb-badge">💎</div>
+      <div class="amb-title">Смарт Мама Амбассадор</div>
+      <div class="amb-req">10 оплаченных подруг</div>
+      <ul class="amb-rewards">
+        <li>Премиум навсегда</li>
+        <li>Упоминание в канале</li>
+        <li>Бета-доступ к новым фичам</li>
+        <li>Значок 💎</li>
+      </ul>
+    </div>
+
+    <p style="text-align:center;font-size:13px;color:var(--text-secondary);padding:12px 0">
+      🎁 Подруга получает первый месяц со скидкой 50% по твоей ссылке
+    </p>
+
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <button class="btn-pri" onclick="shareRef()">📤 Поделиться с подругой</button>
+      <button class="btn-out" onclick="copyRef()">📋 Скопировать ссылку</button>
+    </div>
+  </section>
+
+  <!-- ────────────── ПРОФИЛЬ ────────────── -->
+  <section id="screen-profile" class="screen">
+    <div class="page-title">👩 Профиль</div>
+
+    <div class="children-bar" id="profile-children-bar">
+      <button class="child-chip active" id="profile-child-chip-0">Малыш</button>
+      <button class="child-chip add-child-btn" onclick="addChild()">+ Добавить ребёнка</button>
+    </div>
+
+    <div class="plan-card">
+      <div>
+        <div class="plan-name" id="profile-plan-name">🆓 Бесплатно</div>
+        <div class="plan-until" id="profile-plan-until"></div>
+      </div>
+      <button class="plan-change-btn" onclick="go('pricing')">Изменить</button>
+    </div>
+
+    <div class="form-card">
+      <div class="sec-title" style="margin-top:0">Основное</div>
+      <label class="field-label">Имя малыша</label>
+      <input type="text" class="field-input" id="profile-child-name" placeholder="Имя малыша">
+      <label class="field-label">Пол</label>
+      <select class="field-select" id="profile-child-gender">
+        <option value="">— не указан —</option>
+        <option value="boy">👦 Мальчик</option>
+        <option value="girl">👧 Девочка</option>
+      </select>
+      <label class="field-label">Дата рождения</label>
+      <input type="date" class="field-input" id="profile-dob">
+      <label class="field-label">Возраст (месяцев)</label>
+      <input type="number" class="field-input" id="profile-age" placeholder="0–216" min="0" max="216">
+      <label class="field-label">Регион</label>
+      <input type="text" class="field-input" id="profile-region" placeholder="Город / регион">
+    </div>
+
+    <div class="form-card">
+      <div class="sec-title" style="margin-top:0">Здоровье</div>
+      <label class="field-label">Группа крови</label>
+      <select class="field-select" id="profile-blood">
+        <option value="">— не указана —</option>
+        <option value="I+">I (O) +</option><option value="I-">I (O) −</option>
+        <option value="II+">II (A) +</option><option value="II-">II (A) −</option>
+        <option value="III+">III (B) +</option><option value="III-">III (B) −</option>
+        <option value="IV+">IV (AB) +</option><option value="IV-">IV (AB) −</option>
+      </select>
+      <label class="field-label">Аллергии</label>
+      <input type="text" class="field-input" id="profile-allergies" placeholder="Перечисли, если есть">
+      <label class="field-label">Педиатр</label>
+      <input type="text" class="field-input" id="profile-doctor" placeholder="ФИО педиатра">
+      <label class="field-label">Заметки о здоровье</label>
+      <textarea class="field-textarea" id="profile-health-notes" placeholder="Особенности, хронические заболевания..."></textarea>
+    </div>
+
+    <button class="btn-pri" onclick="saveProfile()" style="margin-bottom:14px">💾 Сохранить</button>
+
+    <div class="support-card">
+      <div class="support-ico">💬</div>
+      <div>
+        <div style="font-size:15px;font-weight:700">Поддержка</div>
+        <div style="font-size:13px;color:var(--text-secondary);margin-top:3px">Напиши нам в Telegram</div>
+        <a href="https://t.me/polyakovalinka" style="font-size:13px;font-weight:700;color:var(--brand-primary)">@polyakovalinka</a>
+      </div>
+    </div>
+  </section>
+
+</div><!-- #app -->
+
+<!-- Bottom nav -->
+<nav id="bottom-nav">
+  <button class="nav-item active" onclick="go('home')" data-screen="home">
+    <span class="nav-ico">🏠</span>Главная
+  </button>
+  <button class="nav-item" onclick="go('aichat')" data-screen="aichat">
+    <span class="nav-ico">👩‍💼</span>AI Чат
+  </button>
+  <button class="nav-item" onclick="go('nutrition')" data-screen="nutrition">
+    <span class="nav-ico">🥗</span>Питание
+  </button>
+  <button class="nav-item" onclick="go('pricing')" data-screen="pricing">
+    <span class="nav-ico">💎</span>Тарифы
+  </button>
+</nav>
+
+<!-- Modals -->
+<div class="diary-modal-overlay" id="add-diary-modal" onclick="closeDiaryModal()">
+  <div class="diary-modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Добавить запись</div>
+    <div class="chips-scroll chips-wrap" id="diary-type-chips">
+      <button class="chip" onclick="selectDiaryType('height','📏 Рост/вес',this)">📏 Рост/вес</button>
+      <button class="chip" onclick="selectDiaryType('vaccine','💉 Прививка',this)">💉 Прививка</button>
+      <button class="chip" onclick="selectDiaryType('illness','😷 Болезнь',this)">😷 Болезнь</button>
+      <button class="chip" onclick="selectDiaryType('temp','🌡 Температура',this)">🌡 Температура</button>
+      <button class="chip" onclick="selectDiaryType('first','🌟 Первый раз',this)">🌟 Первый раз</button>
+      <button class="chip" onclick="selectDiaryType('mood','😊 Настроение',this)">😊 Настроение</button>
+      <button class="chip" onclick="selectDiaryType('medicine','💊 Лекарство',this)">💊 Лекарство</button>
+      <button class="chip" onclick="selectDiaryType('doctor','👨‍⚕️ Врач',this)">👨‍⚕️ Врач</button>
+      <button class="chip" onclick="selectDiaryType('funny','😂 Смешное',this)">😂 Смешное</button>
+      <button class="chip" onclick="selectDiaryType('event','🎉 Событие',this)">🎉 Событие</button>
+    </div>
+    <div id="diary-form-height" style="display:none">
+      <label class="field-label">Рост (см)</label>
+      <input type="number" class="field-input" id="diary-height" placeholder="65">
+      <label class="field-label">Вес (кг)</label>
+      <input type="number" class="field-input" id="diary-weight" placeholder="7.5" step="0.1">
+    </div>
+    <div id="diary-form-text" style="display:none">
+      <label class="field-label">Описание</label>
+      <textarea class="field-textarea" id="diary-text" placeholder="Опиши событие..."></textarea>
+    </div>
+    <label class="field-label">Дата</label>
+    <input type="date" class="field-input" id="diary-date">
+    <div class="form-btns">
+      <button class="btn-out" onclick="closeDiaryModal()">Отмена</button>
+      <button class="btn-pri" onclick="saveDiaryEntry()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<div class="diary-modal-overlay" id="doc-modal" onclick="closeDocModal()">
+  <div class="diary-modal-sheet" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="doc-modal-title">Документ</div>
+    <div class="upload-area" onclick="document.getElementById('doc-photo-input').click()" id="doc-upload-area">
+      <p style="font-size:13px;color:var(--text-secondary)">📷 Загрузить фото документа</p>
+    </div>
+    <input type="file" id="doc-photo-input" accept="image/*" style="display:none" onchange="previewDoc(this)">
+    <div class="form-btns" style="margin-top:8px">
+      <button class="btn-out" onclick="closeDocModal()">Отмена</button>
+      <button class="btn-pri" onclick="saveDoc()">Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

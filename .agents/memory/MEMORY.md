@@ -1,0 +1,1 @@
+- [Smart Mama project](smartmama-project.md) — SQLite shared between Python bot (aiosqlite) and Node API (better-sqlite3); bot must have webhook deleted before polling; prod switches to webhook when PORT is set.
