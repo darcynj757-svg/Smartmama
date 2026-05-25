@@ -26,3 +26,8 @@ externalPort = 80
 [[ports]]
 localPort = 8081
 externalPort = 8081
+
+[userenv]
+
+[userenv.shared]
+ADMIN_USER_ID = "288113313"
