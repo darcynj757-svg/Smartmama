@@ -8,12 +8,13 @@
   <title>Смарт Мама</title>
   <!-- Critical inline CSS for skeleton/frame to avoid blank flash -->
   <style>
-    :root{--brand-bg:#FAF3E7;--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px)}
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{background:var(--brand-bg);min-height:100vh;font-family:Nunito,sans-serif}
-    #topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:#fff;height:calc(var(--safe-top) + 52px);display:flex;align-items:flex-end;justify-content:center;padding-bottom:10px;border-bottom:1px solid rgba(248,193,204,.3)}
-    #bottom-nav{position:fixed;bottom:0;left:0;right:0;height:calc(var(--safe-bottom)+62px);background:#fff;border-top:1px solid rgba(248,193,204,.3);display:flex}
-    #app{padding-top:calc(var(--safe-top)+62px);padding-bottom:calc(var(--safe-bottom)+70px);min-height:100vh}
+    :root{--brand-bg:#FAF3E7;--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,16px);--topbar-h:54px;--bottomnav-h:60px}
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    html{height:-webkit-fill-available;overflow:hidden}
+    body{background:var(--brand-bg);min-height:100vh;min-height:-webkit-fill-available;min-height:100dvh;overflow:hidden;overscroll-behavior:none;font-family:Nunito,-apple-system,sans-serif}
+    #topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:#fff;height:calc(var(--safe-top) + var(--topbar-h));display:flex;align-items:flex-end;justify-content:center;padding:0 16px 10px;border-bottom:1px solid rgba(248,193,204,.3)}
+    #bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid rgba(248,193,204,.25);display:flex;height:calc(var(--bottomnav-h) + var(--safe-bottom));padding-bottom:var(--safe-bottom)}
+    #app{position:fixed;top:calc(var(--safe-top) + var(--topbar-h));left:0;right:0;bottom:calc(var(--bottomnav-h) + var(--safe-bottom));overflow:hidden}
   </style>
   <link rel="stylesheet" href="styles.css" onerror="this.onerror=null;this.href=''">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -138,7 +139,7 @@
   </section>
 
   <!-- ────────────── AI ЧАТ ────────────── -->
-  <section id="screen-aichat" class="screen">
+  <section id="screen-aichat" class="screen chat-screen">
     <div class="chat-hdr pink">
       <button class="back-btn" onclick="goBack()">‹</button>
       <div class="chat-hdr-ico">👩‍💼</div>
@@ -166,7 +167,7 @@
   </section>
 
   <!-- ────────────── РАЗВИТИЕ РЕЧИ ────────────── -->
-  <section id="screen-speech" class="screen">
+  <section id="screen-speech" class="screen chat-screen">
     <div class="chat-hdr pink">
       <button class="back-btn" onclick="goBack()">‹</button>
       <div class="chat-hdr-ico">🗣</div>
@@ -191,7 +192,7 @@
   </section>
 
   <!-- ────────────── РАЗВИВАЮЩИЕ ИГРЫ ────────────── -->
-  <section id="screen-games" class="screen">
+  <section id="screen-games" class="screen chat-screen">
     <div class="chat-hdr green">
       <button class="back-btn" onclick="goBack()">‹</button>
       <div class="chat-hdr-ico">🎮</div>
@@ -216,7 +217,7 @@
   </section>
 
   <!-- ────────────── ПИТАНИЕ ────────────── -->
-  <section id="screen-nutrition" class="screen">
+  <section id="screen-nutrition" class="screen chat-screen">
     <div class="chat-hdr teal">
       <button class="back-btn" onclick="goBack()">‹</button>
       <div class="chat-hdr-ico">🥗</div>
@@ -242,7 +243,7 @@
       <div class="sec-title">Блюда из вашего холодильника</div>
       <ul class="dish-list" id="dish-list"></ul>
     </div>
-    <div class="msgs-area" id="nutrition-msgs" style="min-height:200px"></div>
+    <div class="msgs-area" id="nutrition-msgs"></div>
     <div class="chat-bar">
       <textarea id="nutrition-input" placeholder="Вопрос о питании..." rows="1" onkeydown="chatKeydown(event,'nutrition')" oninput="autoResize(this)"></textarea>
       <button class="chat-btn btn-send" onclick="sendChat('nutrition')">➤</button>
@@ -250,7 +251,7 @@
   </section>
 
   <!-- ────────────── ЗДОРОВЬЕ ────────────── -->
-  <section id="screen-health" class="screen">
+  <section id="screen-health" class="screen chat-screen">
     <div class="chat-hdr lav">
       <button class="back-btn" onclick="goBack()">‹</button>
       <div class="chat-hdr-ico">🏥</div>

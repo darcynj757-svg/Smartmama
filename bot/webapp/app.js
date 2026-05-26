@@ -10,6 +10,41 @@ try {
   }
 } catch(e) { console.warn('TG WebApp init failed:', e); }
 
+// ─── Mobile keyboard handling via visualViewport ─────────────────────────────
+(function initKeyboardHandler() {
+  if (!window.visualViewport) return;
+  const app = document.getElementById('app');
+  const bottomNav = document.getElementById('bottom-nav');
+  let ticking = false;
+
+  function onViewportResize() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      const vv = window.visualViewport;
+      const windowH = window.innerHeight;
+      const vvH = vv.height;
+      const kbH = Math.max(0, windowH - vvH - vv.offsetTop);
+      const safeBottom = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--safe-bottom') || '16', 10) || 16;
+      const navH = 60 + safeBottom;
+
+      if (kbH > 60) {
+        // Keyboard is open — shrink app, hide nav
+        app.style.bottom = kbH + 'px';
+        bottomNav.style.transform = `translateY(${navH}px)`;
+      } else {
+        // Keyboard closed — restore
+        app.style.bottom = '';
+        bottomNav.style.transform = '';
+      }
+    });
+  }
+
+  window.visualViewport.addEventListener('resize', onViewportResize, { passive: true });
+  window.visualViewport.addEventListener('scroll', onViewportResize, { passive: true });
+})();
+
 function getTgInitData() {
   try { return tg ? tg.initData : ''; } catch(e) { return ''; }
 }
