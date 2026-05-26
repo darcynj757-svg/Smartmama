@@ -13,6 +13,7 @@ paths = ["/api", "/webapp"]
 run = "pnpm --filter @workspace/api-server run dev"
 
 [services.production]
+deploymentTarget = "vm"
 
 [services.production.build]
 args = ["pnpm", "--filter", "@workspace/api-server", "run", "build"]
@@ -21,7 +22,7 @@ args = ["pnpm", "--filter", "@workspace/api-server", "run", "build"]
 NODE_ENV = "production"
 
 [services.production.run]
-args = ["node", "--enable-source-maps", "artifacts/api-server/dist/index.mjs"]
+args = ["bash", "start-prod.sh"]
 
 [services.production.run.env]
 PORT = "8080"
