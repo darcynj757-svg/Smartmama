@@ -128,6 +128,16 @@
       </div>
     </div>
 
+    <!-- Колыбельные баннер -->
+    <div class="sounds-home-banner" onclick="go('sounds')">
+      <div class="banner-ico">🎵</div>
+      <div class="banner-text">
+        <div class="banner-title">Колыбельные и белый шум</div>
+        <div class="banner-sub">Помогут малышу уснуть · Таймер сна</div>
+      </div>
+      <div class="banner-arrow" style="color:rgba(255,255,255,.7)">›</div>
+    </div>
+
     <!-- Реферальная программа -->
     <div class="ref-home-banner" onclick="go('referral')">
       <div class="banner-ico">🎁</div>
@@ -678,6 +688,53 @@
     </div>
   </section>
 
+  <!-- ────────────── КОЛЫБЕЛЬНЫЕ ────────────── -->
+  <section id="screen-sounds" class="screen">
+    <div class="page-title">🎵 Колыбельные и звуки</div>
+
+    <!-- Мини-плеер (sticky) -->
+    <div id="sounds-mini-player" style="display:none">
+      <div class="sounds-mini-bar">
+        <div class="sounds-mini-info">
+          <span class="sounds-mini-ico" id="sounds-mini-ico">🎵</span>
+          <div>
+            <div class="sounds-mini-title" id="sounds-mini-title">—</div>
+            <div class="sounds-mini-timer" id="sounds-mini-timer">0:00</div>
+          </div>
+        </div>
+        <div class="sounds-mini-controls">
+          <button class="sounds-ctrl-btn" onclick="togglePlay()" id="sounds-play-btn">▶</button>
+          <button class="sounds-ctrl-btn sounds-stop-btn" onclick="stopSound()">■</button>
+        </div>
+      </div>
+      <!-- Таймер сна -->
+      <div class="sounds-timer-row">
+        <span style="font-size:12px;color:var(--text-secondary)">Таймер:</span>
+        <button class="sounds-timer-chip" onclick="setTimer(0)" id="timer-0">∞</button>
+        <button class="sounds-timer-chip" onclick="setTimer(15)">15 мин</button>
+        <button class="sounds-timer-chip" onclick="setTimer(30)">30 мин</button>
+        <button class="sounds-timer-chip" onclick="setTimer(60)">1 час</button>
+      </div>
+    </div>
+
+    <!-- Категории -->
+    <div class="sec-title">Колыбельные</div>
+    <div class="sounds-grid" id="sounds-lullabies"></div>
+
+    <div class="sec-title">Белый шум</div>
+    <div class="sounds-grid" id="sounds-noise"></div>
+
+    <div class="sec-title">Звуки природы</div>
+    <div class="sounds-grid" id="sounds-nature"></div>
+
+    <div class="sec-title">Классика для малышей</div>
+    <div class="sounds-grid" id="sounds-classic"></div>
+
+    <p style="text-align:center;font-size:12px;color:var(--text-secondary);padding:16px 0 8px">
+      🎧 Лучше слушать в наушниках · Громкость около 50 дБ
+    </p>
+  </section>
+
 </div><!-- #app -->
 
 <!-- Bottom nav -->
@@ -688,8 +745,8 @@
   <button class="nav-item" onclick="go('aichat')" data-screen="aichat">
     <span class="nav-ico">👩‍💼</span>AI Чат
   </button>
-  <button class="nav-item" onclick="go('nutrition')" data-screen="nutrition">
-    <span class="nav-ico">🥗</span>Питание
+  <button class="nav-item" onclick="go('sounds')" data-screen="sounds">
+    <span class="nav-ico">🎵</span>Звуки
   </button>
   <button class="nav-item" onclick="go('pricing')" data-screen="pricing">
     <span class="nav-ico">💎</span>Тарифы

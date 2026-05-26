@@ -118,6 +118,7 @@ function go(name) {
   if (name === 'profile') fillProfile();
   if (name === 'referral') loadReferral();
   if (name === 'pricing') updatePricing();
+  if (name === 'sounds') initSoundsScreen();
 }
 
 function goBack() {
@@ -866,6 +867,238 @@ async function saveProfile() {
 
 function addChild() {
   showToast('Несколько детей — в разработке 🌸');
+}
+
+// ─── Sounds / Player ──────────────────────────────────────────────────────────
+const SOUNDS_DATA = {
+  lullabies: [
+    { id: 'lull1', ico: '🌙', name: 'Спи, моя радость', desc: 'Классическая', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
+    { id: 'lull2', ico: '⭐', name: 'Баю-баюшки-баю', desc: 'Русская', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' },
+    { id: 'lull3', ico: '🌸', name: 'Колыбельная медведицы', desc: 'Из мультфильма', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3' },
+    { id: 'lull4', ico: '🦋', name: 'Тихая ночь', desc: 'Нежная', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3' },
+  ],
+  noise: [
+    { id: 'noise1', ico: '🤍', name: 'Белый шум', desc: 'Успокаивает', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3', loop: true },
+    { id: 'noise2', ico: '🩷', name: 'Розовый шум', desc: 'Мягче белого', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3', loop: true },
+    { id: 'noise3', ico: '🌊', name: 'Шум моря', desc: 'Волны', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3', loop: true },
+    { id: 'noise4', ico: '🌧', name: 'Дождь', desc: 'Монотонный', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3', loop: true },
+    { id: 'noise5', ico: '🌬', name: 'Фен / Пылесос', desc: 'Любимый малышами', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3', loop: true },
+    { id: 'noise6', ico: '🔥', name: 'Потрескивание огня', desc: 'Тепло и уют', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3', loop: true },
+  ],
+  nature: [
+    { id: 'nat1', ico: '🐦', name: 'Пение птиц', desc: 'Утренний лес', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3', loop: true },
+    { id: 'nat2', ico: '🌿', name: 'Ручей', desc: 'Журчание воды', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3', loop: true },
+    { id: 'nat3', ico: '🌙', name: 'Ночной лес', desc: 'Сверчки', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3', loop: true },
+    { id: 'nat4', ico: '⛈', name: 'Гроза вдали', desc: 'Дождь + гром', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3', loop: true },
+  ],
+  classic: [
+    { id: 'cl1', ico: '🎹', name: 'Моцарт для малышей', desc: 'Развитие мозга', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3' },
+    { id: 'cl2', ico: '🎻', name: 'Дебюсси — Лунный свет', desc: 'Нежно', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3' },
+    { id: 'cl3', ico: '🎼', name: 'Брамс — Колыбельная', desc: 'Классика', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3' },
+    { id: 'cl4', ico: '🎵', name: 'Шопен — Ноктюрн', desc: 'Спокойно', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
+  ],
+};
+
+let soundPlayer = {
+  audio: null,
+  current: null,   // { id, ico, name, url, loop }
+  isPlaying: false,
+  timerMin: 0,      // 0 = бесконечно
+  timerLeft: 0,     // секунды
+  timerInterval: null,
+  elapsedSec: 0,
+  elapsedInterval: null,
+};
+
+function initSoundsScreen() {
+  const cats = [
+    { key: 'lullabies', elId: 'sounds-lullabies' },
+    { key: 'noise',     elId: 'sounds-noise' },
+    { key: 'nature',    elId: 'sounds-nature' },
+    { key: 'classic',   elId: 'sounds-classic' },
+  ];
+  cats.forEach(({ key, elId }) => {
+    const el = document.getElementById(elId);
+    if (!el || el.children.length > 0) return;
+    el.innerHTML = SOUNDS_DATA[key].map(s => `
+      <div class="sound-card" id="scard-${s.id}" onclick="playSound('${s.id}','${key}')">
+        <span class="sound-ico">${s.ico}</span>
+        <div class="sound-name">${s.name}</div>
+        <div class="sound-desc">${s.desc}</div>
+        <div class="sound-wave" style="display:none">
+          <div class="sound-wave-bar"></div><div class="sound-wave-bar"></div>
+          <div class="sound-wave-bar"></div><div class="sound-wave-bar"></div>
+          <div class="sound-wave-bar"></div>
+        </div>
+      </div>
+    `).join('');
+  });
+}
+
+function playSound(id, catKey) {
+  const track = SOUNDS_DATA[catKey].find(s => s.id === id);
+  if (!track) return;
+
+  // Уже играет эта же — ставим паузу/продолжаем
+  if (soundPlayer.current && soundPlayer.current.id === id) {
+    togglePlay();
+    return;
+  }
+
+  // Останавливаем предыдущий
+  _stopAudio();
+
+  // Создаём новый
+  const audio = new Audio(track.url);
+  audio.loop = !!track.loop;
+  audio.volume = 0.8;
+  audio.play().catch(() => {});
+
+  soundPlayer.audio = audio;
+  soundPlayer.current = track;
+  soundPlayer.isPlaying = true;
+  soundPlayer.elapsedSec = 0;
+
+  // Обновляем UI карточек
+  document.querySelectorAll('.sound-card').forEach(c => {
+    c.classList.remove('playing');
+    const wave = c.querySelector('.sound-wave');
+    if (wave) wave.style.display = 'none';
+  });
+  const card = document.getElementById('scard-' + id);
+  if (card) {
+    card.classList.add('playing');
+    const wave = card.querySelector('.sound-wave');
+    if (wave) wave.style.display = 'flex';
+  }
+
+  // Мини-плеер
+  const miniPlayer = document.getElementById('sounds-mini-player');
+  if (miniPlayer) miniPlayer.style.display = 'block';
+  const miniIco = document.getElementById('sounds-mini-ico');
+  if (miniIco) miniIco.textContent = track.ico;
+  const miniTitle = document.getElementById('sounds-mini-title');
+  if (miniTitle) miniTitle.textContent = track.name;
+
+  _updatePlayBtn();
+  _startElapsed();
+
+  // По окончании (для нелупающихся)
+  audio.addEventListener('ended', () => {
+    if (!audio.loop) stopSound();
+  });
+}
+
+function togglePlay() {
+  if (!soundPlayer.audio) return;
+  if (soundPlayer.isPlaying) {
+    soundPlayer.audio.pause();
+    soundPlayer.isPlaying = false;
+    _stopElapsed();
+  } else {
+    soundPlayer.audio.play().catch(() => {});
+    soundPlayer.isPlaying = true;
+    _startElapsed();
+  }
+  _updatePlayBtn();
+  // Анимация волны
+  const card = soundPlayer.current ? document.getElementById('scard-' + soundPlayer.current.id) : null;
+  if (card) {
+    const wave = card.querySelector('.sound-wave');
+    if (wave) wave.style.display = soundPlayer.isPlaying ? 'flex' : 'none';
+  }
+}
+
+function stopSound() {
+  _stopAudio();
+  soundPlayer.current = null;
+  soundPlayer.isPlaying = false;
+  document.querySelectorAll('.sound-card').forEach(c => {
+    c.classList.remove('playing');
+    const wave = c.querySelector('.sound-wave');
+    if (wave) wave.style.display = 'none';
+  });
+  const miniPlayer = document.getElementById('sounds-mini-player');
+  if (miniPlayer) miniPlayer.style.display = 'none';
+  _clearTimer();
+}
+
+function _stopAudio() {
+  if (soundPlayer.audio) {
+    soundPlayer.audio.pause();
+    soundPlayer.audio.src = '';
+    soundPlayer.audio = null;
+  }
+  _stopElapsed();
+}
+
+function _updatePlayBtn() {
+  const btn = document.getElementById('sounds-play-btn');
+  if (!btn) return;
+  btn.textContent = soundPlayer.isPlaying ? '⏸' : '▶';
+}
+
+function _startElapsed() {
+  _stopElapsed();
+  soundPlayer.elapsedInterval = setInterval(() => {
+    soundPlayer.elapsedSec++;
+    _updateTimerDisplay();
+    // Проверка таймера сна
+    if (soundPlayer.timerMin > 0) {
+      soundPlayer.timerLeft--;
+      if (soundPlayer.timerLeft <= 0) {
+        stopSound();
+        showToast('Таймер сна сработал 🌙');
+      }
+    }
+  }, 1000);
+}
+
+function _stopElapsed() {
+  if (soundPlayer.elapsedInterval) {
+    clearInterval(soundPlayer.elapsedInterval);
+    soundPlayer.elapsedInterval = null;
+  }
+}
+
+function _updateTimerDisplay() {
+  const el = document.getElementById('sounds-mini-timer');
+  if (!el) return;
+  if (soundPlayer.timerMin > 0 && soundPlayer.timerLeft > 0) {
+    const m = Math.floor(soundPlayer.timerLeft / 60);
+    const s = soundPlayer.timerLeft % 60;
+    el.textContent = `⏱ ${m}:${String(s).padStart(2,'0')} осталось`;
+  } else {
+    const m = Math.floor(soundPlayer.elapsedSec / 60);
+    const s = soundPlayer.elapsedSec % 60;
+    el.textContent = `${m}:${String(s).padStart(2,'0')}`;
+  }
+}
+
+function _clearTimer() {
+  soundPlayer.timerMin = 0;
+  soundPlayer.timerLeft = 0;
+  document.querySelectorAll('.sounds-timer-chip').forEach(c => c.classList.remove('active'));
+  const inf = document.getElementById('timer-0');
+  if (inf) inf.classList.add('active');
+}
+
+function setTimer(minutes) {
+  soundPlayer.timerMin = minutes;
+  soundPlayer.timerLeft = minutes * 60;
+  // Подсвечиваем активный чип
+  document.querySelectorAll('.sounds-timer-chip').forEach(c => c.classList.remove('active'));
+  if (minutes === 0) {
+    const inf = document.getElementById('timer-0');
+    if (inf) inf.classList.add('active');
+  } else {
+    // находим кнопку по onclick
+    document.querySelectorAll('.sounds-timer-chip').forEach(c => {
+      if (c.getAttribute('onclick') === `setTimer(${minutes})`) c.classList.add('active');
+    });
+  }
+  if (minutes > 0) showToast(`Таймер: ${minutes} мин 🌙`);
+  else showToast('Таймер выключен');
 }
 
 // ─── Toast ────────────────────────────────────────────────────────────────────
