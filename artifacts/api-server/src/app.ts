@@ -36,15 +36,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
 
-// Serve Mini App static files at /webapp
+// Serve Mini App static files
 // __dirname in dev = artifacts/api-server/src, in prod = artifacts/api-server/dist
 // go up to workspace root then into bot/webapp
 const webappDir = path.resolve(__dirname, "../../../bot/webapp");
 app.use("/webapp", express.static(webappDir));
-
-// Redirect root to the Mini App
-app.get("/", (_req, res) => {
-  res.redirect("/webapp/");
-});
+// Also serve at root so the Replit preview pane loads it directly
+app.use("/", express.static(webappDir));
 
 export default app;
