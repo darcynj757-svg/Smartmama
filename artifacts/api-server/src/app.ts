@@ -42,4 +42,9 @@ app.use("/api", router);
 const webappDir = path.resolve(__dirname, "../../../bot/webapp");
 app.use("/webapp", express.static(webappDir));
 
+// Redirect root to the Mini App
+app.get("/", (_req, res) => {
+  res.redirect("/webapp/");
+});
+
 export default app;

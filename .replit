@@ -50,10 +50,15 @@ outputType = "console"
 [agent]
 stack = "BEST_EFFORT_FALLBACK"
 expertMode = true
+integrations = ["javascript_openai:1.0.0", "python_openai:1.0.0"]
 
 [postMerge]
 path = "scripts/post-merge.sh"
 timeoutMs = 20000
+
+[[ports]]
+localPort = 5000
+externalPort = 80
 
 [[ports]]
 localPort = 8080
@@ -62,10 +67,6 @@ externalPort = 80
 [[ports]]
 localPort = 8081
 externalPort = 8081
-
-[[ports]]
-localPort = 5000
-externalPort = 80
 
 [userenv]
 
