@@ -54,8 +54,8 @@ const API_BASE = '/api';
 
 async function apiCall(method, path, body, isFormData) {
   const headers = {};
-  const initData = getTgInitData();
-  if (initData) headers['X-Telegram-Init-Data'] = initData;
+  const initData = getTgInitData() || 'dev_test';
+  headers['X-Telegram-Init-Data'] = initData;
   if (!isFormData) headers['Content-Type'] = 'application/json';
 
   const opts = { method, headers };

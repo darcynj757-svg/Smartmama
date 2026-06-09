@@ -1,7 +1,7 @@
 import { Router, type Request, type Response } from "express";
 import OpenAI from "openai";
 import multer from "multer";
-import { verifyInitData } from "../lib/telegram-auth";
+import { verifyInitDataLax } from "../lib/telegram-auth";
 import { logger } from "../lib/logger";
 
 const router = Router();
@@ -16,7 +16,7 @@ function getSystemPrompt(childName: string, ageMonths: number, role: string) {
 }
 
 function getUser(initDataRaw: string) {
-  return verifyInitData(initDataRaw);
+  return verifyInitDataLax(initDataRaw);
 }
 
 // POST /api/ai/chat

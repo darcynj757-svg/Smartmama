@@ -1,7 +1,7 @@
 import { Router, type Request, type Response } from "express";
 import crypto from "crypto";
 import path from "path";
-import { verifyInitData } from "../lib/telegram-auth";
+import { verifyInitDataLax } from "../lib/telegram-auth";
 import { logger } from "../lib/logger";
 
 const router = Router();
@@ -20,7 +20,7 @@ async function getDb() {
 
 // POST /api/payment/create
 router.post("/create", async (req: Request, res: Response): Promise<void> => {
-  const parsed = verifyInitData(req.headers["x-telegram-init-data"] as string);
+  const parsed = verifyInitDataLax(req.headers["x-telegram-init-data"] as string);
   if (!parsed?.user) { res.status(401).json({ error: "Unauthorized" }); return; }
 
   const { plan, period, return_url } = req.body;
