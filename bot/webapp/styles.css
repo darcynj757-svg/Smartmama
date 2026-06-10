@@ -409,10 +409,10 @@ body {
 }
 
 .ai-banner {
-  background: linear-gradient(135deg, rgba(255,170,200,0.48), rgba(248,193,204,0.35));
-  box-shadow: 0 8px 28px rgba(240,80,130,0.20);
+  background: rgba(255,255,255,0.68);
+  box-shadow: 0 3px 12px rgba(100,60,120,0.12), inset 0 1px 0 rgba(255,255,255,0.80);
   margin-top: 20px;
-  border-color: rgba(255,255,255,0.72);
+  border-color: rgba(255,255,255,0.88);
 }
 .ai-banner .banner-ico {
   width: 46px; height: 46px;
@@ -428,9 +428,9 @@ body {
 .banner-arrow { font-size: 18px; color: var(--text-secondary); flex-shrink: 0; }
 
 .neuro-banner {
-  background: linear-gradient(135deg, rgba(210,190,255,0.50), rgba(185,158,240,0.36));
-  box-shadow: 0 8px 28px rgba(160,120,240,0.22);
-  border-color: rgba(255,255,255,0.72);
+  background: rgba(255,255,255,0.68);
+  box-shadow: 0 3px 12px rgba(100,60,120,0.12), inset 0 1px 0 rgba(255,255,255,0.80);
+  border-color: rgba(255,255,255,0.88);
 }
 .neuro-banner .banner-ico {
   background: rgba(255,255,255,0.25); border-radius: 50%;
@@ -442,9 +442,9 @@ body {
 .neuro-banner .banner-sub   { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
 
 .moms-chat-banner {
-  background: linear-gradient(135deg, rgba(100,228,235,0.48), rgba(140,218,222,0.35));
-  box-shadow: 0 8px 28px rgba(40,180,200,0.20);
-  border-color: rgba(255,255,255,0.72);
+  background: rgba(255,255,255,0.68);
+  box-shadow: 0 3px 12px rgba(100,60,120,0.12), inset 0 1px 0 rgba(255,255,255,0.80);
+  border-color: rgba(255,255,255,0.88);
 }
 .moms-chat-banner .banner-ico {
   background: rgba(255,255,255,0.25); border-radius: 50%;
@@ -456,9 +456,9 @@ body {
 .moms-chat-banner .banner-sub   { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
 
 .price-banner {
-  background: linear-gradient(135deg, rgba(255,200,215,0.45), rgba(248,193,204,0.30));
-  box-shadow: 0 8px 24px rgba(240,100,140,0.16);
-  border-color: rgba(255,255,255,0.72);
+  background: rgba(255,255,255,0.68);
+  box-shadow: 0 3px 12px rgba(100,60,120,0.12), inset 0 1px 0 rgba(255,255,255,0.80);
+  border-color: rgba(255,255,255,0.88);
 }
 .price-banner .banner-title { font-size: 13px; font-weight: 800; color: var(--text-dark); }
 .price-banner .banner-sub   { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
@@ -470,18 +470,18 @@ body {
 }
 
 .ref-home-banner {
-  background: linear-gradient(135deg, rgba(255,225,100,0.50), rgba(255,195,60,0.36));
-  box-shadow: 0 8px 28px rgba(220,160,10,0.20);
-  border-color: rgba(255,255,255,0.72);
+  background: rgba(255,255,255,0.68);
+  box-shadow: 0 3px 12px rgba(100,60,120,0.12), inset 0 1px 0 rgba(255,255,255,0.80);
+  border-color: rgba(255,255,255,0.88);
 }
 .ref-home-banner .banner-title { font-size: 13px; font-weight: 800; color: var(--text-dark); }
 .ref-home-banner .banner-sub   { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
 .ref-home-banner .banner-ico   { font-size: 26px; flex-shrink: 0; }
 
 .sounds-home-banner {
-  background: linear-gradient(135deg, rgba(90,220,230,0.48), rgba(128,210,218,0.34));
-  box-shadow: 0 8px 28px rgba(30,170,190,0.20);
-  border-color: rgba(255,255,255,0.72);
+  background: rgba(255,255,255,0.68);
+  box-shadow: 0 3px 12px rgba(100,60,120,0.12), inset 0 1px 0 rgba(255,255,255,0.80);
+  border-color: rgba(255,255,255,0.88);
 }
 .sounds-home-banner .banner-title { font-size: 14px; font-weight: 800; color: var(--text-dark); }
 .sounds-home-banner .banner-sub   { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
