@@ -98,7 +98,7 @@ export function Tech() {
         }}>+ ДОБАВИТЬ</div>
       </div>
 
-      <div style={{ padding: "12px 16px", display: "flex", flexDirection: "column", gap: 10, position: "relative", zIndex: 2 }}>
+      <div style={{ padding: "12px 16px", display: "flex", flexDirection: "column", gap: 14, position: "relative", zIndex: 2 }}>
 
         {/* Diary — wide card with stat bar */}
         <div style={{
@@ -173,7 +173,7 @@ export function Tech() {
         </div>
 
         {/* Category chips — more geometric */}
-        <div style={{ display: "flex", gap: 6, overflowX: "auto", paddingBottom: 2 }}>
+        <div style={{ display: "flex", gap: 10, overflowX: "auto", paddingBottom: 2 }}>
           {[
             { icon: "🗣️", label: "Речь", active: false },
             { icon: "🎮", label: "Игры", active: false },
@@ -182,7 +182,7 @@ export function Tech() {
             { icon: "💡", label: "Советы", active: false },
           ].map(({ icon, label }) => (
             <div key={label} style={{
-              padding: "6px 12px", borderRadius: 8, fontSize: 11, fontWeight: 800,
+              padding: "7px 14px", borderRadius: 8, fontSize: 11, fontWeight: 800,
               background: "rgba(255,255,255,0.65)", backdropFilter: "blur(10px)",
               border: "1px solid rgba(201,184,240,0.3)", whiteSpace: "nowrap",
               letterSpacing: "0.02em",
