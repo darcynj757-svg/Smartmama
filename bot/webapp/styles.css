@@ -447,7 +447,7 @@ body {
 .ref-home-banner, .sounds-home-banner {
   border-radius: var(--card-radius);
   padding: 14px 16px;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
   cursor: pointer;
   transition: transform 0.10s ease, box-shadow 0.10s ease;
   display: flex;
