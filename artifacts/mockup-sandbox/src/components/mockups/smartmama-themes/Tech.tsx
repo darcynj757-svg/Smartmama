@@ -137,40 +137,70 @@ export function Tech() {
           </div>
         </div>
 
-        {/* AI Chat */}
+        {/* AI Chat — hero button */}
         <div style={{
-          background: "linear-gradient(135deg, rgba(201,184,240,0.22), rgba(248,193,204,0.18))",
-          backdropFilter: "blur(16px)", borderRadius: 16, padding: "14px 16px",
-          border: "1px solid rgba(201,184,240,0.45)",
-          boxShadow: "0 4px 20px rgba(100,60,140,0.1)",
+          background: "linear-gradient(135deg, #c9b8f0 0%, #e8b4d8 50%, #a8dadc 100%)",
+          borderRadius: 18, padding: "18px 18px",
+          boxShadow: "0 8px 32px rgba(180,120,240,0.35), 0 2px 8px rgba(168,218,220,0.25), inset 0 1px 0 rgba(255,255,255,0.4)",
+          position: "relative", overflow: "hidden",
         }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <div style={{
-              width: 44, height: 44, borderRadius: 12,
-              background: "linear-gradient(135deg, #c9b8f0, #f8c1cc)",
-              display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20,
-              boxShadow: "0 4px 12px rgba(201,184,240,0.5)",
-              flexShrink: 0,
-            }}>✦</div>
+          {/* Shine overlay */}
+          <div style={{
+            position: "absolute", top: 0, left: 0, right: 0, height: "50%",
+            background: "linear-gradient(180deg, rgba(255,255,255,0.22) 0%, transparent 100%)",
+            borderRadius: "18px 18px 0 0", pointerEvents: "none",
+          }} />
+          {/* Subtle grid on card */}
+          <div style={{
+            position: "absolute", inset: 0, pointerEvents: "none",
+            backgroundImage: "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
+            backgroundSize: "20px 20px",
+          }} />
+
+          <div style={{ display: "flex", alignItems: "center", gap: 14, position: "relative", zIndex: 1 }}>
+            {/* Pulsing icon */}
+            <div style={{ position: "relative", flexShrink: 0 }}>
+              <div style={{
+                position: "absolute", inset: -5, borderRadius: 18,
+                background: "rgba(255,255,255,0.25)", animation: "pulse 2s ease-in-out infinite",
+              }} />
+              <div style={{
+                width: 52, height: 52, borderRadius: 15,
+                background: "rgba(255,255,255,0.35)",
+                backdropFilter: "blur(10px)",
+                display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26,
+                border: "1.5px solid rgba(255,255,255,0.6)",
+                boxShadow: "0 4px 16px rgba(180,120,240,0.3), inset 0 1px 0 rgba(255,255,255,0.5)",
+              }}>✦</div>
+            </div>
+
             <div style={{ flex: 1 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <span style={{ fontWeight: 800, fontSize: 14 }}>AI Smart Mama чат</span>
+              <div style={{ display: "flex", alignItems: "center", gap: 7, marginBottom: 4 }}>
+                <span style={{ fontWeight: 800, fontSize: 16, color: "#fff", letterSpacing: "0.01em" }}>AI Smart Mama чат</span>
                 <span style={{
-                  fontSize: 9, padding: "2px 6px", borderRadius: 4,
-                  background: "linear-gradient(90deg, #c9b8f0, #a8dadc)",
-                  color: "#fff", fontWeight: 800, letterSpacing: "0.05em",
+                  fontSize: 9, padding: "2px 7px", borderRadius: 5,
+                  background: "rgba(255,255,255,0.3)",
+                  backdropFilter: "blur(8px)",
+                  color: "#fff", fontWeight: 800, letterSpacing: "0.06em",
                   fontFamily: "'Space Mono', monospace",
+                  border: "1px solid rgba(255,255,255,0.4)",
                 }}>GPT-4o</span>
               </div>
-              <div style={{ fontSize: 11, color: "#8A7A85", marginTop: 1 }}>Спроси всё о своём малыше</div>
+              <div style={{ fontSize: 12, color: "rgba(255,255,255,0.8)" }}>Спроси всё о своём малыше</div>
             </div>
+
             <div style={{
-              width: 28, height: 28, borderRadius: 8,
-              background: "rgba(201,184,240,0.3)", border: "1px solid rgba(201,184,240,0.5)",
-              display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, color: "#9b7dd4",
+              width: 34, height: 34, borderRadius: 10,
+              background: "rgba(255,255,255,0.28)",
+              backdropFilter: "blur(8px)",
+              border: "1.5px solid rgba(255,255,255,0.5)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: 16, color: "#fff", fontWeight: 700,
             }}>›</div>
           </div>
         </div>
+
+        <style>{`@keyframes pulse { 0%,100%{opacity:0.4;transform:scale(1)} 50%{opacity:0.7;transform:scale(1.08)} }`}</style>
 
         {/* Category chips — more geometric */}
         <div style={{ display: "flex", gap: 10, overflowX: "auto", paddingBottom: 2 }}>
