@@ -402,7 +402,22 @@ body {
   position: absolute;
   top: 0; left: 0; right: 0; height: 1px;
   background: var(--glass-border-inner);
+  z-index: 2;
 }
+.ai-banner::after, .neuro-banner::after, .moms-chat-banner::after,
+.price-banner::after, .ref-home-banner::after, .sounds-home-banner::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 4px;
+  border-radius: var(--card-radius) var(--card-radius) 0 0;
+  z-index: 1;
+}
+.ai-banner::after        { background: linear-gradient(90deg, #ffb3cc, #f0508a, #ff9a6c); }
+.neuro-banner::after     { background: linear-gradient(90deg, #c8b0fc, #8050d8, #d070e8); }
+.moms-chat-banner::after { background: linear-gradient(90deg, #80e8ee, #28b8c8, #60d0a8); }
+.price-banner::after     { background: linear-gradient(90deg, #80c8ff, #4090f0, #70b0ff); }
+.sounds-home-banner::after { background: linear-gradient(90deg, #60dce8, #20b0d0, #50e8c0); }
+.ref-home-banner::after  { background: linear-gradient(90deg, #ffd580, #f09030, #ffc060); }
 .ai-banner:active, .neuro-banner:active, .moms-chat-banner:active,
 .price-banner:active, .ref-home-banner:active, .sounds-home-banner:active {
   transform: scale(0.97);
