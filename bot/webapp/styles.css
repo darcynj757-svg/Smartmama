@@ -10,10 +10,10 @@
   --brand-yellow:    #F5C842;
   --brand-green:     #42B97A;
 
-  --bg:              #F5F3EE;
-  --surface:         #FFFFFF;
-  --surface-2:       #FAF9F6;
-  --surface-3:       #F0EDE6;
+  --bg:              transparent;
+  --surface:         rgba(255,255,255,0.55);
+  --surface-2:       rgba(255,255,255,0.40);
+  --surface-3:       rgba(255,255,255,0.30);
 
   --text-dark:       #1C1917;
   --text-secondary:  #78716C;
@@ -489,6 +489,26 @@ body {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(5px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Global glass effect for all surface elements ── */
+.tile,
+.feat-row,
+.plan-card,
+.amb-card,
+.tracker-card,
+.diary-entry,
+.diary-form,
+.chat-bubble.bot,
+.modal-inner,
+.sheet-inner,
+.onboard-card,
+[class*="-card"],
+[class*="-row"],
+[class*="-form"],
+[class*="-modal"] {
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
 }
 
 /* ── Section titles ── */
