@@ -221,25 +221,18 @@ body {
   max-height: 460px;
   overflow: hidden;
   border-radius: 0;
-  background: linear-gradient(145deg, #FFD6CC 0%, #E8C4FF 50%, #B8EEF0 100%);
+  background: transparent;
   cursor: pointer;
 }
 
 /* Smooth gradient fade from hero into page background */
 #hero-fade-out {
-  height: 110px;
-  margin-top: -110px;
+  height: 120px;
+  margin-top: -120px;
   position: relative;
   z-index: 4;
   pointer-events: none;
-  background: linear-gradient(to bottom,
-    transparent 0%,
-    rgba(245, 242, 255, 0.20) 25%,
-    rgba(245, 242, 255, 0.55) 50%,
-    rgba(246, 243, 255, 0.82) 72%,
-    rgba(247, 244, 255, 0.96) 88%,
-    #F7F4FF 100%
-  );
+  background: transparent;
 }
 #hero-photo-el {
   width: 100%; height: 100%;
@@ -275,6 +268,11 @@ body {
   height: 55%;
   background: linear-gradient(to top, rgba(15,10,20,0.52) 0%, transparent 100%);
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+#hero-photo-wrap.has-photo #hero-photo-grad {
+  opacity: 1;
 }
 #hero-baby-info {
   position: absolute; bottom: 20px; left: 20px;

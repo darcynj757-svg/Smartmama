@@ -1208,7 +1208,7 @@ function applyHeroBabyPhoto(src) {
   img.src = src;
   img.style.display = 'block';
   if (placeholder) placeholder.style.display = 'none';
-  if (wrap) wrap.onclick = null;
+  if (wrap) { wrap.onclick = null; wrap.classList.add('has-photo'); }
 }
 
 function initHeroPhoto() {
