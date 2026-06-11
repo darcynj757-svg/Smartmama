@@ -247,8 +247,8 @@ body {
 
 /* Smooth gradient fade from hero into white content area */
 #hero-fade-out {
-  height: 100px;
-  margin-top: -100px;
+  height: 48px;
+  margin-top: -48px;
   position: relative;
   z-index: 4;
   pointer-events: none;
