@@ -1201,12 +1201,10 @@ function uploadHeroBabyPhoto(input) {
 }
 
 function applyHeroBabyPhoto(src) {
-  const img = document.getElementById('hero-photo-el');
+  const fixed = document.getElementById('hero-photo-fixed');
   const placeholder = document.getElementById('hero-photo-placeholder');
   const wrap = document.getElementById('hero-photo-wrap');
-  if (!img) return;
-  img.src = src;
-  img.style.display = 'block';
+  if (fixed) { fixed.src = src; fixed.style.display = 'block'; }
   if (placeholder) placeholder.style.display = 'none';
   if (wrap) { wrap.onclick = null; wrap.classList.add('has-photo'); }
 }
@@ -1220,8 +1218,6 @@ function initHeroPhoto() {
   const homeScreen = document.getElementById('screen-home');
   const topbar     = document.getElementById('topbar');
   const bgAnim     = document.getElementById('bg-anim');
-  const heroImg    = document.getElementById('hero-photo-el');
-  const heroPh     = document.getElementById('hero-photo-placeholder');
   const heroBaby   = document.getElementById('hero-baby-info');
   const heroCam    = document.getElementById('hero-cam-btn');
 
@@ -1232,14 +1228,12 @@ function initHeroPhoto() {
       // Topbar hero mode
       topbar.classList.toggle('hero-mode', sy < 60);
 
-      // Hero layer: counteract scroll → stays perfectly static (fixed background feel)
+      // Hero overlay elements: counteract scroll so they stay over the fixed photo
       const fix = `translateY(${sy}px)`;
-      if (heroImg)  heroImg.style.transform  = fix;
-      if (heroPh)   heroPh.style.transform   = fix;
       if (heroBaby) heroBaby.style.transform = fix;
       if (heroCam)  heroCam.style.transform  = fix;
 
-      // Background layer: drifts at 20% speed → parallax depth effect
+      // Background blobs: drift at 20% speed → parallax depth
       if (bgAnim) bgAnim.style.transform = `translateY(${sy * 0.20}px)`;
     }, { passive: true });
   }
