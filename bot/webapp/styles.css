@@ -555,10 +555,10 @@ body {
 
 /* ── Home screen: hero extends under topbar ── */
 #screen-home {
-  padding: 0 0 90px;
+  padding: 0;
 }
 .home-content {
-  padding: 20px 14px 14px;
+  padding: 20px 14px 120px;
   background: rgba(255, 255, 255, 0.55);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
