@@ -17,7 +17,7 @@
     #app{position:fixed;top:0;left:0;right:0;bottom:calc(var(--bottomnav-h) + var(--safe-bottom));overflow:hidden;z-index:1;background:transparent}
     #bg-anim{display:block;position:fixed;inset:-15% -5%;width:110%;height:130%;z-index:0;overflow:hidden;pointer-events:none;background:transparent}
   </style>
-  <link rel="stylesheet" href="styles.css?v=16" onerror="this.onerror=null;this.href=''">
+  <link rel="stylesheet" href="styles.css?v=17" onerror="this.onerror=null;this.href=''">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
@@ -45,8 +45,9 @@
 <!-- AI Smart Mama floating button -->
 <button id="ai-fab" onclick="go('aichat')">
   <span class="ai-fab-icon">
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
+    <!-- Chat bubble with dots -->
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM8 11C7.45 11 7 10.55 7 10C7 9.45 7.45 9 8 9C8.55 9 9 9.45 9 10C9 10.55 8.55 11 8 11ZM12 11C11.45 11 11 10.55 11 10C11 9.45 11.45 9 12 9C12.55 9 13 9.45 13 10C13 10.55 12.55 11 12 11ZM16 11C15.45 11 15 10.55 15 10C15 9.45 15.45 9 16 9C16.55 9 17 9.45 17 10C17 10.55 16.55 11 16 11Z"/>
     </svg>
   </span>
   <span class="ai-fab-text">AI Smart Mama</span>
