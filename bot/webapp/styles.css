@@ -463,7 +463,9 @@ body {
 }
 .home-content {
   padding: 20px 14px 14px;
-  background: #c8e8f5;
+  background: linear-gradient(135deg, #c8e8f5, #b8dff0, #cceef7, #d4f0f7, #bfe4f2, #c8e8f5);
+  background-size: 400% 400%;
+  animation: bg-shift 16s ease infinite;
   border-radius: 28px 28px 0 0;
   position: relative;
   z-index: 3;
