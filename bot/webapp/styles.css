@@ -228,15 +228,15 @@ body {
 /* Smooth gradient fade from hero into page background */
 #hero-fade-out {
   height: 180px;
-  margin-top: -180px;
+  margin-top: -160px;
   position: relative;
   z-index: 4;
   pointer-events: none;
   background: linear-gradient(to top,
-    rgba(255, 255, 255, 0.88)   0%,
-    rgba(255, 255, 255, 0.60)  25%,
-    rgba(255, 255, 255, 0.28)  55%,
-    rgba(255, 255, 255, 0.06)  80%,
+    transparent                 0%,
+    rgba(255, 255, 255, 0.42)  28%,
+    rgba(255, 255, 255, 0.70)  50%,
+    rgba(255, 255, 255, 0.42)  72%,
     transparent                100%
   );
 }
