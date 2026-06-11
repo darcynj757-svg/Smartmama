@@ -11,16 +11,25 @@
     :root{--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,16px);--topbar-h:54px;--bottomnav-h:64px}
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
     html{height:-webkit-fill-available;overflow:hidden}
-    body{background:#F5F3EE;min-height:100vh;min-height:-webkit-fill-available;min-height:100dvh;overflow:hidden;overscroll-behavior:none;font-family:Inter,-apple-system,sans-serif}
-    #topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:#ffffff;height:calc(var(--safe-top) + var(--topbar-h));display:flex;align-items:flex-end;justify-content:center;padding:0 16px 10px;border-bottom:1px solid #E7E4DC}
-    #bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#ffffff;border-top:1px solid #E7E4DC;display:flex;height:calc(var(--bottomnav-h) + var(--safe-bottom));padding-bottom:var(--safe-bottom)}
-    #app{position:fixed;top:calc(var(--safe-top) + var(--topbar-h));left:0;right:0;bottom:calc(var(--bottomnav-h) + var(--safe-bottom));overflow:hidden;z-index:1;background:#F5F3EE}
-    #bg-anim{display:none}
+    body{background:linear-gradient(150deg,#FDF6F0 0%,#F8F0FF 45%,#EFF8F7 100%);min-height:100vh;min-height:-webkit-fill-available;min-height:100dvh;overflow:hidden;overscroll-behavior:none;font-family:Inter,-apple-system,sans-serif}
+    #topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);height:calc(var(--safe-top) + var(--topbar-h));display:flex;align-items:flex-end;justify-content:center;padding:0 16px 10px;border-bottom:1px solid rgba(231,228,220,0.70)}
+    #bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid rgba(231,228,220,0.70);display:flex;height:calc(var(--bottomnav-h) + var(--safe-bottom));padding-bottom:var(--safe-bottom)}
+    #app{position:fixed;top:calc(var(--safe-top) + var(--topbar-h));left:0;right:0;bottom:calc(var(--bottomnav-h) + var(--safe-bottom));overflow:hidden;z-index:1;background:transparent}
+    #bg-anim{display:block;position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:linear-gradient(150deg,#FDF6F0 0%,#F8F0FF 45%,#EFF8F7 100%)}
   </style>
-  <link rel="stylesheet" href="styles.css?v=8" onerror="this.onerror=null;this.href=''">
+  <link rel="stylesheet" href="styles.css?v=9" onerror="this.onerror=null;this.href=''">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
+
+<!-- Animated background -->
+<div id="bg-anim">
+  <div class="bg-blob bg-blob-1"></div>
+  <div class="bg-blob bg-blob-2"></div>
+  <div class="bg-blob bg-blob-3"></div>
+  <div class="bg-blob bg-blob-4"></div>
+  <div class="bg-blob bg-blob-5"></div>
+</div>
 
 <!-- Topbar -->
 <div id="topbar">
@@ -777,16 +786,32 @@
 <!-- Bottom nav -->
 <nav id="bottom-nav">
   <button class="nav-item active" onclick="go('home')" data-screen="home">
-    <span class="nav-ico">🏠</span>Главная
+    <span class="nav-ico">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 20V14H14V20H19V12H22L12 3L2 12H5V20H10Z" fill="currentColor"/>
+      </svg>
+    </span>Главная
   </button>
   <button class="nav-item" onclick="go('aichat')" data-screen="aichat">
-    <span class="nav-ico">👩‍💼</span>AI Чат
+    <span class="nav-ico">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM9 11H7V9H9V11ZM13 11H11V9H13V11ZM17 11H15V9H17V11Z" fill="currentColor"/>
+      </svg>
+    </span>AI Чат
   </button>
   <button class="nav-item" onclick="go('sounds')" data-screen="sounds">
-    <span class="nav-ico">🎵</span>Звуки
+    <span class="nav-ico">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 3V13.55C11.41 13.21 10.73 13 10 13C7.79 13 6 14.79 6 17C6 19.21 7.79 21 10 21C12.21 21 14 19.21 14 17V7H18V3H12Z" fill="currentColor"/>
+      </svg>
+    </span>Звуки
   </button>
   <button class="nav-item" onclick="go('pricing')" data-screen="pricing">
-    <span class="nav-ico">💎</span>Тарифы
+    <span class="nav-ico">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM12 18L7 13L8.41 11.59L12 15.17L15.59 11.59L17 13L12 18ZM17 11L15.59 12.41L12 8.83L8.41 12.41L7 11L12 6L17 11Z" fill="currentColor"/>
+      </svg>
+    </span>Тарифы
   </button>
 </nav>
 

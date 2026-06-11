@@ -70,22 +70,103 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Background (clean, static) ── */
-#bg-anim { display: none; }
-.aurora, .blob, .geo-ring, .geo-dots { display: none; }
+/* ── Animated soft background ── */
+#bg-anim {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: linear-gradient(150deg, #FDF6F0 0%, #F8F0FF 45%, #EFF8F7 100%);
+}
+
+.bg-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(72px);
+  will-change: transform;
+}
+
+.bg-blob-1 {
+  width: 380px; height: 340px;
+  background: radial-gradient(circle at 40% 40%, #F9C3CE, #FFD6B8);
+  opacity: 0.75;
+  top: -100px; left: -80px;
+  animation: blobDrift1 16s ease-in-out infinite;
+}
+.bg-blob-2 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle at 60% 40%, #CBC5FF, #EAD7FF);
+  opacity: 0.65;
+  top: 10%; right: -100px;
+  animation: blobDrift2 20s ease-in-out infinite;
+}
+.bg-blob-3 {
+  width: 260px; height: 260px;
+  background: radial-gradient(circle at 50% 50%, #A8E8E4, #C6F5F1);
+  opacity: 0.60;
+  bottom: 30%; left: -60px;
+  animation: blobDrift3 18s ease-in-out infinite;
+}
+.bg-blob-4 {
+  width: 420px; height: 300px;
+  background: radial-gradient(circle at 55% 55%, #FFE8C0, #FFDACC);
+  opacity: 0.55;
+  bottom: -80px; right: -100px;
+  animation: blobDrift4 22s ease-in-out infinite;
+}
+.bg-blob-5 {
+  width: 200px; height: 200px;
+  background: radial-gradient(circle at 50% 50%, #C0E8FF, #D8F2FF);
+  opacity: 0.50;
+  top: 40%; left: 25%;
+  animation: blobDrift5 24s ease-in-out infinite;
+}
+
+@keyframes blobDrift1 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33%      { transform: translate(40px,-30px) scale(1.06); }
+  66%      { transform: translate(-20px,35px) scale(0.94); }
+}
+@keyframes blobDrift2 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33%      { transform: translate(-50px,25px) scale(1.08); }
+  66%      { transform: translate(30px,-40px) scale(0.93); }
+}
+@keyframes blobDrift3 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33%      { transform: translate(35px,30px) scale(0.96); }
+  66%      { transform: translate(-25px,-30px) scale(1.10); }
+}
+@keyframes blobDrift4 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33%      { transform: translate(-35px,-20px) scale(1.05); }
+  66%      { transform: translate(45px,25px) scale(0.92); }
+}
+@keyframes blobDrift5 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  25%      { transform: translate(30px,-40px) scale(1.12); }
+  50%      { transform: translate(-40px,20px) scale(0.90); }
+  75%      { transform: translate(25px,35px) scale(1.07); }
+}
+
+.aurora, .geo-ring, .geo-dots { display: none; }
 
 /* ── Topbar ── */
 #topbar {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  background: var(--surface);
+  background: rgba(255,255,255,0.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   padding: calc(var(--safe-top) + 10px) 16px 10px;
   height: calc(var(--safe-top) + var(--topbar-h));
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgba(231,228,220,0.70);
 }
 
 .topbar-logo {
@@ -117,10 +198,12 @@ body {
   position: fixed;
   bottom: 0; left: 0; right: 0;
   z-index: 100;
-  background: var(--surface);
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   padding-bottom: var(--safe-bottom);
   display: flex;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid rgba(231,228,220,0.70);
   height: calc(var(--bottomnav-h) + var(--safe-bottom));
 }
 
@@ -139,7 +222,14 @@ body {
   font-family: inherit;
   letter-spacing: 0.2px;
 }
-.nav-item .nav-ico { font-size: 22px; line-height: 1; }
+.nav-item .nav-ico {
+  width: 26px; height: 26px;
+  display: flex; align-items: center; justify-content: center;
+}
+.nav-item .nav-ico svg {
+  width: 24px; height: 24px;
+  transition: color 0.15s;
+}
 .nav-item.active { color: var(--brand-primary); }
 
 /* ── Main content area ── */
@@ -150,7 +240,7 @@ body {
   bottom: calc(var(--bottomnav-h) + var(--safe-bottom));
   overflow: hidden;
   z-index: 1;
-  background: var(--bg);
+  background: transparent;
 }
 
 /* ── Screens ── */
@@ -163,7 +253,7 @@ body {
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
   padding: 14px 14px 20px;
-  background: var(--bg);
+  background: transparent;
 }
 .screen.active { display: block; animation: fadeIn 0.18s ease; }
 
