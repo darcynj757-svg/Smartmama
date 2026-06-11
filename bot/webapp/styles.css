@@ -463,12 +463,12 @@ body {
 }
 .home-content {
   padding: 20px 14px 14px;
-  background: transparent;
-  border-radius: 0;
+  background: #c8e8f5;
+  border-radius: 28px 28px 0 0;
   position: relative;
   z-index: 3;
   margin-top: -32px;
-  box-shadow: none;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.08);
 }
 .home-content::before {
   display: none;
