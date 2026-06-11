@@ -45,7 +45,7 @@ outputType = "console"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "env -u PORT .pythonlibs/bin/python3 -m bot.main"
+args = "env -u PORT python3 -m bot.main"
 
 [agent]
 stack = "BEST_EFFORT_FALLBACK"
