@@ -1,0 +1,13 @@
+<svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="140" fill="#FFFBF0" rx="0"/>
+  <circle cx="100" cy="70" r="55" fill="#F5C842" opacity="0.12"/>
+  <rect x="46" y="55" width="108" height="68" rx="14" fill="#F5C842"/>
+  <rect x="46" y="55" width="108" height="24" rx="14" fill="#E8A000"/>
+  <rect x="46" y="67" width="108" height="12" rx="0" fill="#E8A000"/>
+  <rect x="58" y="62" width="30" height="10" rx="5" fill="white" opacity="0.5"/>
+  <circle cx="100" cy="90" r="18" fill="white" opacity="0.9"/>
+  <text x="100" y="96" text-anchor="middle" font-size="16" fill="#E8A000" font-weight="bold" font-family="Arial">₽</text>
+  <circle cx="56" cy="44" r="12" fill="#42B97A"/>
+  <circle cx="80" cy="36" r="9" fill="#3ABAB4" opacity="0.8"/>
+  <circle cx="144" cy="44" r="10" fill="#E8734A" opacity="0.7"/>
+</svg>

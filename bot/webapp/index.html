@@ -17,7 +17,7 @@
     #app{position:fixed;top:calc(var(--safe-top) + var(--topbar-h));left:0;right:0;bottom:calc(var(--bottomnav-h) + var(--safe-bottom));overflow:hidden;z-index:1;background:#F5F3EE}
     #bg-anim{display:none}
   </style>
-  <link rel="stylesheet" href="styles.css?v=7" onerror="this.onerror=null;this.href=''">
+  <link rel="stylesheet" href="styles.css?v=8" onerror="this.onerror=null;this.href=''">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
@@ -35,127 +35,154 @@
   <section id="screen-home" class="screen active">
     <div class="home-children-bar" id="home-children-bar"></div>
 
-    <!-- Дневник -->
-    <div class="tile tile-full" onclick="go('diary')">
-      <div class="tile-top tile-dr-b"></div>
-      <div class="tile-ico tile-dr" style="margin:0">📔</div>
-      <div class="tile-text">
-        <div class="tile-name">Дневник ребёнка</div>
-        <div class="tile-sub">История малыша · Заметки</div>
+    <!-- Hero: Дневник + AI — два баннера в ряд -->
+    <div class="hero-row">
+      <div class="hero-card hero-diary" onclick="go('diary')">
+        <img src="assets/tile-diary.svg" alt="" class="hero-img" loading="lazy">
+        <div class="hero-overlay">
+          <div class="hero-label">Дневник ребёнка</div>
+          <div class="hero-sub">История малыша</div>
+        </div>
+      </div>
+      <div class="hero-card hero-ai" onclick="go('aichat')">
+        <img src="assets/tile-ai.svg" alt="" class="hero-img" loading="lazy">
+        <div class="hero-overlay">
+          <div class="hero-label">AI Smart Mama</div>
+          <div class="hero-sub">Спроси о малыше</div>
+        </div>
+        <div class="hero-badge">AI</div>
       </div>
     </div>
 
-    <div style="height:8px"></div>
-
-    <!-- AI баннер -->
-    <div class="ai-banner" onclick="go('aichat')">
-      <div class="tile-top tile-pi-b"></div>
-      <div class="banner-ico">👩‍💼</div>
-      <div class="banner-text">
-        <div class="banner-title">AI Smart Mama чат</div>
-        <div class="banner-sub">Спроси всё о своём малыше</div>
+    <!-- Категории — горизонтальная галерея изображений -->
+    <div class="sec-title">Чем поможем сегодня?</div>
+    <div class="cat-gallery">
+      <div class="cat-card" onclick="openChatWith('aichat','Посоветуй упражнения для развития речи')">
+        <img src="assets/cat-speech.svg" alt="Речь" class="cat-img" loading="lazy">
+        <div class="cat-overlay" style="background:rgba(232,115,74,0.55)"></div>
+        <span class="cat-label">Речь</span>
       </div>
-      <div class="banner-arrow">›</div>
+      <div class="cat-card" onclick="openChatWith('games','Игра на сегодня')">
+        <img src="assets/cat-games.svg" alt="Игры" class="cat-img" loading="lazy">
+        <div class="cat-overlay" style="background:rgba(58,186,180,0.55)"></div>
+        <span class="cat-label">Игры</span>
+      </div>
+      <div class="cat-card" onclick="openChatWith('health','Как понять, что малыш здоров?')">
+        <img src="assets/cat-health.svg" alt="Здоровье" class="cat-img" loading="lazy">
+        <div class="cat-overlay" style="background:rgba(66,185,122,0.55)"></div>
+        <span class="cat-label">Здоровье</span>
+      </div>
+      <div class="cat-card" onclick="openChatWith('nutrition','Что приготовить малышу?')">
+        <img src="assets/cat-recipes.svg" alt="Рецепты" class="cat-img" loading="lazy">
+        <div class="cat-overlay" style="background:rgba(245,158,66,0.55)"></div>
+        <span class="cat-label">Рецепты</span>
+      </div>
+      <div class="cat-card" onclick="openChatWith('aichat','Дай совет на сегодня')">
+        <img src="assets/cat-tips.svg" alt="Советы" class="cat-img" loading="lazy">
+        <div class="cat-overlay" style="background:rgba(245,200,66,0.55)"></div>
+        <span class="cat-label">Советы</span>
+      </div>
+      <div class="cat-card" onclick="openChatWith('aichat','Расскажи о развитии малыша по неделям')">
+        <img src="assets/cat-growth.svg" alt="Развитие" class="cat-img" loading="lazy">
+        <div class="cat-overlay" style="background:rgba(66,185,122,0.50)"></div>
+        <span class="cat-label">Развитие</span>
+      </div>
     </div>
 
-    <!-- Чипы категорий -->
-    <div class="ai-caps">
-      <button class="ai-cap" onclick="openChatWith('aichat','Посоветуй упражнения для развития речи')">🗣 Речь</button>
-      <button class="ai-cap" onclick="openChatWith('games','Игра на сегодня')">🎮 Игры</button>
-      <button class="ai-cap" onclick="openChatWith('health','Как понять, что малыш здоров?')">🏥 Здоровье</button>
-      <button class="ai-cap" onclick="openChatWith('nutrition','Что приготовить малышу?')">🥗 Рецепты</button>
-      <button class="ai-cap" onclick="openChatWith('aichat','Дай совет на сегодня')">💡 Советы</button>
-      <button class="ai-cap" onclick="openChatWith('aichat','Расскажи о развитии малыша по неделям')">📅 Развитие</button>
-    </div>
-
-    <!-- Трекеры -->
+    <!-- Трекеры — плитки с иллюстрациями -->
     <div class="sec-title">Трекеры</div>
-    <div class="section-grid">
-      <div class="tile" onclick="go('feed')">
-        <div class="tile-top tile-ac-b"></div>
-        <div class="tile-ico tile-ac">🍼</div>
-        <div class="tile-name">Трекер питания</div>
-        <div class="tile-sub">Кормления и нормы</div>
-        <div class="tile-stat" id="tile-feed-stat"></div>
+    <div class="img-grid">
+      <div class="img-tile" onclick="go('feed')">
+        <div class="img-tile-pic" style="background:#EDFAF8">
+          <img src="assets/tile-feeding.svg" alt="" loading="lazy">
+        </div>
+        <div class="img-tile-body">
+          <div class="img-tile-name">Трекер питания</div>
+          <div class="img-tile-sub">Кормления и нормы</div>
+          <div class="img-tile-stat" id="tile-feed-stat"></div>
+        </div>
       </div>
-      <div class="tile" onclick="go('sleep')">
-        <div class="tile-top tile-dr-b"></div>
-        <div class="tile-ico tile-dr">💤</div>
-        <div class="tile-name">Трекер сна</div>
-        <div class="tile-sub">Нормы и статистика</div>
-        <div class="tile-stat" id="tile-sleep-stat"></div>
+      <div class="img-tile" onclick="go('sleep')">
+        <div class="img-tile-pic" style="background:#F0F4FF">
+          <img src="assets/tile-sleep.svg" alt="" loading="lazy">
+        </div>
+        <div class="img-tile-body">
+          <div class="img-tile-name">Трекер сна</div>
+          <div class="img-tile-sub">Нормы и статистика</div>
+          <div class="img-tile-stat" id="tile-sleep-stat"></div>
+        </div>
       </div>
     </div>
 
-    <!-- Инструменты -->
+    <!-- Инструменты — плитки с иллюстрациями -->
     <div class="sec-title">Инструменты</div>
-    <div class="section-grid">
-      <div class="tile" onclick="go('nutrition')">
-        <div class="tile-top tile-gr-b"></div>
-        <div class="tile-ico tile-gr">🥗</div>
-        <div class="tile-name">Питание</div>
-        <div class="tile-sub">AI рецепты · Фото еды</div>
+    <div class="img-grid">
+      <div class="img-tile" onclick="go('nutrition')">
+        <div class="img-tile-pic" style="background:#F2FFF6">
+          <img src="assets/tile-nutrition.svg" alt="" loading="lazy">
+        </div>
+        <div class="img-tile-body">
+          <div class="img-tile-name">Питание</div>
+          <div class="img-tile-sub">AI рецепты · Фото еды</div>
+        </div>
       </div>
-      <div class="tile" onclick="go('benefits')">
-        <div class="tile-top tile-fd-b"></div>
-        <div class="tile-ico tile-fd">💰</div>
-        <div class="tile-name">Выплаты</div>
-        <div class="tile-sub">По твоему региону</div>
-      </div>
-    </div>
-
-    <!-- Нейрофото -->
-    <div class="neuro-banner" onclick="go('neuro')">
-      <div class="tile-top tile-dr-b"></div>
-      <div class="banner-ico">📸</div>
-      <div class="banner-text">
-        <div class="banner-title">Нейрофотосессия</div>
-        <div class="banner-sub">AI-портреты малыша в 16 стилях</div>
-      </div>
-      <div class="banner-arrow">›</div>
-    </div>
-
-    <!-- Чат мам -->
-    <div class="moms-chat-banner" onclick="openTgLink('https://t.me/smart_mama_channel')">
-      <div class="tile-top tile-ac-b"></div>
-      <div class="banner-ico">💬</div>
-      <div class="banner-text">
-        <div class="banner-title">Чат для умных мам</div>
-        <div class="banner-sub">Советы, поддержка и общение с мамами</div>
-      </div>
-      <div class="banner-arrow">›</div>
-    </div>
-
-    <!-- Тариф баннер -->
-    <div class="price-banner" onclick="go('pricing')">
-      <div class="tile-top tile-dr-b"></div>
-      <div class="banner-ico">💎</div>
-      <div class="banner-text">
-        <div class="banner-title" id="home-plan-title">Стартер 290 ₽/мес · Премиум 490 ₽/мес</div>
-        <div class="banner-sub" id="home-plan-sub">Попробуй бесплатно</div>
+      <div class="img-tile" onclick="go('benefits')">
+        <div class="img-tile-pic" style="background:#FFFBF0">
+          <img src="assets/tile-benefits.svg" alt="" loading="lazy">
+        </div>
+        <div class="img-tile-body">
+          <div class="img-tile-name">Выплаты</div>
+          <div class="img-tile-sub">По твоему региону</div>
+        </div>
       </div>
     </div>
 
-    <!-- Колыбельные баннер -->
-    <div class="sounds-home-banner" onclick="go('sounds')">
-      <div class="tile-top tile-ac-b"></div>
-      <div class="banner-ico">🎵</div>
-      <div class="banner-text">
-        <div class="banner-title">Колыбельные и белый шум</div>
-        <div class="banner-sub">Помогут малышу уснуть · Таймер сна</div>
+    <!-- Широкие баннеры с иллюстрациями -->
+    <div class="wide-banner" onclick="go('neuro')" style="--banner-bg:#F4F0FF;--banner-border:rgba(155,127,212,0.25)">
+      <div class="wide-banner-img" style="background:#EDE8FF">
+        <img src="assets/tile-neuro.svg" alt="" loading="lazy">
       </div>
-      <div class="banner-arrow">›</div>
+      <div class="wide-banner-text">
+        <div class="wide-banner-title">Нейрофотосессия</div>
+        <div class="wide-banner-sub">AI-портреты малыша в 16 стилях ✨</div>
+      </div>
+      <div class="wide-banner-arr">›</div>
     </div>
 
-    <!-- Реферальная программа -->
-    <div class="ref-home-banner" onclick="go('referral')">
-      <div class="tile-top tile-fd-b"></div>
-      <div class="banner-ico">🎁</div>
-      <div class="banner-text">
-        <div class="banner-title">Программа Амбассадоров</div>
-        <div class="banner-sub">Приглашай подруг — получай бонусы</div>
+    <div class="wide-banner" onclick="go('sounds')" style="--banner-bg:#EDFCFA;--banner-border:rgba(58,186,180,0.25)">
+      <div class="wide-banner-img" style="background:#D8F5F2">
+        <img src="assets/tile-sounds.svg" alt="" loading="lazy">
+      </div>
+      <div class="wide-banner-text">
+        <div class="wide-banner-title">Колыбельные и шум</div>
+        <div class="wide-banner-sub">Помогут малышу уснуть · Таймер</div>
+      </div>
+      <div class="wide-banner-arr">›</div>
+    </div>
+
+    <div class="wide-banner" onclick="openTgLink('https://t.me/smart_mama_channel')" style="--banner-bg:#EDFCFA;--banner-border:rgba(58,186,180,0.25)">
+      <div class="wide-banner-img" style="background:#D8F5F2;font-size:32px;display:flex;align-items:center;justify-content:center">💬</div>
+      <div class="wide-banner-text">
+        <div class="wide-banner-title">Чат для умных мам</div>
+        <div class="wide-banner-sub">Советы, поддержка, общение</div>
+      </div>
+      <div class="wide-banner-arr">›</div>
+    </div>
+
+    <!-- Тариф + Реферал — маленькие плитки в ряд -->
+    <div class="mini-pair">
+      <div class="mini-tile" onclick="go('pricing')" style="--mt-bg:#F0F7FF;--mt-border:rgba(74,144,217,0.20)">
+        <div class="mini-tile-ico">💎</div>
+        <div class="mini-tile-name" id="home-plan-title">Тарифы</div>
+        <div class="mini-tile-sub" id="home-plan-sub">Бесплатно · 290 · 490 ₽</div>
+      </div>
+      <div class="mini-tile" onclick="go('referral')" style="--mt-bg:#FFFBF0;--mt-border:rgba(245,200,66,0.25)">
+        <div class="mini-tile-img"><img src="assets/tile-referral.svg" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover"></div>
+        <div class="mini-tile-name">Амбассадоры</div>
+        <div class="mini-tile-sub">Приглашай подруг</div>
       </div>
     </div>
+
   </section>
 
   <!-- ────────────── AI ЧАТ ────────────── -->

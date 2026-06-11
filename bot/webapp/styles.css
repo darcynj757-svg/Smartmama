@@ -1399,3 +1399,276 @@ body {
   border: none; font-family: inherit; font-size: 12px; font-weight: 700;
   cursor: pointer; -webkit-appearance: none;
 }
+
+/* ══════════════════════════════════════════
+   NEW IMAGE-BASED HOME SCREEN COMPONENTS
+   ══════════════════════════════════════════ */
+
+/* ── Hero Row (Дневник + AI) ── */
+.hero-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 0 16px 8px;
+}
+
+.hero-card {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  cursor: pointer;
+  width: 100%;
+  height: 175px;
+  background: var(--surface);
+  box-shadow: 0 4px 20px rgba(28,25,23,0.10);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.hero-card:active { transform: scale(0.97); box-shadow: 0 2px 8px rgba(28,25,23,0.08); }
+
+.hero-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(28,25,23,0.55) 0%, transparent 55%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 14px 12px;
+}
+
+.hero-label {
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.2;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+}
+.hero-sub {
+  font-size: 11px;
+  color: rgba(255,255,255,0.80);
+  margin-top: 2px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+.hero-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(135deg, #9B7FD4, #E8734A);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 900;
+  padding: 3px 8px;
+  border-radius: 100px;
+  letter-spacing: 0.5px;
+}
+
+.hero-diary { background: #FEF0E8; }
+.hero-ai    { background: #FDF5FF; }
+
+/* ── Category Gallery (horizontal scroll) ── */
+.cat-gallery {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 4px 16px 12px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.cat-gallery::-webkit-scrollbar { display: none; }
+
+.cat-card {
+  position: relative;
+  flex: 0 0 88px;
+  height: 88px;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(28,25,23,0.08);
+  transition: transform 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.cat-card:active { transform: scale(0.95); }
+
+.cat-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cat-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+}
+
+.cat-label {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 6px 6px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  background: linear-gradient(to top, rgba(0,0,0,0.28), transparent);
+  border-radius: 0 0 20px 20px;
+}
+
+/* ── Image Tiles Grid (Трекеры / Инструменты) ── */
+.img-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 0 16px 12px;
+}
+
+.img-tile {
+  background: var(--surface);
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 3px 14px rgba(28,25,23,0.08);
+  border: 1px solid var(--border);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.img-tile:active { transform: scale(0.96); box-shadow: 0 1px 6px rgba(28,25,23,0.06); }
+
+.img-tile-pic {
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+}
+.img-tile-pic img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.img-tile-body {
+  padding: 10px 12px 12px;
+}
+.img-tile-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.2;
+}
+.img-tile-sub {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+  line-height: 1.3;
+}
+.img-tile-stat {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--brand-primary);
+  margin-top: 4px;
+}
+
+/* ── Wide Banners (Нейрофото, Колыбельные, Чат) ── */
+.wide-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 16px 10px;
+  padding: 12px;
+  border-radius: 20px;
+  background: var(--banner-bg, var(--surface));
+  border: 1px solid var(--banner-border, var(--border));
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(28,25,23,0.07);
+  transition: transform 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.wide-banner:active { transform: scale(0.97); }
+
+.wide-banner-img {
+  flex: 0 0 64px;
+  height: 64px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+.wide-banner-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.wide-banner-text { flex: 1; min-width: 0; }
+.wide-banner-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.2;
+}
+.wide-banner-sub {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+  line-height: 1.3;
+}
+
+.wide-banner-arr {
+  font-size: 22px;
+  color: var(--text-hint);
+  flex-shrink: 0;
+  margin-right: 2px;
+}
+
+/* ── Mini Pair (Тарифы + Реферал) ── */
+.mini-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 0 16px 20px;
+}
+
+.mini-tile {
+  position: relative;
+  background: var(--mt-bg, var(--surface));
+  border: 1px solid var(--mt-border, var(--border));
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 14px 14px 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(28,25,23,0.07);
+  transition: transform 0.18s ease;
+  min-height: 100px;
+  -webkit-tap-highlight-color: transparent;
+}
+.mini-tile:active { transform: scale(0.96); }
+
+.mini-tile-img {
+  position: absolute;
+  inset: 0;
+  opacity: 0.35;
+}
+
+.mini-tile-ico {
+  font-size: 26px;
+  margin-bottom: 6px;
+  position: relative;
+}
+.mini-tile-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.2;
+  position: relative;
+}
+.mini-tile-sub {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+  position: relative;
+  line-height: 1.3;
+}
