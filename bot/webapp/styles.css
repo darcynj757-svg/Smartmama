@@ -180,6 +180,103 @@ body {
 
 .aurora, .geo-ring, .geo-dots { display: none; }
 
+/* ── Abstract animated background blobs ── */
+#bg-anim {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bg-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.55;
+  will-change: transform;
+}
+
+.bg-blob-1 {
+  width: 340px; height: 340px;
+  background: radial-gradient(circle, #a8d8ea 0%, #7ec8e3 60%, transparent 100%);
+  top: -80px; left: -60px;
+  animation: blob-float-1 18s ease-in-out infinite;
+}
+.bg-blob-2 {
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, #b2e4f5 0%, #5bb8d4 60%, transparent 100%);
+  top: 20%; right: -80px;
+  animation: blob-float-2 22s ease-in-out infinite;
+}
+.bg-blob-3 {
+  width: 380px; height: 380px;
+  background: radial-gradient(circle, #caf0f8 0%, #90e0ef 60%, transparent 100%);
+  top: 40%; left: 10%;
+  animation: blob-float-3 26s ease-in-out infinite;
+}
+.bg-blob-4 {
+  width: 260px; height: 260px;
+  background: radial-gradient(circle, #ade8f4 0%, #48cae4 60%, transparent 100%);
+  bottom: 20%; right: 5%;
+  animation: blob-float-4 20s ease-in-out infinite;
+}
+.bg-blob-5 {
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, #d0f4ff 0%, #a0d8ef 60%, transparent 100%);
+  bottom: 5%; left: -40px;
+  animation: blob-float-5 24s ease-in-out infinite;
+}
+.bg-blob-6 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, #b8e8f7 0%, #6cc4df 60%, transparent 100%);
+  top: 60%; left: 50%;
+  animation: blob-float-6 28s ease-in-out infinite;
+}
+
+@keyframes blob-float-1 {
+  0%   { transform: translate(0px, 0px) scale(1); }
+  25%  { transform: translate(40px, 60px) scale(1.08); }
+  50%  { transform: translate(80px, 20px) scale(0.94); }
+  75%  { transform: translate(20px, 80px) scale(1.05); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+@keyframes blob-float-2 {
+  0%   { transform: translate(0px, 0px) scale(1); }
+  30%  { transform: translate(-60px, 40px) scale(1.10); }
+  60%  { transform: translate(-30px, 80px) scale(0.92); }
+  80%  { transform: translate(-70px, 20px) scale(1.06); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+@keyframes blob-float-3 {
+  0%   { transform: translate(0px, 0px) scale(1); }
+  20%  { transform: translate(50px, -40px) scale(1.06); }
+  50%  { transform: translate(-40px, 60px) scale(0.96); }
+  75%  { transform: translate(60px, 30px) scale(1.04); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+@keyframes blob-float-4 {
+  0%   { transform: translate(0px, 0px) scale(1); }
+  33%  { transform: translate(-50px, -60px) scale(1.12); }
+  66%  { transform: translate(40px, -30px) scale(0.90); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+@keyframes blob-float-5 {
+  0%   { transform: translate(0px, 0px) scale(1); }
+  40%  { transform: translate(60px, -50px) scale(1.08); }
+  70%  { transform: translate(30px, -80px) scale(0.95); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+@keyframes blob-float-6 {
+  0%   { transform: translate(0px, 0px) scale(1); }
+  25%  { transform: translate(-70px, 40px) scale(1.07); }
+  55%  { transform: translate(50px, 70px) scale(0.93); }
+  80%  { transform: translate(-30px, -40px) scale(1.05); }
+  100% { transform: translate(0px, 0px) scale(1); }
+}
+
 /* ── Topbar ── */
 #topbar {
   position: fixed;
