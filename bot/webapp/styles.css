@@ -245,17 +245,9 @@ body {
   z-index: 2;
 }
 
-/* Smooth gradient fade from hero into white content area */
+/* Fade-out element hidden — gradient handled by .home-content::before */
 #hero-fade-out {
-  height: 48px;
-  margin-top: -48px;
-  position: relative;
-  z-index: 4;
-  pointer-events: none;
-  background: linear-gradient(to bottom,
-    transparent                 0%,
-    rgba(255, 255, 255, 0.93)  100%
-  );
+  display: none;
 }
 #hero-photo-el {
   /* Hidden — photo is now shown via #hero-photo-fixed */
@@ -430,6 +422,16 @@ body {
   padding: 0 14px 14px;
   background: rgba(255, 255, 255, 0.93);
   position: relative;
+  z-index: 3;
+}
+.home-content::before {
+  content: '';
+  position: absolute;
+  top: -52px;
+  left: 0; right: 0;
+  height: 52px;
+  background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.93) 100%);
+  pointer-events: none;
   z-index: 3;
 }
 
