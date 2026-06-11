@@ -110,6 +110,19 @@ function go(name) {
   document.querySelectorAll('.nav-item').forEach(b => {
     b.classList.toggle('active', b.dataset.screen === name);
   });
+  // AI FAB: hide on aichat screen
+  const fab = document.getElementById('ai-fab');
+  if (fab) fab.classList.toggle('hidden', name === 'aichat');
+  // Topbar: hero-mode only on home when scrolled to top
+  const topbar = document.getElementById('topbar');
+  if (topbar) {
+    if (name === 'home') {
+      const homeScreen = document.getElementById('screen-home');
+      topbar.classList.toggle('hero-mode', !homeScreen || homeScreen.scrollTop < 60);
+    } else {
+      topbar.classList.remove('hero-mode');
+    }
+  }
   screenHistory.push(name);
   if (name === 'home') loadHomeStats();
   if (name === 'sleep') loadSleepData();
@@ -242,13 +255,21 @@ async function sendPhotoChat(screen, input) {
 
 // ─── Home ───────────────────────────────────────────────────────────────────
 function loadHomeStats() {
-  // Update children bar
-  const bar = document.getElementById('home-children-bar');
-  if (bar && state.childName) {
-    bar.innerHTML = `
-      <button class="child-chip active">${state.childName}</button>
-      <button class="child-chip add-child-btn" onclick="go('profile')">+ Добавь малыша</button>
-    `;
+  // Update hero baby name + age
+  const heroName = document.getElementById('hero-baby-name');
+  const heroAge = document.getElementById('hero-baby-age');
+  if (heroName) heroName.textContent = state.childName || 'Малыш';
+  if (heroAge) {
+    const months = parseInt(state.childAge) || 0;
+    if (months >= 12) {
+      const y = Math.floor(months / 12);
+      const m = months % 12;
+      heroAge.textContent = y + (y === 1 ? ' год' : y < 5 ? ' года' : ' лет') + (m > 0 ? ' ' + m + ' мес' : '');
+    } else if (months > 0) {
+      heroAge.textContent = months + ' мес';
+    } else {
+      heroAge.textContent = '';
+    }
   }
   // Update plan banner
   const planTitle = document.getElementById('home-plan-title');
@@ -1123,6 +1144,7 @@ async function init() {
   } catch(e) {}
 
   loadHomeStats();
+  initHeroPhoto();
 
   // Try to sync from API
   try {
@@ -1161,6 +1183,47 @@ async function init() {
     }
   } catch(e) {
     console.warn('Sync failed (offline or dev mode):', e.message);
+  }
+}
+
+// ─── Hero baby photo ────────────────────────────────────────────────────────
+function uploadHeroBabyPhoto(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const data = e.target.result;
+    try { localStorage.setItem('heroBabyPhoto', data); } catch(e) {}
+    applyHeroBabyPhoto(data);
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
+}
+
+function applyHeroBabyPhoto(src) {
+  const img = document.getElementById('hero-photo-el');
+  const placeholder = document.getElementById('hero-photo-placeholder');
+  const wrap = document.getElementById('hero-photo-wrap');
+  if (!img) return;
+  img.src = src;
+  img.style.display = 'block';
+  if (placeholder) placeholder.style.display = 'none';
+  if (wrap) wrap.onclick = null;
+}
+
+function initHeroPhoto() {
+  // Restore saved photo
+  const saved = localStorage.getItem('heroBabyPhoto');
+  if (saved) applyHeroBabyPhoto(saved);
+
+  // Topbar scroll effect on home screen
+  const homeScreen = document.getElementById('screen-home');
+  const topbar = document.getElementById('topbar');
+  if (homeScreen && topbar) {
+    homeScreen.addEventListener('scroll', () => {
+      const atTop = homeScreen.scrollTop < 60;
+      topbar.classList.toggle('hero-mode', atTop);
+    }, { passive: true });
   }
 }
 

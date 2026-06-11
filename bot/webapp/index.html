@@ -14,10 +14,10 @@
     body{background:linear-gradient(150deg,#FDF6F0 0%,#F8F0FF 45%,#EFF8F7 100%);min-height:100vh;min-height:-webkit-fill-available;min-height:100dvh;overflow:hidden;overscroll-behavior:none;font-family:Inter,-apple-system,sans-serif}
     #topbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);height:calc(var(--safe-top) + var(--topbar-h));display:flex;align-items:flex-end;justify-content:center;padding:0 16px 10px;border-bottom:1px solid rgba(231,228,220,0.70)}
     #bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid rgba(231,228,220,0.70);display:flex;height:calc(var(--bottomnav-h) + var(--safe-bottom));padding-bottom:var(--safe-bottom)}
-    #app{position:fixed;top:calc(var(--safe-top) + var(--topbar-h));left:0;right:0;bottom:calc(var(--bottomnav-h) + var(--safe-bottom));overflow:hidden;z-index:1;background:transparent}
+    #app{position:fixed;top:0;left:0;right:0;bottom:calc(var(--bottomnav-h) + var(--safe-bottom));overflow:hidden;z-index:1;background:transparent}
     #bg-anim{display:block;position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:linear-gradient(150deg,#FDF6F0 0%,#F8F0FF 45%,#EFF8F7 100%)}
   </style>
-  <link rel="stylesheet" href="styles.css?v=9" onerror="this.onerror=null;this.href=''">
+  <link rel="stylesheet" href="styles.css?v=10" onerror="this.onerror=null;this.href=''">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
@@ -32,36 +32,48 @@
 </div>
 
 <!-- Topbar -->
-<div id="topbar">
+<div id="topbar" class="hero-mode">
   <div class="topbar-logo"><span>Смарт</span>&nbsp;Мама</div>
   <button id="profile-btn" onclick="go('profile')">👩</button>
 </div>
+
+<!-- AI Smart Mama floating button -->
+<button id="ai-fab" onclick="go('aichat')">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+  AI Smart Mama
+</button>
 
 <!-- App content -->
 <div id="app">
 
   <!-- ────────────── ГЛАВНАЯ ────────────── -->
   <section id="screen-home" class="screen active">
-    <div class="home-children-bar" id="home-children-bar"></div>
 
-    <!-- Hero: Дневник + AI — два баннера в ряд -->
-    <div class="hero-row">
-      <div class="hero-card hero-diary" onclick="go('diary')">
-        <img src="assets/photos/tile-diary.jpg" alt="" class="hero-img" loading="lazy">
-        <div class="hero-overlay">
-          <div class="hero-label">Дневник ребёнка</div>
-          <div class="hero-sub">История малыша</div>
-        </div>
+    <!-- Hero: фото малыша -->
+    <div id="hero-photo-wrap" onclick="document.getElementById('hero-photo-input').click()">
+      <img id="hero-photo-el" src="" alt="">
+      <div id="hero-photo-placeholder">
+        <div class="hero-ph-ring">👶</div>
+        <div class="hero-ph-text">Добавь фото малыша</div>
+        <div class="hero-ph-hint">нажми чтобы загрузить</div>
       </div>
-      <div class="hero-card hero-ai" onclick="go('aichat')">
-        <img src="assets/photos/tile-ai.jpg" alt="" class="hero-img" loading="lazy">
-        <div class="hero-overlay">
-          <div class="hero-label">AI Smart Mama</div>
-          <div class="hero-sub">Спроси о малыше</div>
-        </div>
-        <div class="hero-badge">AI</div>
+      <div id="hero-photo-grad"></div>
+      <div id="hero-baby-info">
+        <div id="hero-baby-name">Малыш</div>
+        <div id="hero-baby-age"></div>
       </div>
+      <label id="hero-cam-btn" for="hero-photo-input" onclick="event.stopPropagation()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
+        </svg>
+      </label>
+      <input type="file" id="hero-photo-input" accept="image/*" style="display:none" onchange="uploadHeroBabyPhoto(this)">
     </div>
+
+    <div class="home-content">
 
     <!-- Категории — горизонтальная галерея изображений -->
     <div class="sec-title">Чем поможем сегодня?</div>
@@ -192,6 +204,7 @@
       </div>
     </div>
 
+    </div><!-- /.home-content -->
   </section>
 
   <!-- ────────────── AI ЧАТ ────────────── -->
