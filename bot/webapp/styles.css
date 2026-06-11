@@ -74,11 +74,14 @@ body {
 #bg-anim {
   display: block;
   position: fixed;
-  inset: 0;
+  inset: -15% -5%;
+  width: 110%;
+  height: 130%;
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
   background: linear-gradient(150deg, #FDF6F0 0%, #F8F0FF 45%, #EFF8F7 100%);
+  will-change: transform;
 }
 
 .bg-blob {
@@ -214,7 +217,8 @@ body {
 
 /* ── Hero photo (baby portrait at top of home) ── */
 #hero-photo-wrap {
-  position: relative;
+  position: sticky;
+  top: 0;
   width: 100%;
   height: 56vh;
   min-height: 280px;
@@ -223,6 +227,7 @@ body {
   border-radius: 0;
   background: transparent;
   cursor: pointer;
+  z-index: 2;
 }
 
 /* Smooth gradient fade from hero into page background */

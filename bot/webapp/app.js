@@ -1216,13 +1216,10 @@ function initHeroPhoto() {
   const saved = localStorage.getItem('heroBabyPhoto');
   if (saved) applyHeroBabyPhoto(saved);
 
-  // Topbar scroll effect + parallax on home screen
+  // Topbar scroll effect + bg parallax on home screen
   const homeScreen = document.getElementById('screen-home');
   const topbar = document.getElementById('topbar');
-  const heroImg = document.getElementById('hero-photo-el');
-  const heroPlaceholder = document.getElementById('hero-photo-placeholder');
-  const heroBabyInfo = document.getElementById('hero-baby-info');
-  const heroCamBtn = document.getElementById('hero-cam-btn');
+  const bgAnim = document.getElementById('bg-anim');
 
   if (homeScreen && topbar) {
     homeScreen.addEventListener('scroll', () => {
@@ -1231,14 +1228,10 @@ function initHeroPhoto() {
       // Topbar hero mode
       topbar.classList.toggle('hero-mode', sy < 60);
 
-      // Parallax: inner content moves at 40% of scroll speed
-      const py = sy * 0.4;
-      const infoY = sy * 0.2;
-
-      if (heroImg) heroImg.style.transform = `translateY(${py}px)`;
-      if (heroPlaceholder) heroPlaceholder.style.transform = `translateY(${py}px)`;
-      if (heroBabyInfo) heroBabyInfo.style.transform = `translateY(${infoY}px)`;
-      if (heroCamBtn) heroCamBtn.style.transform = `translateY(${infoY}px)`;
+      // Parallax: background drifts at 20% of scroll speed (deeper layer)
+      if (bgAnim) {
+        bgAnim.style.transform = `translateY(${sy * 0.20}px)`;
+      }
     }, { passive: true });
   }
 }
