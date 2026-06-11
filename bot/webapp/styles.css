@@ -320,34 +320,69 @@ body {
 #hero-cam-btn svg { width: 22px; height: 22px; color: #fff; }
 
 /* ── AI Smart Mama floating action button ── */
+@keyframes fab-pulse {
+  0%, 100% { box-shadow: 0 6px 28px rgba(180,100,200,0.45), 0 2px 8px rgba(0,0,0,0.12); }
+  50%       { box-shadow: 0 8px 36px rgba(180,100,200,0.65), 0 2px 8px rgba(0,0,0,0.12); }
+}
+@keyframes fab-star-spin {
+  0%   { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(20deg) scale(1.15); }
+  100% { transform: rotate(0deg) scale(1); }
+}
 #ai-fab {
   position: fixed;
   bottom: calc(var(--bottomnav-h) + var(--safe-bottom) + 14px);
   left: 50%;
   transform: translateX(-50%);
   z-index: 98;
-  background: linear-gradient(135deg, #E8734A 0%, #D45060 100%);
+  background: linear-gradient(135deg, #c471ed 0%, #f64f59 55%, #f9a825 100%);
   color: #fff;
   border: none;
   border-radius: 100px;
-  padding: 13px 26px;
+  padding: 14px 28px 14px 22px;
   font-size: 15px; font-weight: 700;
   font-family: 'Inter', sans-serif;
-  display: flex; align-items: center; gap: 8px;
-  box-shadow: 0 6px 24px rgba(232,115,74,0.50), 0 2px 8px rgba(0,0,0,0.10);
+  display: flex; align-items: center; gap: 9px;
+  box-shadow: 0 6px 28px rgba(180,100,200,0.45), 0 2px 8px rgba(0,0,0,0.12);
   cursor: pointer;
   white-space: nowrap;
-  letter-spacing: -0.2px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.2s ease;
+  letter-spacing: 0.1px;
+  animation: fab-pulse 2.8s ease-in-out infinite;
+  transition: transform 0.15s ease, opacity 0.2s ease;
+}
+#ai-fab::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 60%);
+  pointer-events: none;
+}
+.ai-fab-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px; height: 28px;
+  background: rgba(255,255,255,0.22);
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: fab-star-spin 3.5s ease-in-out infinite;
+}
+.ai-fab-text {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.1px;
 }
 #ai-fab:active {
   transform: translateX(-50%) scale(0.95);
-  box-shadow: 0 3px 12px rgba(232,115,74,0.40);
+  animation: none;
+  box-shadow: 0 3px 14px rgba(180,100,200,0.35);
 }
 #ai-fab.hidden {
   opacity: 0;
   pointer-events: none;
-  transform: translateX(-50%) translateY(12px);
+  transform: translateX(-50%) translateY(14px);
+  animation: none;
 }
 
 /* ── Bottom nav ── */
