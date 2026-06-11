@@ -1216,10 +1216,14 @@ function initHeroPhoto() {
   const saved = localStorage.getItem('heroBabyPhoto');
   if (saved) applyHeroBabyPhoto(saved);
 
-  // Topbar scroll effect + bg parallax on home screen
+  // Topbar scroll effect + parallax on home screen
   const homeScreen = document.getElementById('screen-home');
-  const topbar = document.getElementById('topbar');
-  const bgAnim = document.getElementById('bg-anim');
+  const topbar     = document.getElementById('topbar');
+  const bgAnim     = document.getElementById('bg-anim');
+  const heroImg    = document.getElementById('hero-photo-el');
+  const heroPh     = document.getElementById('hero-photo-placeholder');
+  const heroBaby   = document.getElementById('hero-baby-info');
+  const heroCam    = document.getElementById('hero-cam-btn');
 
   if (homeScreen && topbar) {
     homeScreen.addEventListener('scroll', () => {
@@ -1228,10 +1232,15 @@ function initHeroPhoto() {
       // Topbar hero mode
       topbar.classList.toggle('hero-mode', sy < 60);
 
-      // Parallax: background drifts at 20% of scroll speed (deeper layer)
-      if (bgAnim) {
-        bgAnim.style.transform = `translateY(${sy * 0.20}px)`;
-      }
+      // Hero layer: counteract scroll → stays perfectly static (fixed background feel)
+      const fix = `translateY(${sy}px)`;
+      if (heroImg)  heroImg.style.transform  = fix;
+      if (heroPh)   heroPh.style.transform   = fix;
+      if (heroBaby) heroBaby.style.transform = fix;
+      if (heroCam)  heroCam.style.transform  = fix;
+
+      // Background layer: drifts at 20% speed → parallax depth effect
+      if (bgAnim) bgAnim.style.transform = `translateY(${sy * 0.20}px)`;
     }, { passive: true });
   }
 }
