@@ -489,18 +489,62 @@ body {
   animation: none;
 }
 
-/* ── Bottom nav ── */
+/* ── Bottom nav — Liquid Glass ── */
 #bottom-nav {
   position: fixed;
-  bottom: 0; left: 0; right: 0;
+  bottom: calc(var(--safe-bottom) + 10px);
+  left: 12px; right: 12px;
   z-index: 100;
-  background: rgba(255,255,255,0.88);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  padding-bottom: var(--safe-bottom);
+  height: var(--bottomnav-h);
+  border-radius: 26px;
   display: flex;
-  border-top: 1px solid rgba(231,228,220,0.70);
-  height: calc(var(--bottomnav-h) + var(--safe-bottom));
+  overflow: hidden;
+
+  /* Liquid glass core */
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(40px) saturate(200%) brightness(1.08);
+  -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(1.08);
+
+  /* Multi-layer border: bright top edge, subtle bottom */
+  border: 1px solid rgba(255,255,255,0.55);
+  border-bottom-color: rgba(255,255,255,0.25);
+
+  /* Shadow stack: outer depth + inner top shine */
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.13),
+    0 2px 8px rgba(0,0,0,0.07),
+    inset 0 1.5px 0 rgba(255,255,255,0.85),
+    inset 0 -1px 0 rgba(255,255,255,0.12);
+}
+
+/* Specular top-edge shimmer */
+#bottom-nav::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 8px; right: 8px;
+  height: 1.5px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,255,255,0.90) 30%,
+    rgba(255,255,255,0.90) 70%,
+    transparent 100%);
+  border-radius: 100px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Inner glass refraction layer */
+#bottom-nav::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 26px;
+  background: linear-gradient(180deg,
+    rgba(255,255,255,0.28) 0%,
+    rgba(255,255,255,0.06) 45%,
+    rgba(255,255,255,0.00) 100%);
+  pointer-events: none;
+  z-index: 1;
 }
 
 .nav-item {
@@ -508,32 +552,57 @@ body {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   padding: 6px 4px;
   cursor: pointer;
-  color: var(--text-hint);
+  color: rgba(60,55,50,0.55);
   font-size: 9px; font-weight: 600;
   gap: 3px;
-  transition: color 0.15s;
+  transition: color 0.2s ease, transform 0.1s ease;
   border: none; background: none;
   min-height: 44px;
   -webkit-appearance: none;
   font-family: inherit;
   letter-spacing: 0.2px;
+  position: relative;
+  z-index: 3;
+  border-radius: 20px;
 }
+
+.nav-item:active {
+  transform: scale(0.90);
+}
+
 .nav-item .nav-ico {
-  width: 26px; height: 26px;
+  width: 28px; height: 28px;
   display: flex; align-items: center; justify-content: center;
+  border-radius: 10px;
+  transition: background 0.2s ease, transform 0.15s ease;
 }
+
 .nav-item .nav-ico svg {
-  width: 24px; height: 24px;
-  transition: color 0.15s;
+  width: 22px; height: 22px;
+  transition: color 0.2s ease;
 }
-.nav-item.active { color: var(--brand-primary); }
+
+/* Active state — frosted pill behind icon */
+.nav-item.active {
+  color: var(--brand-primary);
+}
+
+.nav-item.active .nav-ico {
+  background: rgba(232,115,74,0.14);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow:
+    0 2px 8px rgba(232,115,74,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.70);
+  transform: scale(1.08);
+}
 
 /* ── Main content area ── */
 #app {
   position: fixed;
   top: 0;
   left: 0; right: 0;
-  bottom: calc(var(--bottomnav-h) + var(--safe-bottom));
+  bottom: calc(var(--bottomnav-h) + var(--safe-bottom) + 10px);
   overflow: hidden;
   z-index: 1;
   background: transparent;
