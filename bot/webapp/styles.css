@@ -70,12 +70,14 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Fixed hero photo background layer ── */
+/* ── Fixed hero photo background layer (top half only) ── */
 #hero-photo-fixed {
   position: fixed;
-  inset: 0;
+  top: 0; left: 0; right: 0;
   width: 100%;
-  height: 100%;
+  height: 56vh;
+  min-height: 280px;
+  max-height: 460px;
   object-fit: cover;
   object-position: center top;
   z-index: 0;
@@ -427,10 +429,8 @@ body {
 .home-content {
   padding: 0 14px 14px;
   background: rgba(255, 255, 255, 0.93);
-  border-radius: 28px 28px 0 0;
   position: relative;
   z-index: 3;
-  box-shadow: 0 -4px 32px rgba(0,0,0,0.06);
 }
 
 @keyframes fadeIn {
