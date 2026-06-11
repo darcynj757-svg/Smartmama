@@ -117,10 +117,10 @@ body {
   animation: blobDrift4 22s ease-in-out infinite;
 }
 .bg-blob-5 {
-  width: 200px; height: 200px;
-  background: radial-gradient(circle at 50% 50%, #C0E8FF, #D8F2FF);
-  opacity: 0.50;
-  top: 40%; left: 25%;
+  width: 340px; height: 300px;
+  background: radial-gradient(circle at 50% 50%, #D8D0FF, #E8F5FF);
+  opacity: 0.60;
+  top: 46%; left: 10%;
   animation: blobDrift5 24s ease-in-out infinite;
 }
 
@@ -227,16 +227,16 @@ body {
 
 /* Smooth gradient fade from hero into page background */
 #hero-fade-out {
-  height: 160px;
-  margin-top: -160px;
+  height: 180px;
+  margin-top: -180px;
   position: relative;
   z-index: 4;
   pointer-events: none;
   background: linear-gradient(to top,
-    rgba(245, 240, 255, 1.00)   0%,
-    rgba(245, 240, 255, 0.85)  20%,
-    rgba(245, 240, 255, 0.55)  45%,
-    rgba(245, 240, 255, 0.20)  70%,
+    rgba(255, 255, 255, 0.88)   0%,
+    rgba(255, 255, 255, 0.60)  25%,
+    rgba(255, 255, 255, 0.28)  55%,
+    rgba(255, 255, 255, 0.06)  80%,
     transparent                100%
   );
 }

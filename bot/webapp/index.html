@@ -136,6 +136,16 @@
       </div>
     </div>
 
+    <!-- Дневник ребёнка — широкий баннер -->
+    <div class="wide-banner" onclick="go('diary')" style="--banner-bg:#FFF0F8;--banner-border:rgba(232,115,74,0.20)">
+      <div class="wide-banner-img" style="background:#FFE4F2;font-size:32px;display:flex;align-items:center;justify-content:center">📒</div>
+      <div class="wide-banner-text">
+        <div class="wide-banner-title">Дневник малыша</div>
+        <div class="wide-banner-sub">Рост · Прививки · Болезни · События</div>
+      </div>
+      <div class="wide-banner-arr">›</div>
+    </div>
+
     <!-- Инструменты — плитки с иллюстрациями -->
     <div class="sec-title">Инструменты</div>
     <div class="img-grid">
@@ -812,6 +822,13 @@
         <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM9 11H7V9H9V11ZM13 11H11V9H13V11ZM17 11H15V9H17V11Z" fill="currentColor"/>
       </svg>
     </span>AI Чат
+  </button>
+  <button class="nav-item" onclick="go('diary')" data-screen="diary">
+    <span class="nav-ico">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V4C20 2.9 19.1 2 18 2ZM9 4H11V9L10 8.25L9 9V4ZM18 20H6V4H7V13L10 10.75L13 13V4H18V20Z" fill="currentColor"/>
+      </svg>
+    </span>Дневник
   </button>
   <button class="nav-item" onclick="go('sounds')" data-screen="sounds">
     <span class="nav-ico">
