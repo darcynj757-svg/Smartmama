@@ -470,30 +470,15 @@ body {
   padding: 0 0 90px;
 }
 .home-content {
-  padding: 0 14px 14px;
-  background: linear-gradient(
-    135deg,
-    #fce4ec,
-    #f3e5f5,
-    #e8eaf6,
-    #e0f2f1,
-    #fff8e1,
-    #fce4ec
-  );
-  background-size: 400% 400%;
-  animation: bg-shift 12s ease infinite;
+  padding: 20px 14px 14px;
+  background: #fff;
+  border-radius: 28px 28px 0 0;
   position: relative;
   z-index: 3;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.08);
 }
 .home-content::before {
-  content: '';
-  position: absolute;
-  top: -60px;
-  left: 0; right: 0;
-  height: 62px;
-  background: linear-gradient(to bottom, transparent 0%, #fce4ec 100%);
-  pointer-events: none;
-  z-index: 3;
+  display: none;
 }
 
 @keyframes fadeIn {
