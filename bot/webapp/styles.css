@@ -220,9 +220,26 @@ body {
   min-height: 280px;
   max-height: 460px;
   overflow: hidden;
-  border-radius: 0 0 32px 32px;
+  border-radius: 0;
   background: linear-gradient(145deg, #FFD6CC 0%, #E8C4FF 50%, #B8EEF0 100%);
   cursor: pointer;
+}
+
+/* Smooth gradient fade from hero into page background */
+#hero-fade-out {
+  height: 110px;
+  margin-top: -110px;
+  position: relative;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(245, 242, 255, 0.20) 25%,
+    rgba(245, 242, 255, 0.55) 50%,
+    rgba(246, 243, 255, 0.82) 72%,
+    rgba(247, 244, 255, 0.96) 88%,
+    #F7F4FF 100%
+  );
 }
 #hero-photo-el {
   width: 100%; height: 100%;
