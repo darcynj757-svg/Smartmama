@@ -306,7 +306,7 @@ body {
   opacity: 1;
 }
 #hero-baby-info {
-  position: absolute; bottom: 20px; left: 20px;
+  position: absolute; bottom: 52px; left: 20px;
   color: #fff;
   pointer-events: none;
 }
@@ -322,7 +322,7 @@ body {
   text-shadow: 0 1px 6px rgba(0,0,0,0.3);
 }
 #hero-cam-btn {
-  position: absolute; bottom: 20px; right: 20px;
+  position: absolute; bottom: 52px; right: 20px;
   width: 44px; height: 44px; border-radius: 50%;
   background: rgba(255,255,255,0.22);
   backdrop-filter: blur(10px);
