@@ -66,7 +66,7 @@ html { height: -webkit-fill-available; overflow: hidden; }
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: #cce8f5;
+  background: #ffffff;
   color: var(--text-dark);
   min-height: 100vh;
   min-height: -webkit-fill-available;
@@ -559,7 +559,7 @@ body {
 }
 .home-content {
   padding: 20px 14px 14px;
-  background: rgba(200, 232, 248, 0.55);
+  background: rgba(255, 255, 255, 0.55);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-radius: 28px 28px 0 0;
