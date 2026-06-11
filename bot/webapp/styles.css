@@ -2152,9 +2152,9 @@ body {
 .cat-card {
   border: 1.5px solid rgba(255,255,255,0.55);
   box-shadow:
-    0 8px 28px rgba(28,25,23,0.20),
-    0 3px 8px rgba(28,25,23,0.12),
-    inset 0 1px 0 rgba(255,255,255,0.40);
+    0 5px 16px rgba(28,25,23,0.13),
+    0 2px 5px rgba(28,25,23,0.07),
+    inset 0 1px 0 rgba(255,255,255,0.35);
 }
 
 /* ── Image tiles — shadow + visible border, blik on text area only ── */
@@ -2264,8 +2264,8 @@ body {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg,
-    rgba(255,255,255,0.48) 0%,
-    rgba(255,255,255,0.16) 45%,
+    rgba(255,255,255,0.28) 0%,
+    rgba(255,255,255,0.08) 45%,
     rgba(255,255,255,0) 56%);
   pointer-events: none;
   border-radius: inherit;
@@ -2296,8 +2296,8 @@ body {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg,
-    rgba(255,255,255,0.60) 0%,
-    rgba(255,255,255,0.12) 45%,
+    rgba(255,255,255,0.36) 0%,
+    rgba(255,255,255,0.08) 45%,
     rgba(255,255,255,0) 58%);
   pointer-events: none;
   border-radius: inherit;
@@ -2322,8 +2322,8 @@ body {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg,
-    rgba(255,255,255,0.62) 0%,
-    rgba(255,255,255,0.18) 45%,
+    rgba(255,255,255,0.38) 0%,
+    rgba(255,255,255,0.08) 45%,
     rgba(255,255,255,0) 60%);
   pointer-events: none;
   border-radius: inherit;
@@ -2354,8 +2354,8 @@ body {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg,
-    rgba(255,255,255,0.60) 0%,
-    rgba(255,255,255,0.10) 45%,
+    rgba(255,255,255,0.34) 0%,
+    rgba(255,255,255,0.06) 45%,
     rgba(255,255,255,0) 58%);
   pointer-events: none;
   border-radius: inherit;
@@ -2379,8 +2379,8 @@ body {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg,
-    rgba(255,255,255,0.60) 0%,
-    rgba(255,255,255,0.10) 45%,
+    rgba(255,255,255,0.34) 0%,
+    rgba(255,255,255,0.06) 45%,
     rgba(255,255,255,0) 58%);
   pointer-events: none;
   border-radius: inherit;
@@ -2456,8 +2456,8 @@ body {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg,
-    rgba(255,255,255,0.58) 0%,
-    rgba(255,255,255,0.12) 45%,
+    rgba(255,255,255,0.32) 0%,
+    rgba(255,255,255,0.06) 45%,
     rgba(255,255,255,0) 58%);
   pointer-events: none;
   border-radius: inherit;
@@ -2534,8 +2534,8 @@ body {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg,
-    rgba(255,255,255,0.42) 0%,
-    rgba(255,255,255,0.12) 45%,
+    rgba(255,255,255,0.26) 0%,
+    rgba(255,255,255,0.06) 45%,
     rgba(255,255,255,0) 60%);
   pointer-events: none;
   border-radius: inherit;
@@ -2573,8 +2573,8 @@ body {
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg,
-    rgba(255,255,255,0.44) 0%,
-    rgba(255,255,255,0.12) 45%,
+    rgba(255,255,255,0.26) 0%,
+    rgba(255,255,255,0.06) 45%,
     rgba(255,255,255,0) 58%);
   pointer-events: none;
   border-radius: inherit;
