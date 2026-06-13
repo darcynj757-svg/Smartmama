@@ -2920,10 +2920,31 @@ body {
 .ai-banner::after, .neuro-banner::after, .moms-chat-banner::after,
 .price-banner::after, .ref-home-banner::after, .sounds-home-banner::after {
   height: 100%;
-  background: linear-gradient(135deg,
-    rgba(255,255,255,0.85) 0%,
-    rgba(255,255,255,0.36) 20%,
-    rgba(255,255,255,0.06) 42%,
-    rgba(255,255,255,0) 58%);
+  background: none;
   border-radius: inherit;
+}
+
+/* ── Remove all glare/blik overlays globally ── */
+.tile::after,
+.img-tile-body::after,
+.wide-banner::after,
+.mini-tile::after,
+.btn-pri::after,
+.btn-out::after,
+.ai-cap::after, .chip::after,
+.child-pill::after, .child-chip::after,
+.sounds-timer-chip::after, .diary-tab::after, .period-btn::after,
+.benefits-chip::after,
+.sound-card::before,
+.neuro-style-card::after, .style-card::after,
+.neuro-style-btn::after,
+.doc-item::after, .doc-card::after,
+.price-card::before,
+.price-btn::after,
+.plan-change-btn::after,
+.tr-card::after,
+.form-card::after,
+.ai-banner::after, .neuro-banner::after, .moms-chat-banner::after,
+.price-banner::after, .ref-home-banner::after, .sounds-home-banner::after {
+  background: none !important;
 }
