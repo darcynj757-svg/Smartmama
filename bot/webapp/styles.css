@@ -553,7 +553,7 @@ body {
   position: fixed;
   bottom: 0; left: 0; right: 0;
   height: calc(var(--bottomnav-h) + var(--safe-bottom) + 20px);
-  background: #ffffff;
+  background: linear-gradient(135deg, #FDDDE6 0%, #E8D5F5 55%, #C5CEF8 100%);
   z-index: 99;
   pointer-events: none;
 }
@@ -588,15 +588,16 @@ body {
   position: relative;
   transition: transform 0.15s ease, opacity 0.15s ease;
 
-  /* solid white pill */
-  background: #ffffff;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
+  /* frosted white pill over gradient floor */
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
   border-radius: 22px;
-  border: 1px solid rgba(231,228,220,0.80);
+  border: 1px solid rgba(255,255,255,0.85);
   box-shadow:
-    0 4px 16px rgba(0,0,0,0.07),
-    0 1px 4px rgba(0,0,0,0.05);
+    0 4px 20px rgba(180,150,220,0.18),
+    0 1px 4px rgba(0,0,0,0.06),
+    inset 0 1px 0 rgba(255,255,255,0.95);
   overflow: hidden;
 }
 
