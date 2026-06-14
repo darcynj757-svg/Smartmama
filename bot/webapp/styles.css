@@ -1025,7 +1025,7 @@ body {
 .ai-caps, .chips-scroll {
   display: flex; gap: 7px;
   overflow-x: auto; overflow-y: hidden;
-  padding: 2px 0 10px; margin-bottom: 4px;
+  padding: 2px 0 10px; margin-top: 10px; margin-bottom: 4px;
   scrollbar-width: none; -webkit-overflow-scrolling: touch;
 }
 .ai-caps::-webkit-scrollbar, .chips-scroll::-webkit-scrollbar { display: none; }
