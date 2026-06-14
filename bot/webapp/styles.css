@@ -565,17 +565,9 @@ body {
   pointer-events: none;
 }
 
-/* Frosted floor strictly behind the nav pills row */
+/* Floor behind the nav pills — transparent, white card covers it */
 #nav-floor {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  height: calc(var(--bottomnav-h) + var(--safe-bottom) + 10px);
-  background: rgba(255,255,255,0.82);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  border-top: 1px solid rgba(220,215,230,0.40);
-  z-index: 98;
-  pointer-events: none;
+  display: none;
 }
 
 /* ── Bottom nav — two separate floating glass pills ── */
@@ -713,7 +705,7 @@ body {
   position: fixed;
   top: 0;
   left: 0; right: 0;
-  bottom: calc(var(--bottomnav-h) + var(--safe-bottom) + 10px);
+  bottom: 0;
   overflow: hidden;
   z-index: 1;
   background: transparent;
@@ -738,7 +730,7 @@ body {
   padding: 0;
 }
 .home-content {
-  padding: 20px 14px 120px;
+  padding: 20px 14px calc(var(--bottomnav-h) + var(--safe-bottom) + 30px);
   background: #ffffff;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
@@ -747,7 +739,7 @@ body {
   z-index: 3;
   margin-top: -32px;
   box-shadow: 0 -6px 32px rgba(0,0,0,0.10);
-  min-height: calc(100dvh - 220px);
+  min-height: 100%;
   overflow: hidden;
 }
 
