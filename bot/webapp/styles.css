@@ -1055,7 +1055,8 @@ body {
 .chat-screen { overflow: hidden; padding: 0; }
 .screen.chat-screen.active {
   display: flex; flex-direction: column;
-  padding: 0 14px; overflow: hidden;
+  padding: calc(var(--safe-top) + var(--topbar-h)) 14px calc(var(--bottomnav-h) + var(--safe-bottom) + 10px);
+  overflow: hidden;
 }
 
 .chat-hdr {
