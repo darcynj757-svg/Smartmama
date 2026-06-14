@@ -624,7 +624,10 @@ body {
   background: rgba(255,255,255,0.38);
   color: #ffffff;
   border: 1.5px solid rgba(255,255,255,0.55);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.70);
+  box-shadow:
+    0 4px 10px rgba(200,80,130,0.22),
+    0 1px 3px rgba(0,0,0,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.70);
 }
 .nav-item .nav-ico svg { width: 22px; height: 22px; }
 .nav-item span:last-child { position: relative; z-index: 3; color: rgba(255,255,255,0.95); }
@@ -662,10 +665,11 @@ body {
   flex: 1;
   font-size: 14px;
   font-weight: 700;
-  color: #B8496E;
+  color: #ffffff;
   text-align: left;
   letter-spacing: 0.1px;
   white-space: nowrap;
+  text-shadow: 0 1px 3px rgba(200,80,120,0.35);
 }
 
 .nav-ai-arrow {
@@ -681,8 +685,8 @@ body {
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.75);
 }
 
-.nav-ai-btn.active { color: #B8496E; }
-.nav-ai-btn.active .nav-ai-label { color: #B8496E; }
+.nav-ai-btn.active { color: #ffffff; }
+.nav-ai-btn.active .nav-ai-label { color: #ffffff; text-shadow: 0 1px 3px rgba(200,80,120,0.35); }
 .nav-ai-btn.active .nav-ico {
   background: rgba(255,255,255,0.60);
   color: #ffffff;
