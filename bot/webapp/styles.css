@@ -622,20 +622,20 @@ body {
   border-radius: 14px;
   position: relative; z-index: 3;
   transition: background 0.2s, transform 0.15s, border-color 0.2s, box-shadow 0.2s;
-  background: linear-gradient(180deg, #fff5f9 0%, #ffe0ee 100%);
-  color: #D0507A;
-  border: 1.5px solid rgba(220,150,185,0.50);
+  background: linear-gradient(135deg, #fce8f8 0%, #ede0ff 100%);
+  color: #C040C0;
+  border: 1.5px solid rgba(190,140,230,0.45);
   box-shadow:
-    0 4px 10px rgba(200,80,130,0.18),
+    0 4px 10px rgba(160,80,210,0.18),
     0 1px 3px rgba(0,0,0,0.07),
     inset 0 1.5px 0 rgba(255,255,255,1),
-    inset 0 -1.5px 0 rgba(200,140,170,0.18);
+    inset 0 -1.5px 0 rgba(170,120,220,0.18);
 }
 .nav-item .nav-ico svg { width: 22px; height: 22px; }
 .nav-item span:last-child {
   position: relative; z-index: 3;
   font-size: 10px; font-weight: 700;
-  background: linear-gradient(90deg, #E8527A 0%, #C03878 55%, #9B2D6F 100%);
+  background: linear-gradient(90deg, #E8529A 0%, #A040C8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -668,21 +668,21 @@ body {
 .nav-ai-btn .nav-ico {
   flex-shrink: 0;
   border-radius: 14px;
-  background: linear-gradient(180deg, #fff0f7 0%, #ffd8ec 100%);
-  color: #D0507A;
-  border: 1.5px solid rgba(220,150,185,0.50);
+  background: linear-gradient(135deg, #fce8f8 0%, #ede0ff 100%);
+  color: #B040C8;
+  border: 1.5px solid rgba(190,140,230,0.45);
   box-shadow:
-    0 4px 10px rgba(200,80,130,0.18),
+    0 4px 10px rgba(160,80,210,0.18),
     0 1px 3px rgba(0,0,0,0.07),
     inset 0 1.5px 0 rgba(255,255,255,1),
-    inset 0 -1.5px 0 rgba(200,140,170,0.18);
+    inset 0 -1.5px 0 rgba(170,120,220,0.18);
 }
 
 .nav-ai-label {
   flex: 1;
   font-size: 14px;
   font-weight: 700;
-  background: linear-gradient(90deg, #E8527A 0%, #C03878 55%, #9B2D6F 100%);
+  background: linear-gradient(90deg, #E8529A 0%, #A040C8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -696,15 +696,15 @@ body {
   align-items: center;
   justify-content: center;
   width: 28px; height: 28px;
-  background: linear-gradient(180deg, #fff0f7 0%, #ffd8ec 100%);
+  background: linear-gradient(135deg, #fce8f8 0%, #ede0ff 100%);
   border-radius: 50%;
-  color: #C05880;
+  color: #A040C8;
   flex-shrink: 0;
-  border: 1.5px solid rgba(220,150,185,0.50);
+  border: 1.5px solid rgba(190,140,230,0.45);
   box-shadow:
-    0 3px 8px rgba(200,80,130,0.15),
+    0 3px 8px rgba(160,80,210,0.15),
     inset 0 1.5px 0 rgba(255,255,255,1),
-    inset 0 -1.5px 0 rgba(200,140,170,0.18);
+    inset 0 -1.5px 0 rgba(170,120,220,0.18);
 }
 
 .nav-ai-btn.active { color: #A03060; }
