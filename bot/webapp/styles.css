@@ -638,9 +638,9 @@ body {
   border-radius: 14px;
   position: relative; z-index: 3;
   transition: background 0.2s, transform 0.15s, border-color 0.2s;
-  background: rgba(200,200,210,0.18);
-  color: rgba(80,70,90,0.50);
-  border: 1.5px solid rgba(180,165,210,0.40);
+  background: rgba(180,160,220,0.15);
+  color: #9B7FC8;
+  border: 1.5px solid rgba(180,160,220,0.45);
 }
 .nav-item .nav-ico svg { width: 22px; height: 22px; }
 .nav-item span:last-child { position: relative; z-index: 3; }
