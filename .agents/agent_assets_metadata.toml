@@ -1,0 +1,37 @@
+uploads = []
+
+[[generated]]
+id = "JiGlBM_JdIEkmkoaGD8TH"
+uri = "file://attached_assets/generated_images/tarif_gift.png"
+type = "image"
+title = "tarif gift box"
+
+[[generated]]
+id = "ukBjjRk_WPh4rRAxhtGPw"
+uri = "file://attached_assets/generated_images/tarif_stars.png"
+type = "image"
+title = "tarif stars premium"
+
+[[generated]]
+id = "6MtSwt22DrYJgLTI8zN3A"
+uri = "file://attached_assets/generated_images/tarif_hearts.png"
+type = "image"
+title = "tarif hearts premium"
+
+[[outputs]]
+id = "ujAX_hEitN8S6ijOwqmm_"
+uri = "file://attached_assets/generated_images/tarif_gift.png"
+type = "image"
+title = "Вариант 1 — Подарочная коробочка"
+
+[[outputs]]
+id = "CxB9G0NWVDc8m99f22iHm"
+uri = "file://attached_assets/generated_images/tarif_stars.png"
+type = "image"
+title = "Вариант 2 — Звёзды и лавровый венок"
+
+[[outputs]]
+id = "7bea3JEtx0eu1Yfb-aZ1N"
+uri = "file://attached_assets/generated_images/tarif_hearts.png"
+type = "image"
+title = "Вариант 3 — Сердечки и бант"
