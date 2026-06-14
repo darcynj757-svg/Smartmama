@@ -1032,6 +1032,8 @@ body {
 
 .ai-cap, .chip {
   white-space: nowrap;
+  flex-shrink: 0;
+  overflow: visible;
   padding: 8px 14px;
   border-radius: var(--radius-pill);
   font-size: 13px; font-weight: 600;
@@ -2554,7 +2556,7 @@ body {
 /* ── Chips / quick-action pills ── */
 .ai-cap, .chip {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   background: rgba(255,255,255,0.84);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
