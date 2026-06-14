@@ -589,19 +589,20 @@ body {
   position: relative;
   transition: transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
 
-  /* solid white pill */
-  background: #ffffff;
+  /* Смарт-pink gradient pill */
+  background: linear-gradient(135deg, #F9A8C9 0%, #FDDDE6 65%, #EDD5F8 100%);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   border-radius: 22px;
-  border: 1px solid rgba(220,215,230,0.60);
+  border: 1px solid rgba(249,168,201,0.35);
   box-shadow:
-    0 2px 12px rgba(0,0,0,0.06),
-    0 1px 3px rgba(0,0,0,0.04);
+    0 3px 14px rgba(249,168,201,0.35),
+    0 1px 3px rgba(0,0,0,0.06),
+    inset 0 1px 0 rgba(255,255,255,0.55);
   overflow: hidden;
 }
 
-/* no pseudo-element shimmer needed on solid white pills */
+/* no pseudo-element shimmer needed */
 .nav-item::before { display: none; }
 .nav-item::after  { display: none; }
 
@@ -610,7 +611,7 @@ body {
 /* ── Home pill — compact square ── */
 .nav-item:not(.nav-ai-btn) {
   flex: 0 0 80px;
-  color: rgba(60,55,50,0.55);
+  color: rgba(255,255,255,0.85);
   gap: 4px;
   padding: 8px 6px;
 }
@@ -620,45 +621,46 @@ body {
   border-radius: 14px;
   position: relative; z-index: 3;
   transition: background 0.2s, transform 0.15s, border-color 0.2s;
-  background: rgba(180,160,220,0.15);
-  color: #9B7FC8;
-  border: 1.5px solid rgba(180,160,220,0.45);
+  background: rgba(255,255,255,0.25);
+  color: #ffffff;
+  border: 1.5px solid rgba(255,255,255,0.40);
 }
 .nav-item .nav-ico svg { width: 22px; height: 22px; }
-.nav-item span:last-child { position: relative; z-index: 3; }
+.nav-item span:last-child { position: relative; z-index: 3; color: rgba(255,255,255,0.90); }
 
-.nav-item.active:not(.nav-ai-btn) { color: #9B7FC8; }
+.nav-item.active:not(.nav-ai-btn) { color: #ffffff; }
 .nav-item.active:not(.nav-ai-btn) .nav-ico {
-  background: linear-gradient(135deg, #FDDDE6 0%, #E8D5F5 55%, #C5CEF8 100%);
+  background: rgba(255,255,255,0.40);
   color: #ffffff;
-  box-shadow: 0 3px 12px rgba(180,150,220,0.35), inset 0 1px 0 rgba(255,255,255,0.60);
+  box-shadow: 0 3px 12px rgba(249,168,201,0.40), inset 0 1px 0 rgba(255,255,255,0.70);
   transform: scale(1.08);
+  border-color: rgba(255,255,255,0.60);
 }
 
-/* ── AI Smart Mama pill — wide, icon styled like Главная ── */
+/* ── AI Smart Mama pill — wide ── */
 .nav-ai-btn {
   flex: 1;
   flex-direction: row;
   justify-content: flex-start;
   padding: 0 14px;
   gap: 12px;
-  color: rgba(60,55,50,0.55);
+  color: rgba(255,255,255,0.85);
 }
 
 .nav-ai-btn .nav-ico {
   flex-shrink: 0;
   border-radius: 14px;
-  background: linear-gradient(135deg, #FDDDE6 0%, #E8D5F5 55%, #C5CEF8 100%);
+  background: rgba(255,255,255,0.30);
   color: #ffffff;
-  border: 1.5px solid rgba(180,160,220,0.45);
-  box-shadow: 0 3px 12px rgba(180,150,220,0.35), inset 0 1px 0 rgba(255,255,255,0.60);
+  border: 1.5px solid rgba(255,255,255,0.45);
+  box-shadow: 0 2px 8px rgba(249,168,201,0.30), inset 0 1px 0 rgba(255,255,255,0.60);
 }
 
 .nav-ai-label {
   flex: 1;
   font-size: 14px;
   font-weight: 700;
-  color: #9B7FC8;
+  color: #ffffff;
   text-align: left;
   letter-spacing: 0.1px;
   white-space: nowrap;
@@ -669,21 +671,21 @@ body {
   align-items: center;
   justify-content: center;
   width: 28px; height: 28px;
-  background: linear-gradient(135deg, #FDDDE6 0%, #E8D5F5 55%, #C5CEF8 100%);
+  background: rgba(255,255,255,0.30);
   border-radius: 50%;
   color: #ffffff;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(180,150,220,0.25);
+  box-shadow: 0 2px 8px rgba(249,168,201,0.25);
 }
 
-.nav-ai-btn.active { color: #9B7FC8; }
-.nav-ai-btn.active .nav-ai-label { color: #9B7FC8; }
+.nav-ai-btn.active { color: #ffffff; }
+.nav-ai-btn.active .nav-ai-label { color: #ffffff; }
 .nav-ai-btn.active .nav-ico {
-  background: linear-gradient(135deg, #FDDDE6 0%, #E8D5F5 55%, #C5CEF8 100%);
+  background: rgba(255,255,255,0.40);
   color: #ffffff;
-  box-shadow: 0 3px 12px rgba(180,150,220,0.35), inset 0 1px 0 rgba(255,255,255,0.60);
+  box-shadow: 0 3px 12px rgba(249,168,201,0.40), inset 0 1px 0 rgba(255,255,255,0.70);
   transform: scale(1.08);
-  border-color: transparent;
+  border-color: rgba(255,255,255,0.60);
 }
 .nav-ai-btn:active { opacity: 0.8; }
 
