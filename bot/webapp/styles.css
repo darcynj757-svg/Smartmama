@@ -666,6 +666,10 @@ body {
 .nav-ai-btn .nav-ico {
   flex-shrink: 0;
   border-radius: 14px;
+  background: linear-gradient(135deg, #E8D5F5 0%, #C5B8F0 55%, #B0AEED 100%);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 3px 12px rgba(160,130,220,0.35), inset 0 1px 0 rgba(255,255,255,0.55);
 }
 
 .nav-ai-label {
