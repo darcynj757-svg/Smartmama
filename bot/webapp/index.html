@@ -782,6 +782,31 @@
   </section>
 
   <!-- ────────────── КОЛЫБЕЛЬНЫЕ ────────────── -->
+  <!-- ────────────── ТРЕНИРОВКИ ────────────── -->
+  <section id="screen-workout" class="screen chat-screen">
+    <div class="chat-hdr" style="background:linear-gradient(135deg,#F4A0C0,#C084E8)">
+      <button class="back-btn" onclick="goBack()">‹</button>
+      <div class="chat-hdr-ico">🏋️</div>
+      <div>
+        <div class="chat-hdr-title">Тренировки для мам</div>
+        <div class="chat-hdr-sub">AI-тренер подберёт упражнение</div>
+      </div>
+    </div>
+    <div class="chips-scroll">
+      <button class="chip" onclick="sendChip('workout','Тренировка для мамы на 15 минут дома')">Тренировка 15 мин</button>
+      <button class="chip" onclick="sendChip('workout','Упражнения для восстановления после родов')">После родов</button>
+      <button class="chip" onclick="sendChip('workout','Йога для мамы с малышом на руках')">Йога с малышом</button>
+      <button class="chip" onclick="sendChip('workout','Упражнения для укрепления спины и осанки')">Спина и осанка</button>
+      <button class="chip" onclick="sendChip('workout','Кардио тренировка без прыжков дома')">Кардио дома</button>
+      <button class="chip" onclick="sendChip('workout','Упражнения для живота после беременности')">Пресс после беременности</button>
+    </div>
+    <div class="msgs-area" id="workout-msgs"></div>
+    <div class="chat-bar">
+      <textarea id="workout-input" placeholder="Спроси про тренировку..." rows="1" onkeydown="chatKeydown(event,'workout')" oninput="autoResize(this)"></textarea>
+      <button class="chat-btn btn-send" onclick="sendChat('workout')">➤</button>
+    </div>
+  </section>
+
   <section id="screen-sounds" class="screen">
     <div class="page-title">🎵 Колыбельные и звуки</div>
 
@@ -843,6 +868,13 @@
         <path d="M10 20V14H14V20H19V12H22L12 3L2 12H5V20H10Z" fill="currentColor"/>
       </svg>
     </span>Главная
+  </button>
+  <button class="nav-item" onclick="go('workout')" data-screen="workout">
+    <span class="nav-ico">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14l1.43 1.43L2 7.71l1.43 1.43L2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22l1.43-1.43L16.29 22l2.14-2.14 1.43 1.43 1.43-1.43-1.43-1.43L22 16.29l-1.43-1.43z"/>
+      </svg>
+    </span>Тренировки
   </button>
   <button class="nav-item nav-ai-btn" onclick="go('aichat')" data-screen="aichat">
     <span class="nav-ico">

@@ -156,13 +156,14 @@ function sendChip(screen, text) {
 }
 
 // ─── Chat histories per screen ──────────────────────────────────────────────
-const chatHistories = { aichat: [], speech: [], games: [], nutrition: [], health: [] };
+const chatHistories = { aichat: [], speech: [], games: [], nutrition: [], health: [], workout: [] };
 const chatEndpoints = {
   aichat: '/ai/chat',
   speech: '/ai/speech-exercise',
   games: '/ai/game-idea',
   nutrition: '/ai/chat',
   health: '/ai/health-advice',
+  workout: '/ai/workout',
 };
 
 function autoResize(el) {

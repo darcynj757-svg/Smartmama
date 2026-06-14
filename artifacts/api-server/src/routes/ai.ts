@@ -129,6 +129,35 @@ router.post("/fridge", upload.single("photo"), async (req: Request, res: Respons
   }
 });
 
+// POST /api/ai/workout
+router.post("/workout", async (req: Request, res: Response): Promise<void> => {
+  const user = getUser(req.headers["x-telegram-init-data"] as string);
+  if (!user) { res.status(401).json({ error: "Unauthorized" }); return; }
+
+  const { messages, question, childName, ageMonths } = req.body;
+  if (!messages) { res.status(400).json({ error: "messages required" }); return; }
+
+  try {
+    const openai = getOpenAI();
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        {
+          role: "system",
+          content: `Ты — персональный AI-тренер приложения «Смарт Мама» для русскоязычных мам. Малышу ${childName || "малыш"} ${ageMonths || 0} месяцев. Специализируешься на тренировках для молодых мам: восстановление после родов, упражнения дома без оборудования, йога с малышом, укрепление кора и спины. Составляй конкретные программы с описанием упражнений, подходов и времени. Отвечай тепло, мотивируй, используй эмодзи умеренно. Учитывай, что мама может быть ограничена по времени и находится рядом с малышом.`,
+        },
+        ...messages,
+      ],
+      max_tokens: 1024,
+    });
+    const text = response.choices[0]?.message?.content || "";
+    res.json({ text });
+  } catch (err) {
+    logger.error({ err }, "AI workout error");
+    res.status(500).json({ error: "AI error" });
+  }
+});
+
 // POST /api/ai/food-recipe
 router.post("/food-recipe", async (req: Request, res: Response): Promise<void> => {
   const user = getUser(req.headers["x-telegram-init-data"] as string);
