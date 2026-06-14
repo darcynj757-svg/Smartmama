@@ -35,3 +35,27 @@ id = "7bea3JEtx0eu1Yfb-aZ1N"
 uri = "file://attached_assets/generated_images/tarif_hearts.png"
 type = "image"
 title = "Вариант 3 — Сердечки и бант"
+
+[[outputs]]
+id = "DBm1zuzpcnZ0s3EaC5ixW"
+uri = "file://attached_assets/stock_images/tarif_stock_1.jpg"
+type = "image"
+title = "Вариант 1"
+
+[[outputs]]
+id = "UAXHlBxwgYbTMParWU9xV"
+uri = "file://attached_assets/stock_images/tarif_stock_2.jpg"
+type = "image"
+title = "Вариант 2"
+
+[[outputs]]
+id = "cdRlSgPJaMQX_l_z5-ABl"
+uri = "file://attached_assets/stock_images/tarif_stock_3.jpg"
+type = "image"
+title = "Вариант 3"
+
+[[outputs]]
+id = "xto9l1VqtVJNpud3cO38e"
+uri = "file://attached_assets/stock_images/tarif_stock_4.jpg"
+type = "image"
+title = "Вариант 4"
