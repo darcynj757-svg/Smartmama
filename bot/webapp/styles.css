@@ -1052,7 +1052,7 @@ body {
 }
 
 /* ── Chat screens ── */
-.chat-screen { overflow: hidden; padding: 0; }
+.chat-screen { overflow: hidden; padding: 0; background: var(--surface); }
 .screen.chat-screen.active {
   display: flex; flex-direction: column;
   padding: calc(var(--safe-top) + var(--topbar-h)) 14px calc(var(--bottomnav-h) + var(--safe-bottom) + 10px);
