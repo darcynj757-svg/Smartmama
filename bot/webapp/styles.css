@@ -632,7 +632,14 @@ body {
     inset 0 -1.5px 0 rgba(200,140,170,0.18);
 }
 .nav-item .nav-ico svg { width: 22px; height: 22px; }
-.nav-item span:last-child { position: relative; z-index: 3; color: #C0567C; font-size: 10px; font-weight: 700; }
+.nav-item span:last-child {
+  position: relative; z-index: 3;
+  font-size: 10px; font-weight: 700;
+  background: linear-gradient(90deg, #E8527A 0%, #C03878 55%, #9B2D6F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
 .nav-item.active:not(.nav-ai-btn) { color: #A03060; }
 .nav-item.active:not(.nav-ai-btn) .nav-ico {
@@ -675,7 +682,10 @@ body {
   flex: 1;
   font-size: 14px;
   font-weight: 700;
-  color: #B84070;
+  background: linear-gradient(90deg, #E8527A 0%, #C03878 55%, #9B2D6F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   text-align: left;
   letter-spacing: 0.1px;
   white-space: nowrap;
@@ -698,7 +708,12 @@ body {
 }
 
 .nav-ai-btn.active { color: #A03060; }
-.nav-ai-btn.active .nav-ai-label { color: #A03060; }
+.nav-ai-btn.active .nav-ai-label {
+  background: linear-gradient(90deg, #E8527A 0%, #C03878 55%, #9B2D6F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 .nav-ai-btn.active .nav-ico {
   background: linear-gradient(180deg, #ffffff 0%, #ffd6ea 100%);
   color: #B03068;
