@@ -653,17 +653,16 @@ body {
   position: relative; z-index: 3;
   transition: background 0.2s, transform 0.15s, border-color 0.2s, box-shadow 0.2s;
   /* glass icon well */
-  background: rgba(190,220,240,0.32);
-  backdrop-filter: blur(12px) saturate(130%);
-  -webkit-backdrop-filter: blur(12px) saturate(130%);
-  color: #4AAAD0;
-  border: 1px solid rgba(200,225,245,0.60);
-  border-bottom-color: rgba(160,195,225,0.30);
+  background: linear-gradient(180deg, #ffffff 0%, #d4eef8 100%);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  color: #3D88B8;
+  border: 1px solid rgba(210,130,175,0.60);
   box-shadow:
-    0 4px 12px rgba(60,100,200,0.14),
-    0 1px 3px rgba(0,0,0,0.06),
-    inset 0 1.5px 0 rgba(255,255,255,0.65),
-    inset 0 -1px 0 rgba(140,170,220,0.18);
+    0 5px 14px rgba(60,140,200,0.28),
+    0 1px 3px rgba(0,0,0,0.09),
+    inset 0 2px 0 rgba(255,255,255,1),
+    inset 0 -2px 0 rgba(100,150,200,0.22);
 }
 .nav-item .nav-ico svg { width: 22px; height: 22px; }
 .nav-item span:last-child {
