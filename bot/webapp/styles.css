@@ -696,7 +696,8 @@ body {
   padding: 0 14px;
   gap: 12px;
   color: #4A90B8;
-  /* inherits liquid glass from .nav-item */
+  border-color: rgba(210,130,175,0.60);
+  border-bottom-color: rgba(180,200,230,0.35);
 }
 
 .nav-ai-btn .nav-ico {
@@ -739,8 +740,8 @@ body {
   border-radius: 50%;
   color: #4AAAD0;
   flex-shrink: 0;
-  border: 1px solid rgba(255,255,255,0.65);
-  border-bottom-color: rgba(160,190,230,0.30);
+  border: 1px solid rgba(210,130,175,0.60);
+  border-bottom-color: rgba(180,200,230,0.35);
   box-shadow:
     0 3px 8px rgba(60,100,200,0.12),
     inset 0 1.5px 0 rgba(255,255,255,0.95),
