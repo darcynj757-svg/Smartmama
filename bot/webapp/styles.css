@@ -696,8 +696,7 @@ body {
   padding: 0 14px;
   gap: 12px;
   color: #4A90B8;
-  border-color: rgba(210,130,175,0.60);
-  border-bottom-color: rgba(180,200,230,0.35);
+  border-color: rgba(210,130,175,0.60) !important;
 }
 
 .nav-ai-btn .nav-ico {
@@ -708,7 +707,6 @@ body {
   -webkit-backdrop-filter: blur(12px) saturate(160%);
   color: #4AAAD0;
   border: 1px solid rgba(210,130,175,0.60);
-  border-bottom-color: rgba(180,200,230,0.35);
   box-shadow:
     0 4px 12px rgba(60,100,200,0.14),
     0 1px 3px rgba(0,0,0,0.06),
@@ -741,7 +739,6 @@ body {
   color: #4AAAD0;
   flex-shrink: 0;
   border: 1px solid rgba(210,130,175,0.60);
-  border-bottom-color: rgba(180,200,230,0.35);
   box-shadow:
     0 3px 8px rgba(60,100,200,0.12),
     inset 0 1.5px 0 rgba(255,255,255,0.95),
