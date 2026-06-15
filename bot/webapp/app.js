@@ -127,6 +127,7 @@ function go(name) {
   if (name === 'home') loadHomeStats();
   if (name === 'sleep') loadSleepData();
   if (name === 'feed') loadFeedData();
+  if (name === 'workout') loadKbzhu();
   if (name === 'diary') loadDiaryData();
   if (name === 'profile') fillProfile();
   if (name === 'referral') loadReferral();
@@ -453,6 +454,137 @@ function saveFeed() {
   document.getElementById('feed-amount').value = '';
   renderFeedData();
   showToast('Кормление записано ✅');
+}
+
+// ─── КБЖУ ────────────────────────────────────────────────────────────────────
+const KBZHU_GOALS_KEY = 'kbzhu_goals';
+const kbzhuDefaultGoals = { kcal: 2300, p: 90, f: 75, c: 310 };
+const mealEmojis = ['🍽','🥗','🥞','🍲','🥩','🐟','🥚','🧀','🫐','🍎','🥕','🥑','🫙','☕'];
+
+function loadKbzhu() {
+  const today = new Date().toISOString().slice(0, 10);
+  state.kbzhuToday = JSON.parse(localStorage.getItem('kbzhu_' + today) || '[]');
+  state.kbzhuGoals = JSON.parse(localStorage.getItem(KBZHU_GOALS_KEY) || 'null') || { ...kbzhuDefaultGoals };
+  updateKbzhuTotals();
+  renderKbzhuList();
+  fillKbzhuGoalInputs();
+}
+
+function switchWorkoutTab(tab) {
+  document.getElementById('workout-tab-chat').style.display = tab === 'chat' ? 'flex' : 'none';
+  document.getElementById('workout-tab-kbzhu').style.display = tab === 'kbzhu' ? 'flex' : 'none';
+  document.getElementById('wtab-chat').classList.toggle('active', tab === 'chat');
+  document.getElementById('wtab-kbzhu').classList.toggle('active', tab === 'kbzhu');
+}
+
+function updateKbzhuTotals() {
+  const g = state.kbzhuGoals || kbzhuDefaultGoals;
+  const meals = state.kbzhuToday || [];
+  const totals = meals.reduce((acc, m) => {
+    acc.kcal += m.kcal || 0;
+    acc.p += m.p || 0;
+    acc.f += m.f || 0;
+    acc.c += m.c || 0;
+    return acc;
+  }, { kcal: 0, p: 0, f: 0, c: 0 });
+
+  const pct = (val, goal) => Math.min(100, goal > 0 ? Math.round(val / goal * 100) : 0);
+
+  document.getElementById('kbzhu-kcal-val').textContent = Math.round(totals.kcal);
+  document.getElementById('kbzhu-kcal-goal').textContent = g.kcal;
+  document.getElementById('kbzhu-kcal-bar').style.width = pct(totals.kcal, g.kcal) + '%';
+
+  document.getElementById('kbzhu-p-val').textContent = Math.round(totals.p);
+  document.getElementById('kbzhu-p-goal').textContent = g.p;
+  document.getElementById('kbzhu-p-bar').style.width = pct(totals.p, g.p) + '%';
+
+  document.getElementById('kbzhu-f-val').textContent = Math.round(totals.f);
+  document.getElementById('kbzhu-f-goal').textContent = g.f;
+  document.getElementById('kbzhu-f-bar').style.width = pct(totals.f, g.f) + '%';
+
+  document.getElementById('kbzhu-c-val').textContent = Math.round(totals.c);
+  document.getElementById('kbzhu-c-goal').textContent = g.c;
+  document.getElementById('kbzhu-c-bar').style.width = pct(totals.c, g.c) + '%';
+}
+
+function renderKbzhuList() {
+  const list = document.getElementById('kbzhu-list');
+  if (!list) return;
+  const meals = state.kbzhuToday || [];
+  if (!meals.length) {
+    list.innerHTML = '<li style="padding:14px 0;text-align:center;color:var(--text-secondary);font-size:13px">Нет приёмов пищи. Добавьте первый! 🥗</li>';
+    return;
+  }
+  list.innerHTML = meals.map((m, i) => {
+    const ico = mealEmojis[i % mealEmojis.length];
+    return `<li class="kbzhu-meal-item">
+      <span class="kbzhu-meal-ico">${ico}</span>
+      <div class="kbzhu-meal-body">
+        <div class="kbzhu-meal-name">${m.name}</div>
+        <div class="kbzhu-meal-macros">
+          <span class="km-kcal">${m.kcal} ккал</span>
+          <span class="km-p">Б ${m.p}г</span>
+          <span class="km-f">Ж ${m.f}г</span>
+          <span class="km-c">У ${m.c}г</span>
+        </div>
+      </div>
+      <button class="kbzhu-meal-del" onclick="deleteKbzhuEntry(${i})">×</button>
+    </li>`;
+  }).join('');
+}
+
+function saveKbzhuMeal() {
+  const name = document.getElementById('kbzhu-name').value.trim();
+  if (!name) { showToast('Введите название блюда'); return; }
+  const kcal = parseFloat(document.getElementById('kbzhu-kcal-in').value) || 0;
+  const p = parseFloat(document.getElementById('kbzhu-p-in').value) || 0;
+  const f = parseFloat(document.getElementById('kbzhu-f-in').value) || 0;
+  const c = parseFloat(document.getElementById('kbzhu-c-in').value) || 0;
+
+  const today = new Date().toISOString().slice(0, 10);
+  state.kbzhuToday = state.kbzhuToday || [];
+  state.kbzhuToday.push({ name, kcal, p, f, c, time: new Date().toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' }) });
+  localStorage.setItem('kbzhu_' + today, JSON.stringify(state.kbzhuToday));
+
+  document.getElementById('kbzhu-name').value = '';
+  document.getElementById('kbzhu-kcal-in').value = '';
+  document.getElementById('kbzhu-p-in').value = '';
+  document.getElementById('kbzhu-f-in').value = '';
+  document.getElementById('kbzhu-c-in').value = '';
+
+  toggleForm('kbzhu-form');
+  updateKbzhuTotals();
+  renderKbzhuList();
+  showToast('Приём пищи добавлен ✅');
+}
+
+function deleteKbzhuEntry(idx) {
+  const today = new Date().toISOString().slice(0, 10);
+  state.kbzhuToday.splice(idx, 1);
+  localStorage.setItem('kbzhu_' + today, JSON.stringify(state.kbzhuToday));
+  updateKbzhuTotals();
+  renderKbzhuList();
+}
+
+function fillKbzhuGoalInputs() {
+  const g = state.kbzhuGoals || kbzhuDefaultGoals;
+  const el = (id) => document.getElementById(id);
+  if (el('kbzhu-goal-kcal')) el('kbzhu-goal-kcal').value = g.kcal;
+  if (el('kbzhu-goal-p'))    el('kbzhu-goal-p').value = g.p;
+  if (el('kbzhu-goal-f'))    el('kbzhu-goal-f').value = g.f;
+  if (el('kbzhu-goal-c'))    el('kbzhu-goal-c').value = g.c;
+}
+
+function saveKbzhuGoals() {
+  const kcal = parseFloat(document.getElementById('kbzhu-goal-kcal').value) || kbzhuDefaultGoals.kcal;
+  const p    = parseFloat(document.getElementById('kbzhu-goal-p').value)    || kbzhuDefaultGoals.p;
+  const f    = parseFloat(document.getElementById('kbzhu-goal-f').value)    || kbzhuDefaultGoals.f;
+  const c    = parseFloat(document.getElementById('kbzhu-goal-c').value)    || kbzhuDefaultGoals.c;
+  state.kbzhuGoals = { kcal, p, f, c };
+  localStorage.setItem(KBZHU_GOALS_KEY, JSON.stringify(state.kbzhuGoals));
+  toggleForm('kbzhu-goals-form');
+  updateKbzhuTotals();
+  showToast('Норма сохранена ✅');
 }
 
 // ─── Diary ───────────────────────────────────────────────────────────────────
