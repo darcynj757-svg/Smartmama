@@ -18,6 +18,66 @@ uri = "file://attached_assets/generated_images/tarif_hearts.png"
 type = "image"
 title = "tarif hearts premium"
 
+[[generated]]
+id = "4sLheH8fDQLqB7qNaWPiZ"
+uri = "file://attached_assets/generated_images/cat-speech.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "Eknw6Yh6vudX9R9m2gyL0"
+uri = "file://attached_assets/generated_images/cat-games.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "eNMGx8vQe9VUi1ah_EXFt"
+uri = "file://attached_assets/generated_images/cat-health.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "8M0Z0KavoDw_uPsrsjjfd"
+uri = "file://attached_assets/generated_images/cat-recipes.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "zlDUfx6QDYvFHN5NuODfM"
+uri = "file://attached_assets/generated_images/cat-tips.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "-XfPUGw0pne6AEjaCgVv7"
+uri = "file://attached_assets/generated_images/cat-growth.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "v2wcBWSTaFSgtJ3eo5kEd"
+uri = "file://attached_assets/generated_images/tile-feeding.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "qVU8Qy-LoLwCH81X3tyEY"
+uri = "file://attached_assets/generated_images/tile-sleep.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "mTP3gz2NoXGgW8sxCaPYT"
+uri = "file://attached_assets/generated_images/tile-diary.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "GG0763tYzTQTXVBUIP8h2"
+uri = "file://attached_assets/generated_images/tile-nutrition.png"
+type = "image"
+title = "generated_image"
+
 [[outputs]]
 id = "ujAX_hEitN8S6ijOwqmm_"
 uri = "file://attached_assets/generated_images/tarif_gift.png"
@@ -59,3 +119,27 @@ id = "xto9l1VqtVJNpud3cO38e"
 uri = "file://attached_assets/stock_images/tarif_stock_4.jpg"
 type = "image"
 title = "Вариант 4"
+
+[[outputs]]
+id = "50hZ0Sd_f82XYtx51tqoJ"
+uri = "file://attached_assets/stock_images/tile-neuro.jpg"
+type = "image"
+title = "artistic glowing baby portrait dreamy pastel colors painterly"
+
+[[outputs]]
+id = "1WlItYXW-KhJF9P-6q1_1"
+uri = "file://attached_assets/stock_images/tile-benefits.jpg"
+type = "image"
+title = "elegant gift box pink ribbon sparkle rewards"
+
+[[outputs]]
+id = "WlWVJKlQg3KDcq_Xz65Z3"
+uri = "file://attached_assets/stock_images/tile-sounds.jpg"
+type = "image"
+title = "musical notes sound waves pastel blue lullaby peaceful"
+
+[[outputs]]
+id = "_-oY_QWTQUbtN7L4Qupv3"
+uri = "file://attached_assets/stock_images/tile-ai.jpg"
+type = "image"
+title = "friendly AI chat robot assistant blue technology"
