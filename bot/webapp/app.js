@@ -283,8 +283,8 @@ function loadHomeStats() {
       planTitle.textContent = 'Твой тариф: Стартер 🌸 ✅';
       if (planSub) planSub.textContent = `Активен до ${state.premiumUntil || ''}`;
     } else {
-      planTitle.textContent = 'Стартер 290 ₽/мес · Премиум 490 ₽/мес';
-      if (planSub) planSub.textContent = 'Попробуй бесплатно';
+      planTitle.textContent = 'Тарифы';
+      if (planSub) planSub.textContent = 'Бесплатно · 290 · 490 ₽';
     }
   }
   // Sync tracker stats on home
