@@ -696,26 +696,22 @@ body {
   padding: 0 14px;
   gap: 12px;
   color: #4A90B8;
-  border: none !important;
-  box-shadow: none !important;
-  background: transparent !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  /* inherits liquid glass from .nav-item */
 }
 
 .nav-ai-btn .nav-ico {
   flex-shrink: 0;
   border-radius: 14px;
-  background: linear-gradient(180deg, #ffffff 0%, #e8d4f0 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #d4eef8 100%);
   backdrop-filter: blur(12px) saturate(160%);
   -webkit-backdrop-filter: blur(12px) saturate(160%);
-  color: #4AAAD0;
+  color: #3D88B8;
   border: 1px solid rgba(210,130,175,0.60);
   box-shadow:
     0 5px 14px rgba(60,140,200,0.28),
     0 1px 3px rgba(0,0,0,0.09),
     inset 0 2px 0 rgba(255,255,255,1),
-    inset 0 -2px 0 rgba(180,130,210,0.22);
+    inset 0 -2px 0 rgba(100,150,200,0.22);
 }
 
 .nav-ai-label {
