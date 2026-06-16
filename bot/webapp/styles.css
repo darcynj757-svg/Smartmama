@@ -2979,6 +2979,9 @@ body {
   border-radius: inherit;
 }
 
+/* ── No shimmer modifier for specific banners ── */
+.wide-banner--no-shimmer::after { background: none !important; }
+
 /* ── Remove all glare/blik overlays globally ── */
 .tile::after,
 .img-tile-body::after,
