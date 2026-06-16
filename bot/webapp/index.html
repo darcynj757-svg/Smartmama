@@ -199,17 +199,29 @@
       </div>
     </div>
 
-    <!-- Широкие баннеры с иллюстрациями -->
-    <div class="wide-banner wide-banner--no-shimmer" onclick="go('workout')" style="--banner-bg:#EDFCFA;--banner-border:rgba(58,186,180,0.25)">
-      <div class="wide-banner-img" style="background:#D8F5F2">
-        <img src="assets/photos/tile-workout.jpg" alt="" loading="lazy">
+    <!-- Плитки тренировки и КБЖУ -->
+    <div class="img-grid">
+      <div class="img-tile" onclick="go('workout')">
+        <div class="img-tile-pic" style="background:#EDFCFA">
+          <img src="assets/photos/tile-workout.jpg" alt="" loading="lazy">
+        </div>
+        <div class="img-tile-body">
+          <div class="img-tile-name">Тренировки</div>
+          <div class="img-tile-sub">AI-тренер · Дома 🏋️</div>
+        </div>
       </div>
-      <div class="wide-banner-text">
-        <div class="wide-banner-title">Тренировки для мам</div>
-        <div class="wide-banner-sub">AI-тренер · Упражнения дома</div>
+      <div class="img-tile" onclick="goWorkoutKbzhu()">
+        <div class="img-tile-pic" style="background:#FFF8ED">
+          <img src="assets/photos/tile-feeding.jpg" alt="" loading="lazy">
+        </div>
+        <div class="img-tile-body">
+          <div class="img-tile-name">КБЖУ</div>
+          <div class="img-tile-sub">Калории · БЖУ 🥗</div>
+        </div>
       </div>
-      <div class="wide-banner-arr">›</div>
     </div>
+
+    <!-- Широкие баннеры с иллюстрациями -->
 
     <div class="wide-banner wide-banner--no-shimmer" onclick="go('sounds')" style="--banner-bg:#FDF0F8;--banner-border:rgba(220,120,180,0.25)">
       <div class="wide-banner-img" style="background:#F4D0E8">

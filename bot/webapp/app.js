@@ -851,6 +851,11 @@ function switchWorkoutTab(tab) {
   document.getElementById('wtab-kbzhu').classList.toggle('active', tab === 'kbzhu');
 }
 
+function goWorkoutKbzhu() {
+  go('workout');
+  switchWorkoutTab('kbzhu');
+}
+
 function updateKbzhuTotals() {
   const g = state.kbzhuGoals || kbzhuDefaultGoals;
   const meals = state.kbzhuToday || [];
