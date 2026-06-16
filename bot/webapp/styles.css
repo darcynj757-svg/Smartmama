@@ -2332,6 +2332,28 @@ body {
   color: #1C1917;
 }
 
+.img-tile-camera-icon--center {
+  top: 50%;
+  left: 50%;
+  bottom: auto;
+  right: auto;
+  transform: translate(-50%, -50%);
+  width: 52px;
+  height: 52px;
+  background: rgba(255,255,255,0.22);
+  border: 1px solid rgba(255,255,255,0.55);
+  backdrop-filter: blur(14px) saturate(1.6);
+  -webkit-backdrop-filter: blur(14px) saturate(1.6);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.6);
+  border-radius: 50%;
+}
+.img-tile-camera-icon--center svg {
+  width: 24px;
+  height: 24px;
+  color: #fff;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.35));
+}
+
 .img-tile-body {
   padding: 10px 12px 12px;
 }
