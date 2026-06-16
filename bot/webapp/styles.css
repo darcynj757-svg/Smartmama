@@ -7,6 +7,8 @@
   --brand-primary-dark: #4A98C0;
   --brand-teal:      #3ABAB4;
   --brand-blue:      #4A90D9;
+  --gradient-btn:    linear-gradient(135deg, #6EC8E2 0%, #4A8FD9 50%, #9B82EE 100%);
+  --gradient-btn-shadow: rgba(107,150,220,0.45);
   --brand-yellow:    #F5C842;
   --brand-green:     #42B97A;
 
@@ -1439,18 +1441,18 @@ body {
 .btn-pri {
   display: block; width: 100%;
   padding: 13px 18px;
-  background: var(--brand-primary);
+  background: var(--gradient-btn);
   color: #fff;
   font-family: 'Unbounded', sans-serif;
   font-size: 14px; font-weight: 700; letter-spacing: -0.3px;
   border: none; border-radius: var(--radius-pill);
   cursor: pointer;
   text-align: center;
-  transition: background 0.15s, transform 0.10s;
+  transition: opacity 0.15s, transform 0.10s;
   -webkit-appearance: none;
-  box-shadow: 0 4px 14px rgba(107,186,216,0.30);
+  box-shadow: 0 4px 14px var(--gradient-btn-shadow);
 }
-.btn-pri:active  { transform: scale(0.97); background: var(--brand-primary-dark); }
+.btn-pri:active  { transform: scale(0.97); opacity: 0.85; }
 .btn-pri:disabled { opacity: 0.45; cursor: not-allowed; }
 
 .btn-out {
@@ -1592,12 +1594,12 @@ body {
 }
 .price-btn.current { border-color: var(--border); cursor: default; }
 .price-btn.starter-btn {
-  background: var(--brand-primary); color: #fff; border: none;
-  box-shadow: 0 4px 14px rgba(107,186,216,0.30);
+  background: var(--gradient-btn); color: #fff; border: none;
+  box-shadow: 0 4px 14px var(--gradient-btn-shadow);
 }
 .price-btn.prem-btn {
-  background: var(--brand-blue); color: #fff; border: none;
-  box-shadow: 0 4px 14px rgba(74,144,217,0.30);
+  background: var(--gradient-btn); color: #fff; border: none;
+  box-shadow: 0 4px 14px var(--gradient-btn-shadow);
 }
 .price-btn.starter-btn:active { transform: scale(0.97); }
 .price-btn.prem-btn:active     { transform: scale(0.97); }
@@ -1623,9 +1625,9 @@ body {
   transition: all 0.12s;
 }
 .child-pill.active, .child-chip.active {
-  background: var(--brand-primary);
+  background: var(--gradient-btn);
   color: #fff;
-  border-color: var(--brand-primary);
+  border-color: transparent;
 }
 .add-child-pill, .add-child-btn {
   white-space: nowrap; padding: 7px 14px; border-radius: var(--radius-pill);
@@ -1723,7 +1725,7 @@ body {
   -webkit-appearance: none;
 }
 .sounds-timer-chip.active {
-  background: var(--brand-teal); color: #fff; border-color: var(--brand-teal);
+  background: var(--gradient-btn); color: #fff; border-color: transparent;
 }
 
 .sounds-grid {
@@ -2062,11 +2064,11 @@ body {
 .plan-until { font-size: 12px; color: var(--text-secondary); margin-top: 3px; }
 .plan-change-btn {
   padding: 8px 16px; border-radius: var(--radius-pill);
-  background: var(--brand-primary); color: #fff;
+  background: var(--gradient-btn); color: #fff;
   border: none; font-family: inherit;
   font-size: 13px; font-weight: 700; cursor: pointer;
   -webkit-appearance: none;
-  box-shadow: 0 2px 8px rgba(107,186,216,0.30);
+  box-shadow: 0 2px 8px var(--gradient-btn-shadow);
 }
 
 /* ── Plan badge ── */
@@ -2730,11 +2732,12 @@ body {
 .btn-pri {
   position: relative;
   overflow: hidden;
+  background: var(--gradient-btn);
   border: 1.5px solid rgba(255,255,255,0.40);
   box-shadow:
-    0 8px 28px rgba(107,186,216,0.52),
-    0 3px 10px rgba(107,186,216,0.30),
-    0 1px 3px rgba(107,186,216,0.20),
+    0 8px 28px rgba(107,130,235,0.45),
+    0 3px 10px rgba(107,150,220,0.30),
+    0 1px 3px rgba(107,130,235,0.20),
     inset 0 1.5px 0 rgba(255,255,255,0.50),
     inset 0 -2px 0 rgba(0,0,0,0.16);
 }
