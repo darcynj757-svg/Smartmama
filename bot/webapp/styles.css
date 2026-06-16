@@ -722,7 +722,7 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke: 0;
-  filter: drop-shadow(0 0 6px rgba(180, 140, 220, 0.55));
+  filter: drop-shadow(0 0 8px rgba(200, 160, 240, 0.90)) drop-shadow(0 0 18px rgba(140, 100, 210, 0.60));
   background-clip: text;
   text-align: left;
   letter-spacing: -0.3px;
