@@ -239,6 +239,9 @@ function go(name) {
   // AI FAB: hide on aichat screen
   const fab = document.getElementById('ai-fab');
   if (fab) fab.classList.toggle('hidden', name === 'aichat');
+  // Diary FAB: only visible on diary screen
+  const diaryFab = document.querySelector('.diary-fab');
+  if (diaryFab) diaryFab.style.display = name === 'diary' ? '' : 'none';
   // Hero photo fixed: only visible on home screen
   const heroFixed = document.getElementById('hero-photo-fixed');
   if (heroFixed) heroFixed.style.display = name === 'home' ? 'block' : 'none';
@@ -863,37 +866,58 @@ let currentDiaryTab = 'all';
 function loadDiaryData() {
   state.diaryEntries = JSON.parse(localStorage.getItem('diary') || '[]');
   renderDiaryEntries();
-  updateDiaryChildCard();
+  updateDiaryHero();
 }
 
-function updateDiaryChildCard() {
-  const nameEl = document.getElementById('diary-child-name');
-  const infoEl = document.getElementById('diary-child-info');
+function updateDiaryHero() {
+  const nameEl = document.getElementById('diary-hero-name');
+  const ageEl  = document.getElementById('diary-hero-age');
+  const statsEl = document.getElementById('diary-hero-stats');
   if (nameEl) nameEl.textContent = state.childName || 'Малыш';
-  if (infoEl) {
+  if (ageEl)  ageEl.textContent  = state.childAge ? `${state.childAge} мес` : '';
+  if (statsEl) {
     const lastHW = state.diaryEntries.find(e => e.type === 'height');
-    const ageStr = state.childAge ? `${state.childAge} мес` : '';
-    const hwStr = lastHW ? `· ${lastHW.value}` : '';
-    infoEl.textContent = [state.region, ageStr, hwStr].filter(Boolean).join(' ');
+    let pills = '';
+    if (lastHW && lastHW.value) {
+      const parts = lastHW.value.split(',');
+      parts.forEach(p => {
+        pills += `<span class="diary-stat-pill">${p.trim()}</span>`;
+      });
+    }
+    statsEl.innerHTML = pills;
   }
 }
 
 function renderDiaryEntries() {
-  const list = document.getElementById('diary-list');
+  const list  = document.getElementById('diary-list');
+  const empty = document.getElementById('diary-empty');
   if (!list) return;
   let entries = state.diaryEntries;
   if (currentDiaryTab !== 'all') entries = entries.filter(e => e.type === currentDiaryTab);
   entries = [...entries].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-  list.innerHTML = entries.map(e => `
-    <li class="entry-item">
-      <span class="entry-ico">${diaryTypeEmoji[e.type] || '📝'}</span>
-      <div class="entry-text">
-        <div class="entry-main">${e.title || e.type}</div>
-        <div class="entry-sub">${e.value || ''}</div>
-      </div>
-      <span class="entry-time">${e.date || ''}</span>
-    </li>
-  `).join('') || '<li style="padding:20px;text-align:center;color:var(--text-secondary)">Записей пока нет</li>';
+  if (entries.length === 0) {
+    list.innerHTML = '';
+    if (empty) empty.style.display = '';
+  } else {
+    if (empty) empty.style.display = 'none';
+    list.innerHTML = entries.map(e => `
+      <li class="diary-tl-item">
+        <span class="diary-tl-ico">${diaryTypeEmoji[e.type] || '📝'}</span>
+        <div class="diary-tl-body">
+          <div class="diary-tl-type">${e.title || e.type}</div>
+          <div class="diary-tl-val">${e.value || '—'}</div>
+          <div class="diary-tl-date">${e.date || ''}</div>
+        </div>
+      </li>
+    `).join('');
+  }
+}
+
+function setDiaryPane(pane, btn) {
+  document.querySelectorAll('.diary-seg').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('diary-pane-entries').style.display = pane === 'entries' ? '' : 'none';
+  document.getElementById('diary-pane-docs').style.display    = pane === 'docs'    ? '' : 'none';
 }
 
 function setDiaryTab(tab, btn) {

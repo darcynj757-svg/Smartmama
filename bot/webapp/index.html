@@ -17,7 +17,7 @@
     #app{position:fixed;top:0;left:0;right:0;bottom:calc(var(--bottomnav-h) + var(--safe-bottom));overflow:hidden;z-index:1;background:transparent}
     #bg-anim{display:block;position:fixed;inset:-15% -5%;width:110%;height:130%;z-index:0;overflow:hidden;pointer-events:none;background:transparent}
   </style>
-  <link rel="stylesheet" href="styles.css?v=23" onerror="this.onerror=null;this.href=''">
+  <link rel="stylesheet" href="styles.css?v=24" onerror="this.onerror=null;this.href=''">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
@@ -508,38 +508,59 @@
 
   <!-- ────────────── ДНЕВНИК ────────────── -->
   <section id="screen-diary" class="screen">
-    <div class="diary-child-card" id="diary-child-card">
-      <div class="diary-child-ico">👶</div>
-      <div>
-        <div class="diary-child-name" id="diary-child-name">Малыш</div>
-        <div class="diary-child-info" id="diary-child-info">Загрузка...</div>
+
+    <!-- ── Hero header ── -->
+    <div class="diary-hero" id="diary-hero">
+      <div class="diary-hero-left">
+        <div class="diary-hero-avatar" id="diary-hero-avatar">👶</div>
+        <div class="diary-hero-info">
+          <div class="diary-hero-name" id="diary-hero-name">Малыш</div>
+          <div class="diary-hero-age" id="diary-hero-age"></div>
+        </div>
+      </div>
+      <div class="diary-hero-stats" id="diary-hero-stats"></div>
+    </div>
+
+    <!-- ── Segment control ── -->
+    <div class="diary-segment">
+      <button class="diary-seg active" id="diary-seg-entries" onclick="setDiaryPane('entries',this)">📋 Записи</button>
+      <button class="diary-seg" id="diary-seg-docs" onclick="setDiaryPane('docs',this)">📁 Документы</button>
+    </div>
+
+    <!-- ── Pane: Записи ── -->
+    <div id="diary-pane-entries">
+      <div class="diary-tabs" id="diary-tabs">
+        <button class="diary-tab active" onclick="setDiaryTab('all',this)">Все</button>
+        <button class="diary-tab" onclick="setDiaryTab('height',this)">📏 Рост</button>
+        <button class="diary-tab" onclick="setDiaryTab('vaccine',this)">💉 Прививки</button>
+        <button class="diary-tab" onclick="setDiaryTab('illness',this)">😷 Болезни</button>
+        <button class="diary-tab" onclick="setDiaryTab('event',this)">🎉 События</button>
+      </div>
+      <ul class="diary-timeline" id="diary-list"></ul>
+      <div class="diary-empty" id="diary-empty" style="display:none">
+        <div class="diary-empty-ico">📖</div>
+        <div class="diary-empty-title">Записей пока нет</div>
+        <div class="diary-empty-sub">Нажми + чтобы добавить первую</div>
       </div>
     </div>
 
-    <div class="sec-title">Документы</div>
-    <div class="diary-docs-grid">
-      <div class="doc-item" onclick="openDocModal('Паспорт','📗')"><div class="doc-ico">📗</div><div class="doc-name">Паспорт</div></div>
-      <div class="doc-item" onclick="openDocModal('СНИЛС','🪪')"><div class="doc-ico">🪪</div><div class="doc-name">СНИЛС</div></div>
-      <div class="doc-item" onclick="openDocModal('Полис ОМС','🏥')"><div class="doc-ico">🏥</div><div class="doc-name">Полис ОМС</div></div>
-      <div class="doc-item" onclick="openDocModal('Свидетельство о рождении','📜')"><div class="doc-ico">📜</div><div class="doc-name">Свид. о рождении</div></div>
-      <div class="doc-item" onclick="openDocModal('Справка от врача','👨‍⚕️')"><div class="doc-ico">👨‍⚕️</div><div class="doc-name">Справка врача</div></div>
-      <div class="doc-item" onclick="openDocModal('Рецепт','💊')"><div class="doc-ico">💊</div><div class="doc-name">Рецепт</div></div>
-      <div class="doc-item" onclick="openDocModal('Прививочная карта','💉')"><div class="doc-ico">💉</div><div class="doc-name">Прививки</div></div>
-      <div class="doc-item" onclick="openDocModal('Другое','📁')"><div class="doc-ico">📁</div><div class="doc-name">Другое</div></div>
+    <!-- ── Pane: Документы ── -->
+    <div id="diary-pane-docs" style="display:none">
+      <div class="diary-docs-grid">
+        <div class="doc-item" onclick="openDocModal('Паспорт','📗')"><div class="doc-ico">📗</div><div class="doc-name">Паспорт</div></div>
+        <div class="doc-item" onclick="openDocModal('СНИЛС','🪪')"><div class="doc-ico">🪪</div><div class="doc-name">СНИЛС</div></div>
+        <div class="doc-item" onclick="openDocModal('Полис ОМС','🏥')"><div class="doc-ico">🏥</div><div class="doc-name">Полис ОМС</div></div>
+        <div class="doc-item" onclick="openDocModal('Свид. о рождении','📜')"><div class="doc-ico">📜</div><div class="doc-name">Свид. о рождении</div></div>
+        <div class="doc-item" onclick="openDocModal('Справка врача','👨‍⚕️')"><div class="doc-ico">👨‍⚕️</div><div class="doc-name">Справка врача</div></div>
+        <div class="doc-item" onclick="openDocModal('Рецепт','💊')"><div class="doc-ico">💊</div><div class="doc-name">Рецепт</div></div>
+        <div class="doc-item" onclick="openDocModal('Прививочная карта','💉')"><div class="doc-ico">💉</div><div class="doc-name">Прививки</div></div>
+        <div class="doc-item" onclick="openDocModal('Другое','📁')"><div class="doc-ico">📁</div><div class="doc-name">Другое</div></div>
+      </div>
     </div>
 
-    <div style="display:flex;justify-content:flex-end;margin-bottom:14px">
-      <button class="btn-pri" onclick="openAddDiaryModal()" style="max-width:200px">+ Добавить запись</button>
-    </div>
+    <!-- ── FAB ── -->
+    <button class="diary-fab" onclick="openAddDiaryModal()" aria-label="Добавить запись" style="display:none">＋</button>
 
-    <div class="diary-tabs" id="diary-tabs">
-      <button class="diary-tab active" onclick="setDiaryTab('all',this)">Все</button>
-      <button class="diary-tab" onclick="setDiaryTab('height',this)">Рост</button>
-      <button class="diary-tab" onclick="setDiaryTab('vaccine',this)">Прививки</button>
-      <button class="diary-tab" onclick="setDiaryTab('illness',this)">Болезни</button>
-      <button class="diary-tab" onclick="setDiaryTab('event',this)">События</button>
-    </div>
-    <ul class="entry-list" id="diary-list"></ul>
   </section>
 
   <!-- ────────────── ВЫПЛАТЫ ────────────── -->
