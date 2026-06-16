@@ -84,6 +84,12 @@ uri = "file://bot/webapp/assets/photos/cat-health.png"
 type = "image"
 title = "generated_image"
 
+[[generated]]
+id = "Af8RgWBAOa33ps_ArMXKD"
+uri = "file://bot/webapp/assets/photos/tile-benefits.png"
+type = "image"
+title = "generated_image"
+
 [[outputs]]
 id = "ujAX_hEitN8S6ijOwqmm_"
 uri = "file://attached_assets/generated_images/tarif_gift.png"
