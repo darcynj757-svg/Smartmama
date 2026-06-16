@@ -465,16 +465,48 @@
   <!-- ────────────── ТРЕКЕР ПИТАНИЯ ────────────── -->
   <section id="screen-feed" class="screen">
     <div class="page-title">🍼 Трекер питания</div>
-    <div class="tr-card teal">
-      <div class="tr-title">Кормлений сегодня</div>
-      <div class="tr-val" id="feed-val">0</div>
-      <div class="tr-norm" id="feed-norm-txt">Норма: —</div>
-      <div class="tr-bar-bg"><div class="tr-bar" id="feed-bar" style="width:0%"></div></div>
+
+    <!-- Hero: ring counter -->
+    <div class="feed-hero">
+      <div class="feed-hero-ring">
+        <svg class="feed-ring-svg" viewBox="0 0 100 100">
+          <circle class="feed-ring-track" cx="50" cy="50" r="38"/>
+          <circle class="feed-ring-fill" id="feed-ring-fill" cx="50" cy="50" r="38"
+            stroke-dasharray="238.76"
+            stroke-dashoffset="238.76"/>
+        </svg>
+        <div class="feed-ring-center">
+          <div class="feed-ring-val" id="feed-val">0</div>
+          <div class="feed-ring-label">кормлений</div>
+        </div>
+      </div>
+      <div class="feed-hero-info">
+        <div class="feed-hero-norm-label">Норма сегодня</div>
+        <div class="feed-hero-norm" id="feed-norm-txt">—</div>
+        <div class="feed-hero-bar-wrap">
+          <div class="feed-hero-bar" id="feed-bar" style="width:0%"></div>
+        </div>
+        <div class="feed-hero-hint" id="feed-hero-hint"></div>
+      </div>
     </div>
 
+    <!-- Быстрое добавление -->
+    <div class="feed-quick-section">
+      <div class="feed-quick-label">Быстрое добавление</div>
+      <div class="feed-quick-grid">
+        <button class="feed-quick-btn" onclick="quickLog('breast')"><span>🤱</span><span>Грудь</span></button>
+        <button class="feed-quick-btn" onclick="quickLog('formula')"><span>🍼</span><span>Смесь</span></button>
+        <button class="feed-quick-btn" onclick="quickLog('puree')"><span>🥄</span><span>Пюре</span></button>
+        <button class="feed-quick-btn" onclick="quickLog('porridge')"><span>🥣</span><span>Каша</span></button>
+        <button class="feed-quick-btn" onclick="quickLog('fruit')"><span>🍎</span><span>Фрукт</span></button>
+        <button class="feed-quick-btn" onclick="quickLog('water')"><span>💧</span><span>Вода</span></button>
+      </div>
+    </div>
+
+    <!-- Детальная форма -->
     <div class="form-card">
       <div class="form-toggle" onclick="toggleForm('feed-form')">
-        <span class="form-toggle-title">+ Добавить кормление</span>
+        <span class="form-toggle-title">+ Добавить с деталями</span>
         <span id="feed-form-arrow">▼</span>
       </div>
       <div class="form-body" id="feed-form" style="display:none">
@@ -500,15 +532,33 @@
       </div>
     </div>
 
+    <!-- Записи за сегодня -->
     <div class="sec-title">Сегодня</div>
     <ul class="entry-list" id="feed-list"></ul>
 
-    <div class="sec-title" style="margin-top:18px">Нормы питания по возрасту</div>
-    <div class="norm-list">
-      <div class="norm-item"><span>до 6 мес (ГВ/смесь)</span><span class="norm-val">8–12 раз/сут</span></div>
-      <div class="norm-item"><span>6–9 мес</span><span class="norm-val">ГВ + прикорм 1–2 раза</span></div>
-      <div class="norm-item"><span>9–12 мес</span><span class="norm-val">4–5 кормлений/сут</span></div>
-      <div class="norm-item"><span>1–3 года</span><span class="norm-val">4–5 приёмов пищи/сут</span></div>
+    <!-- Нормы по возрасту -->
+    <div class="sec-title" style="margin-top:18px">Нормы по возрасту</div>
+    <div class="feed-norms-grid">
+      <div class="feed-norm-card">
+        <div class="feed-norm-card-age">до 6 мес</div>
+        <div class="feed-norm-card-type">ГВ / смесь</div>
+        <div class="feed-norm-card-val">8–12 <span>раз/сут</span></div>
+      </div>
+      <div class="feed-norm-card">
+        <div class="feed-norm-card-age">6–9 мес</div>
+        <div class="feed-norm-card-type">ГВ + прикорм</div>
+        <div class="feed-norm-card-val">6–8 <span>раз/сут</span></div>
+      </div>
+      <div class="feed-norm-card">
+        <div class="feed-norm-card-age">9–12 мес</div>
+        <div class="feed-norm-card-type">Прикорм</div>
+        <div class="feed-norm-card-val">4–5 <span>кормл/сут</span></div>
+      </div>
+      <div class="feed-norm-card">
+        <div class="feed-norm-card-age">1–3 года</div>
+        <div class="feed-norm-card-type">Взрослый стол</div>
+        <div class="feed-norm-card-val">4–5 <span>приёмов/сут</span></div>
+      </div>
     </div>
   </section>
 
@@ -1051,6 +1101,10 @@
     <linearGradient id="navArrowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#3AAED8"/>
       <stop offset="100%" stop-color="#8B6FD0"/>
+    </linearGradient>
+    <linearGradient id="feedRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#64C8BE"/>
+      <stop offset="100%" stop-color="#6BA0EB"/>
     </linearGradient>
   </defs>
 </svg>

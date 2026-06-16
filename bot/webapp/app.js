@@ -682,30 +682,61 @@ function loadFeedData() {
 function renderFeedData() {
   const count = state.feedToday.length;
   const norm = getFeedNorm(state.childAge);
-  const valEl = document.getElementById('feed-val');
+  const pct = Math.min(100, Math.round((count / norm.max) * 100));
+
+  const valEl  = document.getElementById('feed-val');
   const normEl = document.getElementById('feed-norm-txt');
-  const barEl = document.getElementById('feed-bar');
-  if (valEl) valEl.textContent = count;
-  if (normEl) normEl.textContent = `Норма: ${norm.label}`;
-  if (barEl) {
-    const pct = Math.min(100, Math.round((count / norm.max) * 100));
-    barEl.style.width = pct + '%';
+  const barEl  = document.getElementById('feed-bar');
+  const ringEl = document.getElementById('feed-ring-fill');
+  const hintEl = document.getElementById('feed-hero-hint');
+
+  if (valEl)  valEl.textContent  = count;
+  if (normEl) normEl.textContent = norm.label;
+  if (barEl)  barEl.style.width  = pct + '%';
+
+  // Animate SVG ring (circumference = 2π×38 ≈ 238.76)
+  if (ringEl) {
+    const circ = 238.76;
+    ringEl.style.strokeDashoffset = circ * (1 - pct / 100);
+  }
+
+  // Hint text
+  if (hintEl) {
+    const remaining = norm.max - count;
+    if (count === 0)         hintEl.textContent = 'Ещё не кормили сегодня';
+    else if (remaining > 0)  hintEl.textContent = `Ещё ${remaining} до нормы`;
+    else                     hintEl.textContent = '✅ Норма выполнена!';
   }
 
   const list = document.getElementById('feed-list');
   if (list) {
-    list.innerHTML = state.feedToday.map(f => `
-      <li class="entry-item">
-        <span class="entry-ico">${feedTypeEmoji[f.type] || '🍽'}</span>
-        <div class="entry-text">
-          <div class="entry-main">${feedTypeLabel[f.type] || f.type}</div>
-          <div class="entry-sub">${f.amount || ''}</div>
-        </div>
-        <span class="entry-time">${f.time}</span>
-      </li>
-    `).join('');
+    if (state.feedToday.length === 0) {
+      list.innerHTML = '<li style="text-align:center;padding:16px 0;color:var(--text-hint);font-size:13px">Кормлений пока нет — нажми тип питания выше</li>';
+    } else {
+      list.innerHTML = state.feedToday.slice().reverse().map(f => `
+        <li class="entry-item">
+          <span class="entry-ico">${feedTypeEmoji[f.type] || '🍽'}</span>
+          <div class="entry-text">
+            <div class="entry-main">${feedTypeLabel[f.type] || f.type}</div>
+            <div class="entry-sub">${f.amount || ''}</div>
+          </div>
+          <span class="entry-time">${f.time}</span>
+        </li>
+      `).join('');
+    }
   }
   updateHomeTrackerStats();
+}
+
+function quickLog(type) {
+  const now = new Date();
+  const time = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+  const today = now.toISOString().split('T')[0];
+  const entry = { time, type, amount: '', date: today };
+  state.feedToday.push(entry);
+  localStorage.setItem('feed_' + today, JSON.stringify(state.feedToday));
+  renderFeedData();
+  showToast(`${feedTypeEmoji[type]} ${feedTypeLabel[type]} записано ✅`);
 }
 
 function saveFeed() {
