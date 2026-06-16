@@ -176,12 +176,57 @@ function chatKeydown(e, screen) {
   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(screen); }
 }
 
+function renderMarkdown(text) {
+  const lines = text.split('\n');
+  const result = [];
+  let inOl = false, inUl = false;
+
+  const closeLists = () => {
+    if (inOl) { result.push('</ol>'); inOl = false; }
+    if (inUl) { result.push('</ul>'); inUl = false; }
+  };
+
+  const inlineFormat = (line) =>
+    line
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const olMatch = line.match(/^(\d+)\.\s+(.+)/);
+    const ulMatch = line.match(/^[-•]\s+(.+)/);
+
+    if (olMatch) {
+      if (!inOl) { closeLists(); result.push('<ol>'); inOl = true; }
+      result.push(`<li>${inlineFormat(olMatch[2])}</li>`);
+    } else if (ulMatch) {
+      if (!inUl) { closeLists(); result.push('<ul>'); inUl = true; }
+      result.push(`<li>${inlineFormat(ulMatch[1])}</li>`);
+    } else {
+      closeLists();
+      const formatted = inlineFormat(line);
+      if (formatted.trim() === '') {
+        if (i < lines.length - 1) result.push('<br>');
+      } else {
+        result.push(`<p>${formatted}</p>`);
+      }
+    }
+  }
+  closeLists();
+  return result.join('');
+}
+
 function appendMsg(msgsId, text, role) {
   const area = document.getElementById(msgsId);
   if (!area) return;
   const div = document.createElement('div');
   div.className = 'msg ' + role;
-  div.innerHTML = text.replace(/\n/g, '<br>').replace(/<(?!br\s*\/?)[^>]+>/g, s => s);
+  if (role === 'ai' && !role.includes('typing')) {
+    div.innerHTML = renderMarkdown(text);
+  } else {
+    div.textContent = text;
+  }
   area.appendChild(div);
   area.scrollTop = area.scrollHeight;
   return div;

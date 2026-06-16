@@ -1194,6 +1194,39 @@ body {
   box-shadow: var(--shadow-sm);
   border-bottom-left-radius: 5px;
 }
+
+.msg.ai p {
+  margin: 0 0 6px;
+}
+.msg.ai p:last-child { margin-bottom: 0; }
+
+.msg.ai strong {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+.msg.ai em {
+  font-style: italic;
+}
+
+.msg.ai ol,
+.msg.ai ul {
+  margin: 4px 0 6px;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.msg.ai ol { list-style: decimal; }
+.msg.ai ul { list-style: disc; }
+
+.msg.ai li {
+  line-height: 1.5;
+  padding-left: 2px;
+}
+.msg.ai li strong {
+  font-weight: 600;
+}
+
 .msg.typing { opacity: 0.6; font-style: italic; }
 
 .chat-bar {
