@@ -320,4 +320,29 @@ router.post("/health-advice", async (req: Request, res: Response): Promise<void>
   }
 });
 
+// POST /api/ai/transcribe
+router.post("/transcribe", upload.single("audio"), async (req: Request, res: Response): Promise<void> => {
+  const user = getUser(req.headers["x-telegram-init-data"] as string);
+  if (!user) { res.status(401).json({ error: "Unauthorized" }); return; }
+
+  const file = req.file;
+  if (!file) { res.status(400).json({ error: "audio required" }); return; }
+
+  try {
+    const openai = getOpenAI();
+    const { toFile } = await import("openai");
+    const ext = file.mimetype.includes("webm") ? "webm" : file.mimetype.includes("mp4") ? "mp4" : "webm";
+    const audioFile = await toFile(file.buffer, `voice.${ext}`, { type: file.mimetype });
+    const transcription = await openai.audio.transcriptions.create({
+      file: audioFile,
+      model: "whisper-1",
+      language: "ru",
+    });
+    res.json({ text: transcription.text });
+  } catch (err) {
+    logger.error({ err }, "AI transcribe error");
+    res.status(500).json({ error: "Transcription error" });
+  }
+});
+
 export default router;

@@ -279,6 +279,7 @@
       <button class="chat-btn btn-cam" onclick="document.getElementById('aichat-photo-input').click()">📷</button>
       <input type="file" id="aichat-photo-input" accept="image/*" style="display:none" onchange="sendPhotoChat('aichat',this)">
       <textarea id="aichat-input" placeholder="Задай вопрос о малыше..." rows="1" onkeydown="chatKeydown(event,'aichat')" oninput="autoResize(this)"></textarea>
+      <button id="aichat-mic-btn" class="chat-btn btn-mic" onclick="toggleVoice('aichat')">🎙️</button>
       <button class="chat-btn btn-send" onclick="sendChat('aichat')">➤</button>
     </div>
   </section>
@@ -304,6 +305,7 @@
     <div class="msgs-area" id="speech-msgs"></div>
     <div class="chat-bar">
       <textarea id="speech-input" placeholder="Вопрос о речи малыша..." rows="1" onkeydown="chatKeydown(event,'speech')" oninput="autoResize(this)"></textarea>
+      <button id="speech-mic-btn" class="chat-btn btn-mic" onclick="toggleVoice('speech')">🎙️</button>
       <button class="chat-btn btn-send" onclick="sendChat('speech')">➤</button>
     </div>
   </section>
@@ -329,6 +331,7 @@
     <div class="msgs-area" id="games-msgs"></div>
     <div class="chat-bar">
       <textarea id="games-input" placeholder="Идея игры для малыша..." rows="1" onkeydown="chatKeydown(event,'games')" oninput="autoResize(this)"></textarea>
+      <button id="games-mic-btn" class="chat-btn btn-mic" onclick="toggleVoice('games')">🎙️</button>
       <button class="chat-btn btn-send" onclick="sendChat('games')">➤</button>
     </div>
   </section>
@@ -363,6 +366,7 @@
     <div class="msgs-area" id="nutrition-msgs"></div>
     <div class="chat-bar">
       <textarea id="nutrition-input" placeholder="Вопрос о питании..." rows="1" onkeydown="chatKeydown(event,'nutrition')" oninput="autoResize(this)"></textarea>
+      <button id="nutrition-mic-btn" class="chat-btn btn-mic" onclick="toggleVoice('nutrition')">🎙️</button>
       <button class="chat-btn btn-send" onclick="sendChat('nutrition')">➤</button>
     </div>
   </section>
@@ -392,6 +396,7 @@
       <button class="chat-btn btn-cam" onclick="document.getElementById('health-photo-input').click()">📷</button>
       <input type="file" id="health-photo-input" accept="image/*" style="display:none" onchange="sendPhotoChat('health',this)">
       <textarea id="health-input" placeholder="Опиши симптомы..." rows="1" onkeydown="chatKeydown(event,'health')" oninput="autoResize(this)"></textarea>
+      <button id="health-mic-btn" class="chat-btn btn-mic" onclick="toggleVoice('health')">🎙️</button>
       <button class="chat-btn btn-send" onclick="sendChat('health')">➤</button>
     </div>
   </section>
@@ -828,6 +833,7 @@
       <div class="msgs-area" id="workout-msgs"></div>
       <div class="chat-bar">
         <textarea id="workout-input" placeholder="Спроси про тренировку..." rows="1" onkeydown="chatKeydown(event,'workout')" oninput="autoResize(this)"></textarea>
+        <button id="workout-mic-btn" class="chat-btn btn-mic" onclick="toggleVoice('workout')">🎙️</button>
         <button class="chat-btn btn-send" onclick="sendChat('workout')">➤</button>
       </div>
     </div>

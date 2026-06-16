@@ -217,6 +217,96 @@ function renderMarkdown(text) {
   return result.join('');
 }
 
+// ─── Voice recording ───────────────────────────────────────────────────────
+let _voiceRecorder = null;
+let _voiceChunks   = [];
+let _voiceScreen   = null;
+
+async function toggleVoice(screen) {
+  if (_voiceRecorder && _voiceRecorder.state === 'recording') {
+    _voiceRecorder.stop();
+    const btn = document.getElementById(screen + '-mic-btn');
+    if (btn) { btn.classList.remove('recording'); btn.textContent = '🎙️'; }
+  } else {
+    await _startVoiceRecording(screen);
+  }
+}
+
+async function _startVoiceRecording(screen) {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    showToast('Голосовой ввод не поддерживается браузером');
+    return;
+  }
+  let stream;
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  } catch {
+    showToast('Нет доступа к микрофону');
+    return;
+  }
+
+  _voiceChunks = [];
+  _voiceScreen = screen;
+
+  const mimeType = ['audio/webm;codecs=opus','audio/webm','audio/ogg','audio/mp4']
+    .find(t => MediaRecorder.isTypeSupported(t)) || '';
+  _voiceRecorder = new MediaRecorder(stream, mimeType ? { mimeType } : {});
+  _voiceRecorder.ondataavailable = e => { if (e.data && e.data.size > 0) _voiceChunks.push(e.data); };
+  _voiceRecorder.onstop = () => _handleVoiceStop(stream);
+  _voiceRecorder.start();
+
+  const btn = document.getElementById(screen + '-mic-btn');
+  if (btn) { btn.classList.add('recording'); btn.textContent = '⏹'; }
+}
+
+async function _handleVoiceStop(stream) {
+  stream.getTracks().forEach(t => t.stop());
+
+  const chunks  = _voiceChunks;
+  const screen  = _voiceScreen;
+  _voiceChunks  = [];
+  _voiceScreen  = null;
+  _voiceRecorder = null;
+
+  if (!chunks.length || !screen) return;
+
+  const blob = new Blob(chunks, { type: chunks[0].type || 'audio/webm' });
+  if (blob.size < 500) { showToast('Слишком короткая запись'); return; }
+
+  const msgsId = screen + '-msgs';
+  const typing = appendMsg(msgsId, '🎙️ распознаю речь...', 'ai typing');
+
+  try {
+    const fd = new FormData();
+    fd.append('audio', blob, 'voice.webm');
+
+    const BASE = window.API_BASE || '';
+    const initData = window.Telegram?.WebApp?.initData || '';
+    const resp = await fetch(BASE + '/api/ai/transcribe', {
+      method: 'POST',
+      headers: initData ? { 'X-Telegram-Init-Data': initData } : {},
+      body: fd,
+    });
+    const data = await resp.json();
+    typing?.remove();
+
+    if (data.text && data.text.trim()) {
+      const input = document.getElementById(screen + '-input');
+      if (input) {
+        input.value = data.text.trim();
+        autoResize(input);
+        sendChat(screen);
+      }
+    } else {
+      showToast('Речь не распознана, попробуй ещё раз');
+    }
+  } catch {
+    typing?.remove();
+    showToast('Ошибка распознавания, попробуй ещё раз');
+  }
+}
+// ──────────────────────────────────────────────────────────────────────────────
+
 function appendMsg(msgsId, text, role) {
   const area = document.getElementById(msgsId);
   if (!area) return;

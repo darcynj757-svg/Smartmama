@@ -1274,6 +1274,24 @@ body {
   border: 1px solid var(--border);
 }
 
+.btn-mic {
+  background: var(--surface-3);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  font-size: 20px;
+}
+.btn-mic.recording {
+  background: #FF4B4B;
+  color: #fff;
+  border: none;
+  box-shadow: 0 0 0 3px rgba(255,75,75,0.25);
+  animation: pulse-mic 1.2s ease-in-out infinite;
+}
+@keyframes pulse-mic {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(255,75,75,0.25); }
+  50%       { box-shadow: 0 0 0 7px rgba(255,75,75,0.08); }
+}
+
 .ai-counter {
   text-align: center; font-size: 11px;
   color: var(--text-secondary); padding: 2px 0; flex-shrink: 0;
