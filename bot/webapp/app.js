@@ -1205,7 +1205,18 @@ function previewNeuroPhoto(input) {
   state.neuroPhotoFile = file;
   const reader = new FileReader();
   reader.onload = e => {
-    document.getElementById('neuro-upload').innerHTML = `<img src="${e.target.result}" class="upload-preview" alt="preview">`;
+    const el = document.getElementById('neuro-upload');
+    if (!el) return;
+    el.innerHTML = `
+      <img src="${e.target.result}" alt="preview"
+        style="width:72px;height:72px;object-fit:cover;border-radius:14px;flex-shrink:0">
+      <span class="neuro-upload-card-text">
+        <span>Фото загружено ✅</span>
+        <span>Нажми чтобы заменить</span>
+      </span>`;
+    el.style.borderStyle = 'solid';
+    el.style.borderColor = 'rgba(200,140,200,0.55)';
+    el.style.background = 'rgba(249,168,201,0.10)';
   };
   reader.readAsDataURL(file);
   updateNeuroBtn();

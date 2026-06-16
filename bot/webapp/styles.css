@@ -2133,9 +2133,233 @@ body {
 }
 
 /* ── Neuro screen ── */
-.neuro-styles-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;
+/* ════════════════════════════════════════
+   НЕЙРОФОТО — redesigned
+   ════════════════════════════════════════ */
+
+/* Hero banner */
+.neuro-hero-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg,
+    rgba(249,168,201,0.30) 0%,
+    rgba(201,160,220,0.24) 40%,
+    rgba(139,111,208,0.20) 70%,
+    rgba(255,210,100,0.18) 100%);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1.5px solid rgba(255,255,255,0.62);
+  border-bottom-color: rgba(255,255,255,0.28);
+  box-shadow:
+    0 10px 36px rgba(200,140,180,0.22),
+    0 3px 10px rgba(200,140,180,0.12),
+    inset 0 1.5px 0 rgba(255,255,255,0.90);
+  border-radius: 24px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
 }
+.neuro-hero-banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+    rgba(255,255,255,0.45) 0%,
+    rgba(255,255,255,0.08) 35%,
+    rgba(255,255,255,0.00) 55%);
+  pointer-events: none;
+  border-radius: inherit;
+}
+.neuro-hero-left { z-index: 1; }
+.neuro-hero-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 3px;
+  font-family: 'Inter', sans-serif;
+}
+.neuro-hero-sub {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+.neuro-hero-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 700;
+  background: linear-gradient(90deg, rgba(249,168,201,0.60), rgba(201,160,220,0.60));
+  border: 1px solid rgba(255,255,255,0.60);
+  color: #6B3A6A;
+  backdrop-filter: blur(8px);
+}
+.neuro-hero-icos {
+  font-size: 26px;
+  letter-spacing: 2px;
+  z-index: 1;
+  line-height: 1.4;
+}
+
+/* Section label */
+.neuro-sec-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: var(--text-hint);
+  margin-bottom: 8px;
+  padding-left: 2px;
+}
+
+/* Styles grid — 4 cols */
+.neuro-styles-grid {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 14px;
+}
+/* Style buttons — icon top, name below */
+.neuro-style-btn {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  padding: 10px 4px 9px !important;
+  min-height: 70px !important;
+  border-radius: 14px !important;
+  background: rgba(255,255,255,0.82) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1.5px solid rgba(255,255,255,0.60) !important;
+  box-shadow:
+    0 3px 10px rgba(28,25,23,0.08),
+    inset 0 1.5px 0 rgba(255,255,255,1) !important;
+  cursor: pointer !important;
+  transition: transform 0.12s ease, box-shadow 0.12s ease !important;
+  font-family: 'Inter', sans-serif !important;
+  -webkit-appearance: none !important;
+}
+.neuro-style-btn:active {
+  transform: scale(0.92) !important;
+  box-shadow: 0 1px 4px rgba(28,25,23,0.06) !important;
+}
+.neuro-style-btn.selected {
+  background: linear-gradient(135deg,
+    rgba(249,168,201,0.28) 0%,
+    rgba(201,160,220,0.24) 100%) !important;
+  border-color: rgba(201,140,200,0.60) !important;
+  box-shadow:
+    0 4px 16px rgba(200,140,180,0.30),
+    inset 0 1.5px 0 rgba(255,255,255,1) !important;
+}
+.nsb-ico  { font-size: 22px; line-height: 1; display: block; }
+.nsb-name {
+  font-size: 10px; font-weight: 700;
+  color: var(--text-dark);
+  text-align: center; display: block;
+  line-height: 1.2; letter-spacing: 0.1px;
+}
+
+/* Upload card */
+.neuro-upload-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-bottom: 12px;
+  background: rgba(255,255,255,0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 2px dashed rgba(200,140,200,0.45);
+  box-shadow:
+    0 4px 16px rgba(28,25,23,0.09),
+    inset 0 1.5px 0 rgba(255,255,255,1);
+  transition: border-color 0.15s ease, background 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+.neuro-upload-card:active { background: rgba(249,168,201,0.10); border-color: rgba(200,140,200,0.70); }
+.neuro-upload-card-ico { font-size: 28px; flex-shrink: 0; }
+.neuro-upload-card-text {
+  display: flex; flex-direction: column; gap: 2px;
+}
+.neuro-upload-card-text span:first-child {
+  font-size: 15px; font-weight: 700; color: var(--text-dark);
+}
+.neuro-upload-card-text span:last-child {
+  font-size: 11px; font-weight: 500; color: var(--text-secondary);
+}
+.neuro-upload-card img {
+  width: 100%; border-radius: 12px; display: block;
+}
+
+/* Create button */
+.btn-neuro-create {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 17px 20px;
+  border-radius: 20px;
+  font-size: 16px; font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  color: #fff;
+  cursor: pointer;
+  margin-bottom: 14px;
+  background: linear-gradient(135deg,
+    rgba(249,140,185,0.75) 0%,
+    rgba(201,130,210,0.70) 50%,
+    rgba(139,111,208,0.65) 100%);
+  backdrop-filter: blur(36px) saturate(200%) brightness(1.12);
+  -webkit-backdrop-filter: blur(36px) saturate(200%) brightness(1.12);
+  border: 1.5px solid rgba(255,255,255,0.52);
+  border-bottom-color: rgba(255,255,255,0.22);
+  box-shadow:
+    0 10px 32px rgba(200,120,180,0.42),
+    0 4px 12px rgba(200,120,180,0.24),
+    inset 0 1.5px 0 rgba(255,255,255,0.70),
+    inset 0 -2px 0 rgba(0,0,0,0.10);
+  position: relative; overflow: hidden;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+.btn-neuro-create::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 12px; right: 12px; height: 1.5px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.95), transparent);
+  border-radius: 100px; pointer-events: none;
+}
+.btn-neuro-create::after {
+  content: '';
+  position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(180deg,
+    rgba(255,255,255,0.28) 0%,
+    rgba(255,255,255,0.06) 48%,
+    rgba(255,255,255,0) 100%);
+  pointer-events: none;
+}
+.btn-neuro-create:active  { transform: scale(0.98); opacity: 0.88; }
+.btn-neuro-create:disabled {
+  opacity: 0.45; cursor: not-allowed;
+  filter: grayscale(0.3);
+}
+
+/* Loader inner */
+.neuro-loader-inner {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 24px 0 16px;
+  gap: 8px;
+}
+.neuro-loader-inner p {
+  text-align: center; font-size: 14px; font-weight: 600;
+  color: var(--text-dark); line-height: 1.5; margin: 0;
+}
+
+/* ── Legacy .neuro-style-card (keep for other uses) ── */
 .neuro-style-card {
   background: var(--surface);
   border: 1.5px solid var(--border);

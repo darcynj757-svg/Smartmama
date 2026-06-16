@@ -703,47 +703,99 @@
   <!-- ────────────── НЕЙРОФОТО ────────────── -->
   <section id="screen-neuro" class="screen">
     <div class="page-title">📸 Нейрофотосессия</div>
-    <div class="form-card" style="text-align:center">
-      <p style="font-size:14px;font-weight:700;margin-bottom:6px">AI-портреты малыша в 16 стилях ✨</p>
-      <p style="font-size:12px;color:var(--text-secondary)">Загрузи фото малыша и выбери стиль</p>
-      <div id="neuro-usage-badge" style="margin:10px 0"></div>
+
+    <!-- Hero banner -->
+    <div class="neuro-hero-banner">
+      <div class="neuro-hero-left">
+        <div class="neuro-hero-title">AI-портреты малыша</div>
+        <div class="neuro-hero-sub">16 художественных стилей</div>
+        <div class="neuro-hero-badge" id="neuro-usage-badge">1 бесплатно</div>
+      </div>
+      <div class="neuro-hero-icos">✨🎨🖼🗾</div>
     </div>
 
-    <div class="sec-title">Выбери стиль</div>
+    <!-- Стили — 4 колонки -->
+    <div class="neuro-sec-label">Выбери стиль</div>
     <div class="neuro-styles-grid" id="neuro-styles">
-      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Реалистичный портрет')">🎨 Реалистичный</button>
-      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Аниме')">🗾 Аниме</button>
-      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Disney/Pixar')">🏰 Disney/Pixar</button>
-      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Акварель')">🎨 Акварель</button>
-      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Масляная живопись')">🖼 Масло</button>
-      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Цифровой арт')">💻 Цифровой арт</button>
-      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Винтаж')">📷 Винтаж</button>
-      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Сказочный')">🧚 Сказочный</button>
-      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Космический')">🚀 Космический</button>
-      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Подводный')">🐠 Подводный</button>
-      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Лесной')">🌲 Лесной</button>
-      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Праздничный')">🎉 Праздничный</button>
-      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Чёрно-белый')">⚫ Ч/б</button>
-      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Поп-арт')">🌈 Поп-арт</button>
-      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Минимализм')">⬜ Минимализм</button>
-      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'custom')">✏️ Свой стиль</button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Реалистичный портрет')">
+        <span class="nsb-ico">🎨</span><span class="nsb-name">Реалистичный</span>
+      </button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Аниме')">
+        <span class="nsb-ico">🗾</span><span class="nsb-name">Аниме</span>
+      </button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Disney/Pixar')">
+        <span class="nsb-ico">🏰</span><span class="nsb-name">Disney</span>
+      </button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Акварель')">
+        <span class="nsb-ico">🖌</span><span class="nsb-name">Акварель</span>
+      </button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Масляная живопись')">
+        <span class="nsb-ico">🖼</span><span class="nsb-name">Масло</span>
+      </button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Цифровой арт')">
+        <span class="nsb-ico">💻</span><span class="nsb-name">Цифровой</span>
+      </button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Винтаж')">
+        <span class="nsb-ico">📷</span><span class="nsb-name">Винтаж</span>
+      </button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Сказочный')">
+        <span class="nsb-ico">🧚</span><span class="nsb-name">Сказочный</span>
+      </button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Космический')">
+        <span class="nsb-ico">🚀</span><span class="nsb-name">Космос</span>
+      </button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Подводный')">
+        <span class="nsb-ico">🐠</span><span class="nsb-name">Подводный</span>
+      </button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Лесной')">
+        <span class="nsb-ico">🌲</span><span class="nsb-name">Лесной</span>
+      </button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Праздничный')">
+        <span class="nsb-ico">🎉</span><span class="nsb-name">Праздник</span>
+      </button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Чёрно-белый')">
+        <span class="nsb-ico">⚫</span><span class="nsb-name">Ч/б</span>
+      </button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Поп-арт')">
+        <span class="nsb-ico">🌈</span><span class="nsb-name">Поп-арт</span>
+      </button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'Минимализм')">
+        <span class="nsb-ico">⬜</span><span class="nsb-name">Минимализм</span>
+      </button>
+      <button class="neuro-style-btn" onclick="selectNeuroStyle(this,'custom')">
+        <span class="nsb-ico">✏️</span><span class="nsb-name">Свой стиль</span>
+      </button>
     </div>
     <div id="neuro-custom-style" style="display:none;margin-bottom:12px">
       <textarea class="field-textarea" id="neuro-custom-input" placeholder="Опиши свой стиль..."></textarea>
     </div>
 
-    <div class="upload-area" onclick="document.getElementById('neuro-photo-input').click()" id="neuro-upload">
-      <p style="font-size:13px;color:var(--text-secondary)">📷 Загрузи фото малыша</p>
+    <!-- Загрузка фото -->
+    <div class="neuro-upload-card" onclick="document.getElementById('neuro-photo-input').click()" id="neuro-upload">
+      <span class="neuro-upload-card-ico">📷</span>
+      <span class="neuro-upload-card-text">
+        <span>Загрузи фото малыша</span>
+        <span>JPEG или PNG · лицо крупным планом</span>
+      </span>
     </div>
     <input type="file" id="neuro-photo-input" accept="image/*" style="display:none" onchange="previewNeuroPhoto(this)">
 
-    <button class="btn-pri" id="neuro-create-btn" onclick="createNeuroPhoto()" disabled>✨ Создать портрет</button>
+    <!-- Кнопка создания -->
+    <button class="btn-neuro-create" id="neuro-create-btn" onclick="createNeuroPhoto()" disabled>
+      <span>✨ Создать портрет</span>
+    </button>
 
+    <!-- Результат -->
     <div id="neuro-result" class="neuro-result" style="display:none">
       <img id="neuro-result-img" src="" alt="AI Portrait">
-      <button class="btn-pri" style="margin-top:12px" onclick="downloadNeuroPhoto()">💾 Сохранить</button>
+      <button class="btn-neuro-create" style="margin-top:12px" onclick="downloadNeuroPhoto()">💾 Сохранить в галерею</button>
     </div>
-    <div id="neuro-loader" style="display:none"><div class="spinner"></div><p style="text-align:center;font-size:13px;color:var(--text-secondary)">Создаём портрет... это займёт ~20 сек</p></div>
+    <div id="neuro-loader" style="display:none">
+      <div class="neuro-loader-inner">
+        <div class="spinner"></div>
+        <p>Создаём портрет…<br><span style="font-size:11px;opacity:0.7">обычно ~20 секунд</span></p>
+      </div>
+    </div>
   </section>
 
   <!-- ────────────── ТАРИФЫ ────────────── -->
