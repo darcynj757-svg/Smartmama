@@ -114,6 +114,12 @@ uri = "file://bot/webapp/assets/photos/tile-chat.png"
 type = "image"
 title = "generated_image"
 
+[[generated]]
+id = "jF0K41b38IdPv1Hr72m1z"
+uri = "file://attached_assets/generated_images/tile-neuro-new.png"
+type = "image"
+title = "generated_image"
+
 [[outputs]]
 id = "ujAX_hEitN8S6ijOwqmm_"
 uri = "file://attached_assets/generated_images/tarif_gift.png"
