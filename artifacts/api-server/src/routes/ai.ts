@@ -11,12 +11,87 @@ function getOpenAI() {
   return new OpenAI({ apiKey: process.env["OPENAI_API_KEY"] });
 }
 
-function getSystemPrompt(childName: string, ageMonths: number, role: string) {
-  return `Ты — ${role} приложения «Смарт Мама» для русскоязычных мам. Малыша зовут ${childName || "малыш"}, ему ${ageMonths || 0} месяцев. Отвечай тепло, на «ты», по-русски. Используй эмодзи умеренно.`;
-}
-
 function getUser(initDataRaw: string) {
   return verifyInitDataLax(initDataRaw);
+}
+
+interface ChildProfile {
+  childName?: string;
+  ageMonths?: number;
+  gender?: string;
+  region?: string;
+  mamaName?: string;
+  bloodType?: string;
+  allergies?: string;
+  doctor?: string;
+  healthNotes?: string;
+  dob?: string;
+}
+
+function extractProfile(body: Record<string, unknown>): ChildProfile {
+  let p: ChildProfile = {};
+  if (typeof body.profile === "string") {
+    try { p = JSON.parse(body.profile) as ChildProfile; } catch { p = {}; }
+  } else if (body.profile && typeof body.profile === "object") {
+    p = body.profile as ChildProfile;
+  }
+  return {
+    childName:   String(p.childName   || body.childName   || "малыш"),
+    ageMonths:   parseInt(String(p.ageMonths ?? body.ageMonths ?? 0)) || 0,
+    gender:      String(p.gender      || body.gender      || ""),
+    region:      String(p.region      || body.region      || ""),
+    mamaName:    String(p.mamaName    || body.mamaName    || ""),
+    bloodType:   String(p.bloodType   || body.bloodType   || ""),
+    allergies:   String(p.allergies   || body.allergies   || ""),
+    doctor:      String(p.doctor      || body.doctor      || ""),
+    healthNotes: String(p.healthNotes || body.healthNotes || ""),
+    dob:         String(p.dob         || body.dob         || ""),
+  };
+}
+
+function buildSystemPrompt(p: ChildProfile, role: string): string {
+  const name    = p.childName || "малыш";
+  const months  = p.ageMonths || 0;
+  const isGirl  = p.gender === "girl";
+  const isBoy   = p.gender === "boy";
+  const gWord   = isGirl ? "девочка" : isBoy ? "мальчик" : "";
+  const gPron   = isGirl ? "она" : isBoy ? "он" : "";
+  const gAdj    = isGirl ? "маленькой" : isBoy ? "маленького" : "";
+
+  const age = months >= 12
+    ? `${Math.floor(months / 12)} г. ${months % 12 > 0 ? months % 12 + " мес." : ""}`.trim()
+    : `${months} мес.`;
+
+  const childLine = [
+    `Малыша зовут ${name}`,
+    gWord,
+    `возраст — ${age}`,
+    p.region ? `из региона ${p.region}` : "",
+  ].filter(Boolean).join(", ") + ".";
+
+  const mamaLine = p.mamaName ? `Маму зовут ${p.mamaName}.` : "";
+
+  const healthLines: string[] = [];
+  if (p.allergies   && p.allergies   !== "")  healthLines.push(`⚠️ Аллергии: ${p.allergies}.`);
+  if (p.bloodType   && p.bloodType   !== "")  healthLines.push(`Группа крови: ${p.bloodType}.`);
+  if (p.doctor      && p.doctor      !== "")  healthLines.push(`Педиатр: ${p.doctor}.`);
+  if (p.healthNotes && p.healthNotes !== "")  healthLines.push(`Особенности здоровья: ${p.healthNotes}.`);
+
+  return `Ты — ${role} приложения «Смарт Мама».
+${mamaLine}
+${childLine}
+${healthLines.length ? healthLines.join(" ") + "\n" : ""}
+Правила общения:
+— Обращайся к маме на «ты», тепло и с заботой — как близкая подруга-эксперт.
+— Всегда называй малыша по имени: ${name}${gWord ? ` (${gWord})` : ""}.
+${gPron ? `— Используй правильный род: ${gPron}, ${gAdj} ${name}.` : ""}
+— Каждый ответ учитывает ТОЧНЫЙ возраст (${age}) — конкретные нормы, этапы развития.
+${p.allergies ? `— ОБЯЗАТЕЛЬНО учитывай аллергии (${p.allergies}) при любых рекомендациях по питанию.` : ""}
+— Структура ответа: суть → практика → тёплое слово поддержки.
+— Мама устала и занята — будь краткой, конкретной, без воды.
+— Эмодзи — умеренно, только уместные.
+— Никогда не осуждай выбор мамы.
+— Отвечай исключительно по-русски.`;
 }
 
 // POST /api/ai/chat
@@ -24,15 +99,17 @@ router.post("/chat", async (req: Request, res: Response): Promise<void> => {
   const user = getUser(req.headers["x-telegram-init-data"] as string);
   if (!user) { res.status(401).json({ error: "Unauthorized" }); return; }
 
-  const { messages, childName, ageMonths } = req.body;
+  const { messages } = req.body;
   if (!messages) { res.status(400).json({ error: "messages required" }); return; }
+
+  const profile = extractProfile(req.body as Record<string, unknown>);
 
   try {
     const openai = getOpenAI();
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
-        { role: "system", content: getSystemPrompt(childName, ageMonths, "AI-помощник по воспитанию детей") },
+        { role: "system", content: buildSystemPrompt(profile, "твой главный AI-помощник по материнству и воспитанию детей") },
         ...messages,
       ],
       max_tokens: 1024,
@@ -51,11 +128,10 @@ router.post("/chat-vision", upload.single("photo"), async (req: Request, res: Re
   if (!user) { res.status(401).json({ error: "Unauthorized" }); return; }
 
   const question = req.body.question || "Что на фото?";
-  const childName = req.body.childName || "";
-  const ageMonths = parseInt(req.body.ageMonths || "0");
   const file = req.file;
-
   if (!file) { res.status(400).json({ error: "photo required" }); return; }
+
+  const profile = extractProfile(req.body as Record<string, unknown>);
 
   try {
     const openai = getOpenAI();
@@ -64,7 +140,7 @@ router.post("/chat-vision", upload.single("photo"), async (req: Request, res: Re
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
-        { role: "system", content: getSystemPrompt(childName, ageMonths, "AI-помощник") },
+        { role: "system", content: buildSystemPrompt(profile, "внимательный AI-помощник, который анализирует фото и даёт конкретные советы") },
         {
           role: "user",
           content: [
@@ -88,10 +164,11 @@ router.post("/fridge", upload.single("photo"), async (req: Request, res: Respons
   const user = getUser(req.headers["x-telegram-init-data"] as string);
   if (!user) { res.status(401).json({ error: "Unauthorized" }); return; }
 
-  const childName = req.body.childName || "";
-  const ageMonths = parseInt(req.body.ageMonths || "0");
   const file = req.file;
   if (!file) { res.status(400).json({ error: "photo required" }); return; }
+
+  const p = extractProfile(req.body as Record<string, unknown>);
+  const allergyNote = p.allergies ? ` Аллергии у ${p.childName}: ${p.allergies} — эти продукты исключить!` : "";
 
   try {
     const openai = getOpenAI();
@@ -102,13 +179,13 @@ router.post("/fridge", upload.single("photo"), async (req: Request, res: Respons
       messages: [
         {
           role: "system",
-          content: `Ты — диетолог для детей. Малышу ${childName} ${ageMonths} месяцев. Посмотри на содержимое холодильника и предложи 5–7 блюд, которые можно приготовить для ребёнка этого возраста. Верни JSON-массив: [{"name": "Название блюда", "description": "Короткое описание"}, ...]. ТОЛЬКО JSON, без текста вокруг.`,
+          content: `Ты — детский диетолог. Малышу ${p.childName} ${p.ageMonths} мес.${allergyNote} Посмотри на холодильник и предложи 5–7 блюд по возрасту. Верни ТОЛЬКО JSON-массив: [{"name":"...","description":"..."}].`,
         },
         {
           role: "user",
           content: [
             { type: "image_url", image_url: { url: `data:${mimeType};base64,${b64}` } },
-            { type: "text", text: "Что можно приготовить малышу из этих продуктов?" },
+            { type: "text", text: `Что можно приготовить ${p.childName} из этих продуктов?` },
           ],
         },
       ],
@@ -134,8 +211,11 @@ router.post("/workout", async (req: Request, res: Response): Promise<void> => {
   const user = getUser(req.headers["x-telegram-init-data"] as string);
   if (!user) { res.status(401).json({ error: "Unauthorized" }); return; }
 
-  const { messages, question, childName, ageMonths } = req.body;
+  const { messages } = req.body;
   if (!messages) { res.status(400).json({ error: "messages required" }); return; }
+
+  const p = extractProfile(req.body as Record<string, unknown>);
+  const mamaAddress = p.mamaName ? p.mamaName : "мама";
 
   try {
     const openai = getOpenAI();
@@ -144,7 +224,7 @@ router.post("/workout", async (req: Request, res: Response): Promise<void> => {
       messages: [
         {
           role: "system",
-          content: `Ты — персональный AI-тренер приложения «Смарт Мама» для русскоязычных мам. Малышу ${childName || "малыш"} ${ageMonths || 0} месяцев. Специализируешься на тренировках для молодых мам: восстановление после родов, упражнения дома без оборудования, йога с малышом, укрепление кора и спины. Составляй конкретные программы с описанием упражнений, подходов и времени. Отвечай тепло, мотивируй, используй эмодзи умеренно. Учитывай, что мама может быть ограничена по времени и находится рядом с малышом.`,
+          content: buildSystemPrompt(p, `персональный AI-тренер для молодых мам. Специализируешься на восстановлении после родов, тренировках дома без оборудования, йоге с малышом, укреплении кора и спины. Составляй конкретные программы с упражнениями, подходами, временем. Малышу ${p.childName} ${p.ageMonths} мес. — учитывай, что ${mamaAddress} рядом с ребёнком и ограничена по времени. Мотивируй, хвали за любой прогресс`),
         },
         ...messages,
       ],
@@ -163,16 +243,19 @@ router.post("/food-recipe", async (req: Request, res: Response): Promise<void> =
   const user = getUser(req.headers["x-telegram-init-data"] as string);
   if (!user) { res.status(401).json({ error: "Unauthorized" }); return; }
 
-  const { dishName, childName, ageMonths } = req.body;
+  const { dishName } = req.body;
   if (!dishName) { res.status(400).json({ error: "dishName required" }); return; }
+
+  const p = extractProfile(req.body as Record<string, unknown>);
+  const allergyNote = p.allergies ? ` Аллергии: ${p.allergies} — обязательно учти при составлении рецепта.` : "";
 
   try {
     const openai = getOpenAI();
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
-        { role: "system", content: `Ты — детский диетолог. Малышу ${childName || "малыш"} ${ageMonths || 0} месяцев.` },
-        { role: "user", content: `Дай подробный рецепт блюда «${dishName}» для ребёнка этого возраста. Укажи ингредиенты и пошаговое приготовление.` },
+        { role: "system", content: `Ты — детский диетолог. Малышу ${p.childName} ${p.ageMonths} мес.${allergyNote}` },
+        { role: "user", content: `Дай подробный рецепт «${dishName}» для ${p.childName} (${p.ageMonths} мес.). Ингредиенты, пошаговое приготовление, температура и консистенция для возраста.` },
       ],
       max_tokens: 1024,
     });
@@ -247,15 +330,18 @@ router.post("/speech-exercise", async (req: Request, res: Response): Promise<voi
   const user = getUser(req.headers["x-telegram-init-data"] as string);
   if (!user) { res.status(401).json({ error: "Unauthorized" }); return; }
 
-  const { question, childName, ageMonths } = req.body;
+  const { question, messages } = req.body;
+  const p = extractProfile(req.body as Record<string, unknown>);
 
   try {
     const openai = getOpenAI();
+    const history = Array.isArray(messages) ? messages : [];
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
-        { role: "system", content: `Ты — детский логопед. Малышу ${childName || "малыш"} ${ageMonths || 0} месяцев. Давай практические советы для развития речи.` },
-        { role: "user", content: question || "Дай упражнение для развития речи" },
+        { role: "system", content: buildSystemPrompt(p, `детский логопед. Помогаешь развивать речь у малышей. Давай конкретные игры, упражнения, артикуляционную гимнастику именно для ${p.ageMonths} мес. Учитывай нормы речевого развития по возрасту`) },
+        ...history,
+        ...(question && !history.length ? [{ role: "user" as const, content: question }] : []),
       ],
       max_tokens: 1024,
     });
@@ -272,15 +358,18 @@ router.post("/game-idea", async (req: Request, res: Response): Promise<void> => 
   const user = getUser(req.headers["x-telegram-init-data"] as string);
   if (!user) { res.status(401).json({ error: "Unauthorized" }); return; }
 
-  const { question, childName, ageMonths } = req.body;
+  const { question, messages } = req.body;
+  const p = extractProfile(req.body as Record<string, unknown>);
 
   try {
     const openai = getOpenAI();
+    const history = Array.isArray(messages) ? messages : [];
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
-        { role: "system", content: `Ты — детский психолог и специалист по развивающим играм. Малышу ${childName || "малыш"} ${ageMonths || 0} месяцев.` },
-        { role: "user", content: question || "Придумай развивающую игру" },
+        { role: "system", content: buildSystemPrompt(p, `детский психолог и эксперт по развивающим играм. Предлагаешь игры строго по возрасту (${p.ageMonths} мес.), развивающие моторику, сенсорику, интеллект. Описывай игру: цель, материалы (из того что дома), ход, почему полезно. Учитывай, что мама может играть в одиночку с малышом`) },
+        ...history,
+        ...(question && !history.length ? [{ role: "user" as const, content: question }] : []),
       ],
       max_tokens: 1024,
     });
@@ -297,18 +386,22 @@ router.post("/health-advice", async (req: Request, res: Response): Promise<void>
   const user = getUser(req.headers["x-telegram-init-data"] as string);
   if (!user) { res.status(401).json({ error: "Unauthorized" }); return; }
 
-  const { question, childName, ageMonths } = req.body;
+  const { question, messages } = req.body;
+  const p = extractProfile(req.body as Record<string, unknown>);
+  const doctorNote = p.doctor ? ` Педиатр ${p.childName}: ${p.doctor}.` : "";
 
   try {
     const openai = getOpenAI();
+    const history = Array.isArray(messages) ? messages : [];
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
-          content: `Ты — педиатр-консультант. Малышу ${childName || "малыш"} ${ageMonths || 0} месяцев. Давай рекомендации, но ВСЕГДА в конце напоминай обратиться к педиатру при сомнениях. При экстренных симптомах — срочно к врачу или 103/112.`,
+          content: buildSystemPrompt(p, `педиатр-консультант.${doctorNote} Давай чёткие рекомендации по симптомам, учитывая возраст (${p.ageMonths} мес.) и историю здоровья. ОБЯЗАТЕЛЬНО: при любом сомнении — посоветуй обратиться к педиатру${p.doctor ? ` (${p.doctor})` : ""}. При экстренных симптомах (высокая температура, затруднённое дыхание, судороги) — СРОЧНО 103 или 112`),
         },
-        { role: "user", content: question || "Что делать?" },
+        ...history,
+        ...(question && !history.length ? [{ role: "user" as const, content: question }] : []),
       ],
       max_tokens: 1024,
     });

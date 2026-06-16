@@ -81,6 +81,7 @@ let state = {
   childName: 'малыш',
   childAge: 0,
   childGender: '',
+  childDob: '',
   region: '',
   mamaName: '',
   premiumUntil: null,
@@ -95,6 +96,21 @@ let state = {
   selectedDiaryType: null,
   historyScreen: null,
 };
+
+function getChildProfile() {
+  return {
+    childName:   state.childName  || 'малыш',
+    ageMonths:   parseInt(state.childAge) || 0,
+    gender:      state.childGender || '',
+    region:      state.region      || '',
+    mamaName:    state.mamaName    || '',
+    bloodType:   state.profile?.blood_type   || '',
+    allergies:   state.profile?.allergies    || '',
+    doctor:      state.profile?.doctor       || '',
+    healthNotes: state.profile?.health_notes || '',
+    dob:         state.childDob || '',
+  };
+}
 
 // ─── Screen navigation ──────────────────────────────────────────────────────
 const screenHistory = [];
@@ -342,6 +358,7 @@ async function sendChat(screen) {
     const payload = {
       messages: chatHistories[screen].slice(-10),
       question: text,
+      profile: getChildProfile(),
       childName: state.childName,
       ageMonths: state.childAge,
     };
@@ -380,6 +397,7 @@ async function sendPhotoChat(screen, input) {
     fd.append('question', 'Что ты видишь? Дай совет маме.');
     fd.append('childName', state.childName);
     fd.append('ageMonths', state.childAge);
+    fd.append('profile', JSON.stringify(getChildProfile()));
     const data = await apiCall('POST', '/ai/chat-vision', fd, true);
     typingDiv.remove();
     appendMsg(msgsId, data.text || 'Анализ завершён', 'ai');
@@ -867,6 +885,7 @@ async function analyzeFridge(input) {
     fd.append('photo', file);
     fd.append('childName', state.childName);
     fd.append('ageMonths', state.childAge);
+    fd.append('profile', JSON.stringify(getChildProfile()));
     const data = await apiCall('POST', '/ai/fridge', fd, true);
     const dishes = data.dishes || [];
     dishList.innerHTML = dishes.map(d => `
@@ -889,7 +908,7 @@ async function getDishRecipe(dishName) {
   appendMsg(msgsId, `Покажи рецепт: ${dishName}`, 'user');
   const typingDiv = appendMsg(msgsId, '✦ готовлю рецепт...', 'ai typing');
   try {
-    const data = await apiCall('POST', '/ai/food-recipe', { dishName, childName: state.childName, ageMonths: state.childAge });
+    const data = await apiCall('POST', '/ai/food-recipe', { dishName, profile: getChildProfile(), childName: state.childName, ageMonths: state.childAge });
     typingDiv.remove();
     appendMsg(msgsId, data.text || 'Рецепт загружен', 'ai');
     document.getElementById('nutrition-msgs').scrollTop = 99999;
@@ -918,7 +937,7 @@ async function loadBenefits() {
   result.style.display = 'none';
 
   try {
-    const data = await apiCall('POST', '/ai/benefits', { region, ageMonths: state.childAge });
+    const data = await apiCall('POST', '/ai/benefits', { region, ageMonths: state.childAge, profile: getChildProfile() });
     document.getElementById('benefits-region-badge').textContent = '🗺 ' + region;
     document.getElementById('benefits-text').textContent = data.text || '';
     loader.style.display = 'none';
@@ -1094,6 +1113,8 @@ function fillProfile() {
   document.getElementById('profile-child-gender').value = state.childGender || '';
   document.getElementById('profile-age').value = state.childAge || '';
   document.getElementById('profile-region').value = state.region || '';
+  const dobEl = document.getElementById('profile-dob');
+  if (dobEl) dobEl.value = state.childDob || '';
 
   const planNameEl = document.getElementById('profile-plan-name');
   if (planNameEl) {
@@ -1118,19 +1139,21 @@ function fillProfile() {
 }
 
 async function saveProfile() {
-  const childName = document.getElementById('profile-child-name')?.value?.trim();
-  const gender = document.getElementById('profile-child-gender')?.value;
-  const age = parseInt(document.getElementById('profile-age')?.value) || 0;
-  const region = document.getElementById('profile-region')?.value?.trim();
-  const bloodType = document.getElementById('profile-blood')?.value;
-  const allergies = document.getElementById('profile-allergies')?.value;
-  const doctor = document.getElementById('profile-doctor')?.value;
+  const childName  = document.getElementById('profile-child-name')?.value?.trim();
+  const gender     = document.getElementById('profile-child-gender')?.value;
+  const age        = parseInt(document.getElementById('profile-age')?.value) || 0;
+  const region     = document.getElementById('profile-region')?.value?.trim();
+  const dob        = document.getElementById('profile-dob')?.value || '';
+  const bloodType  = document.getElementById('profile-blood')?.value;
+  const allergies  = document.getElementById('profile-allergies')?.value;
+  const doctor     = document.getElementById('profile-doctor')?.value;
   const healthNotes = document.getElementById('profile-health-notes')?.value;
 
-  state.childName = childName || state.childName;
-  state.childAge = age || state.childAge;
+  state.childName   = childName || state.childName;
+  state.childAge    = age || state.childAge;
   state.childGender = gender || state.childGender;
-  state.region = region || state.region;
+  state.region      = region || state.region;
+  state.childDob    = dob || state.childDob;
 
   const profileData = {
     ...state.profile,
@@ -1141,10 +1164,11 @@ async function saveProfile() {
     child_name: childName,
     child_age_months: age,
     child_gender: gender,
+    child_dob: dob,
     region,
   };
   state.profile = profileData;
-  localStorage.setItem('profile_cache', JSON.stringify({ childName, childAge: age, childGender: gender, region, plan: state.plan }));
+  localStorage.setItem('profile_cache', JSON.stringify({ childName, childAge: age, childGender: gender, childDob: dob, region, plan: state.plan }));
 
   try {
     await apiCall('POST', '/user/save', profileData);
@@ -1404,11 +1428,12 @@ async function init() {
   // Restore cached profile first for instant display
   try {
     const cached = JSON.parse(localStorage.getItem('profile_cache') || '{}');
-    if (cached.childName) state.childName = cached.childName;
-    if (cached.childAge) state.childAge = cached.childAge;
+    if (cached.childName)   state.childName   = cached.childName;
+    if (cached.childAge)    state.childAge    = cached.childAge;
     if (cached.childGender) state.childGender = cached.childGender;
-    if (cached.region) state.region = cached.region;
-    if (cached.plan) state.plan = cached.plan;
+    if (cached.childDob)    state.childDob    = cached.childDob;
+    if (cached.region)      state.region      = cached.region;
+    if (cached.plan)        state.plan        = cached.plan;
   } catch(e) {}
 
   loadHomeStats();
@@ -1424,16 +1449,18 @@ async function init() {
     state.childAge = data.child_age_months || state.childAge;
     state.childGender = data.child_gender || state.childGender;
     state.region = data.region || state.region;
-    state.mamaName = data.mama_name || '';
-    state.profile = data.profile || {};
+    state.mamaName  = data.mama_name  || '';
+    state.childDob  = data.child_dob  || state.childDob || '';
+    state.profile   = data.profile    || {};
 
     // Cache
     localStorage.setItem('profile_cache', JSON.stringify({
-      childName: state.childName,
-      childAge: state.childAge,
+      childName:   state.childName,
+      childAge:    state.childAge,
       childGender: state.childGender,
-      region: state.region,
-      plan: state.plan,
+      childDob:    state.childDob,
+      region:      state.region,
+      plan:        state.plan,
     }));
 
     loadHomeStats();
