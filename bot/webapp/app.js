@@ -228,6 +228,10 @@ function go(name) {
     target.classList.add('active');
     target.scrollTop = 0;
   }
+  // Back button: visible on all screens except home
+  const backBtn = document.getElementById('topbar-back-btn');
+  if (backBtn) backBtn.classList.toggle('visible', name !== 'home');
+
   // Bottom nav highlight
   document.querySelectorAll('.nav-item').forEach(b => {
     b.classList.toggle('active', b.dataset.screen === name);

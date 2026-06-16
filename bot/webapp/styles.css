@@ -308,6 +308,34 @@ body {
   border-color: rgba(255,255,255,0.35);
   color: #fff;
 }
+#topbar.hero-mode #topbar-back-btn {
+  color: #fff;
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.35);
+}
+
+#topbar-back-btn {
+  position: absolute;
+  left: 16px;
+  bottom: 8px;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.05);
+  border: 1.5px solid rgba(0,0,0,0.08);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-dark);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, background 0.2s;
+}
+#topbar-back-btn.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+#topbar-back-btn:active {
+  background: rgba(0,0,0,0.12);
+}
 
 .topbar-logo {
   font-family: 'Unbounded', -apple-system, sans-serif;
