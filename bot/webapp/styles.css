@@ -3114,8 +3114,9 @@ body {
   z-index: 2;
   text-shadow: 0 1px 4px rgba(0,0,0,0.25);
   position: relative;
-  width: auto;
-  margin: 0 12px 0;
+  width: fit-content;
+  align-self: flex-start;
+  margin: 0 0 0 12px;
   background: rgba(0,0,0,0.10);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -3127,8 +3128,9 @@ body {
   z-index: 2;
   text-shadow: 0 1px 3px rgba(0,0,0,0.20);
   position: relative;
-  width: auto;
-  margin: 0 12px 0;
+  width: fit-content;
+  align-self: flex-start;
+  margin: 0 0 0 12px;
   background: rgba(0,0,0,0.08);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
