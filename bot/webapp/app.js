@@ -285,7 +285,7 @@ function loadHomeStats() {
       if (planSub) planSub.textContent = `Активен до ${state.premiumUntil || ''}`;
     } else {
       planTitle.textContent = 'Тарифы';
-      if (planSub) planSub.textContent = 'Бесплатно · 290 · 490 ₽';
+      if (planSub) planSub.innerHTML = 'Бесплатно<br>290 ₽/мес<br>490 ₽/мес';
     }
   }
   // Sync tracker stats on home
