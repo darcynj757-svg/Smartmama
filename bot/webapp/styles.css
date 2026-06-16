@@ -301,8 +301,8 @@ body {
   border-bottom-color: transparent;
   box-shadow: none;
 }
-#topbar.hero-mode .topbar-logo { color: #fff; text-shadow: 0 1px 8px rgba(0,0,0,0.55), 0 0px 24px rgba(0,0,0,0.35); }
-#topbar.hero-mode .topbar-logo span { color: rgba(255,255,255,0.95); text-shadow: 0 1px 8px rgba(0,0,0,0.55), 0 0px 24px rgba(0,0,0,0.35); }
+#topbar.hero-mode .topbar-logo { color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.25); }
+#topbar.hero-mode .topbar-logo span { color: rgba(255,255,255,0.95); text-shadow: 0 1px 4px rgba(0,0,0,0.25); }
 #topbar.hero-mode #profile-btn {
   background: rgba(255,255,255,0.22);
   border-color: rgba(255,255,255,0.35);
