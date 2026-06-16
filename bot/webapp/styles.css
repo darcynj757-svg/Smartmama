@@ -721,6 +721,7 @@ body {
   background: linear-gradient(90deg, #3AAED8 0%, #D4A0C8 52%, #8B6FD0 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.4px rgba(107, 86, 200, 0.45);
   background-clip: text;
   text-align: left;
   letter-spacing: -0.3px;
