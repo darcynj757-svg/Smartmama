@@ -2482,6 +2482,19 @@ body {
     0 2px 5px rgba(28,25,23,0.07),
     inset 0 1px 0 rgba(255,255,255,0.35);
 }
+.cat-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 44%;
+  background: linear-gradient(180deg,
+    rgba(255,255,255,0.52) 0%,
+    rgba(255,255,255,0.18) 55%,
+    rgba(255,255,255,0) 100%);
+  pointer-events: none;
+  z-index: 4;
+  border-radius: 18px 18px 0 0;
+}
 
 /* ── Image tiles — shadow + visible border, blik on text area only ── */
 .img-tile {
@@ -2982,7 +2995,6 @@ body {
 /* ── Remove all glare/blik overlays globally ── */
 .tile::after,
 .img-tile-body::after,
-.wide-banner::after,
 .mini-tile::after,
 .btn-pri::after,
 .btn-out::after,

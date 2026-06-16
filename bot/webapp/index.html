@@ -100,34 +100,46 @@
     <div class="cat-gallery">
       <div class="cat-card" onclick="openChatWith('aichat','Посоветуй упражнения для развития речи')">
         <img src="assets/photos/cat-speech.jpg" alt="Речь" class="cat-img" loading="lazy">
-        <div class="cat-overlay" style="background:rgba(232,115,74,0.48)"></div>
+        <div class="cat-overlay" style="background:rgba(232,115,74,0.22)"></div>
         <span class="cat-label">Речь</span>
       </div>
       <div class="cat-card" onclick="openChatWith('games','Игра на сегодня')">
         <img src="assets/photos/cat-games.jpg" alt="Игры" class="cat-img" loading="lazy">
-        <div class="cat-overlay" style="background:rgba(58,186,180,0.48)"></div>
+        <div class="cat-overlay" style="background:rgba(58,186,180,0.22)"></div>
         <span class="cat-label">Игры</span>
       </div>
       <div class="cat-card" onclick="openChatWith('health','Как понять, что малыш здоров?')">
         <img src="assets/photos/cat-health.jpg" alt="Здоровье" class="cat-img" loading="lazy">
-        <div class="cat-overlay" style="background:rgba(66,185,122,0.48)"></div>
+        <div class="cat-overlay" style="background:rgba(66,185,122,0.22)"></div>
         <span class="cat-label">Здоровье</span>
       </div>
       <div class="cat-card" onclick="openChatWith('nutrition','Что приготовить малышу?')">
         <img src="assets/photos/cat-recipes.jpg" alt="Рецепты" class="cat-img" loading="lazy">
-        <div class="cat-overlay" style="background:rgba(245,158,66,0.48)"></div>
+        <div class="cat-overlay" style="background:rgba(245,158,66,0.22)"></div>
         <span class="cat-label">Рецепты</span>
       </div>
       <div class="cat-card" onclick="openChatWith('aichat','Дай совет на сегодня')">
         <img src="assets/photos/cat-tips.jpg" alt="Советы" class="cat-img" loading="lazy">
-        <div class="cat-overlay" style="background:rgba(245,200,66,0.48)"></div>
+        <div class="cat-overlay" style="background:rgba(245,200,66,0.22)"></div>
         <span class="cat-label">Советы</span>
       </div>
       <div class="cat-card" onclick="openChatWith('aichat','Расскажи о развитии малыша по неделям')">
         <img src="assets/photos/cat-growth.jpg" alt="Развитие" class="cat-img" loading="lazy">
-        <div class="cat-overlay" style="background:rgba(66,185,122,0.45)"></div>
+        <div class="cat-overlay" style="background:rgba(66,185,122,0.20)"></div>
         <span class="cat-label">Развитие</span>
       </div>
+    </div>
+
+    <!-- Дневник ребёнка — поднят выше трекеров -->
+    <div class="wide-banner" onclick="go('diary')" style="--banner-bg:#FFF0F8;--banner-border:rgba(232,115,74,0.20)">
+      <div class="wide-banner-img" style="background:#FFE4F2">
+        <img src="assets/photos/tile-diary.jpg" alt="" loading="lazy">
+      </div>
+      <div class="wide-banner-text">
+        <div class="wide-banner-title">Дневник малыша</div>
+        <div class="wide-banner-sub">Рост · Прививки · Болезни · События</div>
+      </div>
+      <div class="wide-banner-arr">›</div>
     </div>
 
     <!-- Трекеры — плитки с иллюстрациями -->
@@ -153,18 +165,6 @@
           <div class="img-tile-stat" id="tile-sleep-stat"></div>
         </div>
       </div>
-    </div>
-
-    <!-- Дневник ребёнка — широкий баннер -->
-    <div class="wide-banner" onclick="go('diary')" style="--banner-bg:#FFF0F8;--banner-border:rgba(232,115,74,0.20)">
-      <div class="wide-banner-img" style="background:#FFE4F2">
-        <img src="assets/photos/tile-diary.jpg" alt="" loading="lazy">
-      </div>
-      <div class="wide-banner-text">
-        <div class="wide-banner-title">Дневник малыша</div>
-        <div class="wide-banner-sub">Рост · Прививки · Болезни · События</div>
-      </div>
-      <div class="wide-banner-arr">›</div>
     </div>
 
     <!-- Инструменты — плитки с иллюстрациями -->
