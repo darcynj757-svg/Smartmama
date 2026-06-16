@@ -96,6 +96,12 @@ uri = "file://bot/webapp/assets/photos/tile-neuro.png"
 type = "image"
 title = "generated_image"
 
+[[generated]]
+id = "H2JgdFgREAYBbY7jca2NJ"
+uri = "file://bot/webapp/assets/photos/tile-sounds.png"
+type = "image"
+title = "generated_image"
+
 [[outputs]]
 id = "ujAX_hEitN8S6ijOwqmm_"
 uri = "file://attached_assets/generated_images/tarif_gift.png"
