@@ -95,7 +95,113 @@ let state = {
   docModalCategory: null,
   selectedDiaryType: null,
   historyScreen: null,
+  children: [],
+  currentChildIndex: 0,
 };
+
+// ─── Multi-child support ─────────────────────────────────────────────────────
+function saveChildrenCache() {
+  try { localStorage.setItem('children_cache', JSON.stringify(state.children)); } catch(e) {}
+}
+
+function loadChildrenCache() {
+  try {
+    const raw = localStorage.getItem('children_cache');
+    if (raw) {
+      const arr = JSON.parse(raw);
+      if (Array.isArray(arr) && arr.length > 0) return arr;
+    }
+  } catch(e) {}
+  return null;
+}
+
+function applyChild(index) {
+  if (!state.children.length) return;
+  const c = state.children[index];
+  if (!c) return;
+  state.currentChildIndex = index;
+  state.childName   = c.childName   || 'малыш';
+  state.childAge    = c.childAge    || 0;
+  state.childGender = c.childGender || '';
+  state.childDob    = c.childDob    || '';
+  state.region      = c.region      || state.region;
+  // Load that child's photo
+  const photoKey = index === 0 ? 'heroBabyPhoto' : `heroBabyPhoto_${index}`;
+  const photo = localStorage.getItem(photoKey) || (index === 0 ? null : localStorage.getItem('heroBabyPhoto'));
+  const fixed = document.getElementById('hero-photo-fixed');
+  const placeholder = document.getElementById('hero-photo-placeholder');
+  const wrap = document.getElementById('hero-photo-wrap');
+  if (photo) {
+    if (fixed) { fixed.src = photo; fixed.style.display = 'block'; }
+    if (placeholder) placeholder.style.display = 'none';
+    if (wrap) { wrap.classList.add('has-photo'); }
+  } else {
+    if (fixed) { fixed.src = ''; fixed.style.display = 'none'; }
+    if (placeholder) placeholder.style.display = '';
+    if (wrap) { wrap.classList.remove('has-photo'); }
+  }
+  loadHomeStats();
+}
+
+function renderChildDots() {
+  const el = document.getElementById('hero-child-dots');
+  if (!el) return;
+  const count = state.children.length;
+  if (count <= 1) { el.innerHTML = ''; el.style.display = 'none'; return; }
+  el.style.display = 'flex';
+  el.innerHTML = '';
+  for (let i = 0; i < count; i++) {
+    const d = document.createElement('span');
+    d.className = 'hero-child-dot' + (i === state.currentChildIndex ? ' active' : '');
+    d.onclick = (e) => { e.stopPropagation(); applyChild(i); };
+    el.appendChild(d);
+  }
+}
+
+function initChildSwipe() {
+  const wrap = document.getElementById('hero-photo-wrap');
+  if (!wrap) return;
+  let startX = 0, startY = 0, moved = false;
+
+  wrap.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    moved = false;
+  }, { passive: true });
+
+  wrap.addEventListener('touchmove', e => {
+    const dx = e.touches[0].clientX - startX;
+    const dy = e.touches[0].clientY - startY;
+    if (Math.abs(dx) > 10) moved = true;
+  }, { passive: true });
+
+  wrap.addEventListener('touchend', e => {
+    if (!moved) return;
+    if (state.children.length <= 1) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    if (Math.abs(dx) < 40 || Math.abs(dy) > Math.abs(dx)) return;
+    // Animate wrap
+    const dir = dx < 0 ? 1 : -1;
+    let next = state.currentChildIndex + dir;
+    if (next < 0) next = state.children.length - 1;
+    if (next >= state.children.length) next = 0;
+    // Slide animation
+    wrap.style.transition = 'transform 0.2s ease';
+    wrap.style.transform = `translateX(${dir * -60}px)`;
+    setTimeout(() => {
+      wrap.style.transition = 'none';
+      wrap.style.transform = '';
+      applyChild(next);
+      renderChildDots();
+    }, 180);
+    // Prevent click from firing after swipe
+    wrap.onclick = null;
+    setTimeout(() => {
+      wrap.onclick = () => document.getElementById('hero-photo-input').click();
+    }, 300);
+  }, { passive: true });
+}
 
 function getChildProfile() {
   return {
@@ -1439,7 +1545,21 @@ async function init() {
     if (cached.plan)        state.plan        = cached.plan;
   } catch(e) {}
 
+  // Restore children list from cache
+  const cachedChildren = loadChildrenCache();
+  if (cachedChildren && cachedChildren.length > 0) {
+    state.children = cachedChildren;
+    state.currentChildIndex = 0;
+    const c = state.children[0];
+    state.childName   = c.childName   || state.childName;
+    state.childAge    = c.childAge    || state.childAge;
+    state.childGender = c.childGender || state.childGender;
+    state.childDob    = c.childDob    || state.childDob;
+    state.region      = c.region      || state.region;
+  }
+
   loadHomeStats();
+  renderChildDots();
   initHeroPhoto();
 
   // Try to sync from API
@@ -1456,7 +1576,29 @@ async function init() {
     state.childDob  = data.child_dob  || state.childDob || '';
     state.profile   = data.profile    || {};
 
-    // Cache
+    // Merge API child (index 0) into children array
+    if (state.children.length === 0) {
+      state.children = [{
+        childName:   state.childName,
+        childAge:    state.childAge,
+        childGender: state.childGender,
+        childDob:    state.childDob,
+        region:      state.region,
+      }];
+    } else {
+      // Update first child with fresh API data
+      state.children[0] = {
+        ...state.children[0],
+        childName:   state.childName,
+        childAge:    state.childAge,
+        childGender: state.childGender,
+        childDob:    state.childDob,
+        region:      state.region,
+      };
+    }
+    saveChildrenCache();
+
+    // Cache profile
     localStorage.setItem('profile_cache', JSON.stringify({
       childName:   state.childName,
       childAge:    state.childAge,
@@ -1467,6 +1609,7 @@ async function init() {
     }));
 
     loadHomeStats();
+    renderChildDots();
 
     // Pre-fill benefits region
     const benefitsInput = document.getElementById('benefits-region-input');
@@ -1480,6 +1623,18 @@ async function init() {
       else neurobadge.textContent = '1 бесплатно';
     }
   } catch(e) {
+    // Build children array from state even if API failed
+    if (state.children.length === 0 && state.childName) {
+      state.children = [{
+        childName:   state.childName,
+        childAge:    state.childAge,
+        childGender: state.childGender,
+        childDob:    state.childDob,
+        region:      state.region,
+      }];
+      saveChildrenCache();
+      renderChildDots();
+    }
     console.warn('Sync failed (offline or dev mode):', e.message);
   }
 }
@@ -1491,7 +1646,9 @@ function uploadHeroBabyPhoto(input) {
   const reader = new FileReader();
   reader.onload = e => {
     const data = e.target.result;
-    try { localStorage.setItem('heroBabyPhoto', data); } catch(e) {}
+    const idx = state.currentChildIndex;
+    const key = idx === 0 ? 'heroBabyPhoto' : `heroBabyPhoto_${idx}`;
+    try { localStorage.setItem(key, data); } catch(e) {}
     applyHeroBabyPhoto(data);
   };
   reader.readAsDataURL(file);
@@ -1504,13 +1661,22 @@ function applyHeroBabyPhoto(src) {
   const wrap = document.getElementById('hero-photo-wrap');
   if (fixed) { fixed.src = src; fixed.style.display = 'block'; }
   if (placeholder) placeholder.style.display = 'none';
-  if (wrap) { wrap.onclick = null; wrap.classList.add('has-photo'); }
+  if (wrap) {
+    wrap.classList.add('has-photo');
+    // restore click handler (may have been cleared by swipe)
+    wrap.onclick = () => document.getElementById('hero-photo-input').click();
+  }
 }
 
 function initHeroPhoto() {
-  // Restore saved photo
-  const saved = localStorage.getItem('heroBabyPhoto');
+  // Restore saved photo for current child
+  const idx = state.currentChildIndex;
+  const key = idx === 0 ? 'heroBabyPhoto' : `heroBabyPhoto_${idx}`;
+  const saved = localStorage.getItem(key) || (idx !== 0 ? localStorage.getItem('heroBabyPhoto') : null);
   if (saved) applyHeroBabyPhoto(saved);
+
+  // Init swipe between children
+  initChildSwipe();
 
   // Topbar scroll effect + parallax on home screen
   const homeScreen = document.getElementById('screen-home');
