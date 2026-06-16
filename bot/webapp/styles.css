@@ -2979,8 +2979,16 @@ body {
   border-radius: inherit;
 }
 
-/* ── No shimmer modifier for specific banners ── */
+/* ── No shimmer modifier for specific banners/tiles ── */
 .wide-banner--no-shimmer::after { background: none !important; }
+.mini-tile--no-shimmer::after   { background: none !important; content: none !important; }
+.mini-tile--no-shimmer {
+  box-shadow:
+    0 10px 32px rgba(28,25,23,0.13),
+    0 3px 9px rgba(28,25,23,0.08),
+    0 1px 3px rgba(28,25,23,0.04),
+    inset 0 -1px 0 rgba(28,25,23,0.04);
+}
 
 /* ── Remove all glare/blik overlays globally ── */
 .tile::after,
