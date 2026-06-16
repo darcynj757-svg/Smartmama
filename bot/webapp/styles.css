@@ -2990,6 +2990,9 @@ body {
 .wide-banner--no-shimmer::after { background: none !important; }
 .mini-tile--no-shimmer::after   { background: none !important; content: none !important; }
 .mini-tile--no-shimmer {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: var(--mt-bg, var(--surface));
   box-shadow:
     0 10px 32px rgba(28,25,23,0.13),
     0 3px 9px rgba(28,25,23,0.08),
