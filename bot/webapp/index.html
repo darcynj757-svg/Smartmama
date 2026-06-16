@@ -360,9 +360,15 @@
       <button class="chip" onclick="sendChip('nutrition','Малыш плохо ест — что делать?')">Плохо ест</button>
     </div>
     <!-- Кнопка фото холодильника -->
-    <div class="form-card" style="text-align:center">
-      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px">Сфотографируй холодильник — AI предложит блюда 🥦</p>
-      <button class="btn-pri" onclick="document.getElementById('fridge-photo').click()" style="max-width:240px">📷 Фото холодильника</button>
+    <div class="form-card">
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;text-align:center">Сфотографируй холодильник — AI предложит блюда 🥦</p>
+      <button class="btn-fridge" onclick="document.getElementById('fridge-photo').click()">
+        <span class="btn-fridge-icon">📷</span>
+        <span class="btn-fridge-label">
+          <span>Фото холодильника или еды</span>
+          <span>AI подберёт рецепты под продукты</span>
+        </span>
+      </button>
       <input type="file" id="fridge-photo" accept="image/*" capture="environment" style="display:none" onchange="analyzeFridge(this)">
     </div>
     <div id="fridge-dishes" style="display:none">

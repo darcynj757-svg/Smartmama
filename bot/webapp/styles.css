@@ -2850,6 +2850,97 @@ body {
     inset 0 2px 6px rgba(0,0,0,0.12);
 }
 
+/* ── Fridge / full-width liquid-glass button ── */
+.btn-fridge {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.2px;
+  color: #fff;
+  cursor: pointer;
+  /* Liquid glass base — blue-purple tint */
+  background: linear-gradient(135deg,
+    rgba(130,110,240,0.55) 0%,
+    rgba(107,150,235,0.50) 50%,
+    rgba(90,180,220,0.45) 100%);
+  backdrop-filter: blur(36px) saturate(200%) brightness(1.12);
+  -webkit-backdrop-filter: blur(36px) saturate(200%) brightness(1.12);
+  border: 1.5px solid rgba(255,255,255,0.52);
+  border-bottom-color: rgba(255,255,255,0.22);
+  box-shadow:
+    0 10px 32px rgba(107,130,235,0.40),
+    0 4px 12px rgba(107,130,235,0.22),
+    0 1px 3px rgba(80,100,200,0.18),
+    inset 0 1.5px 0 rgba(255,255,255,0.70),
+    inset 0 -2px 0 rgba(0,0,0,0.10);
+  transition: transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
+}
+/* Specular top shimmer */
+.btn-fridge::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 12px; right: 12px;
+  height: 1.5px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,255,255,0.95) 30%,
+    rgba(255,255,255,0.95) 70%,
+    transparent 100%);
+  border-radius: 100px;
+  pointer-events: none;
+}
+/* Inner glass highlight */
+.btn-fridge::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg,
+    rgba(255,255,255,0.28) 0%,
+    rgba(255,255,255,0.06) 48%,
+    rgba(255,255,255,0.00) 100%);
+  pointer-events: none;
+}
+.btn-fridge:active {
+  transform: scale(0.98);
+  opacity: 0.88;
+  box-shadow:
+    0 4px 12px rgba(107,130,235,0.28),
+    inset 0 1px 0 rgba(255,255,255,0.35),
+    inset 0 2px 8px rgba(0,0,0,0.10);
+}
+.btn-fridge-icon {
+  font-size: 22px;
+  line-height: 1;
+  z-index: 1;
+}
+.btn-fridge-label {
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+}
+.btn-fridge-label span:first-child {
+  font-size: 16px;
+  font-weight: 700;
+}
+.btn-fridge-label span:last-child {
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.82;
+  letter-spacing: 0.1px;
+}
+
 /* ── Outline button ── */
 .btn-out {
   position: relative;
