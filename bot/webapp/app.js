@@ -129,6 +129,9 @@ function go(name) {
   // AI FAB: hide on aichat screen
   const fab = document.getElementById('ai-fab');
   if (fab) fab.classList.toggle('hidden', name === 'aichat');
+  // Hero photo fixed: only visible on home screen
+  const heroFixed = document.getElementById('hero-photo-fixed');
+  if (heroFixed) heroFixed.style.display = name === 'home' ? 'block' : 'none';
   // Topbar: hero-mode only on home when scrolled to top
   const topbar = document.getElementById('topbar');
   if (topbar) {

@@ -782,6 +782,7 @@ body {
   display: none;
   position: absolute;
   inset: 0;
+  background: #F5F3EE;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
@@ -794,6 +795,7 @@ body {
 /* ── Home screen: hero extends under topbar ── */
 #screen-home {
   padding: 0;
+  background: transparent;
 }
 .home-content {
   padding: 20px 14px calc(var(--bottomnav-h) + var(--safe-bottom) + 30px);
