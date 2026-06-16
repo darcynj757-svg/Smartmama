@@ -190,91 +190,92 @@ body {
   overflow: hidden;
   pointer-events: none;
   isolation: isolate;
+  background: #ffffff;
 }
 
 .bg-blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(45px);
-  opacity: 0.80;
+  filter: blur(22px);
+  opacity: 0.55;
   will-change: transform;
 }
 
 .bg-blob-1 {
-  width: 360px; height: 360px;
-  background: radial-gradient(circle, #5bbfe0 0%, #2a9fc4 60%, transparent 100%);
-  top: -100px; left: -80px;
+  width: 580px; height: 580px;
+  background: radial-gradient(circle at 38% 38%, #a8e6f8 0%, #5bbfe0 45%, #2a9fc4 100%);
+  top: -160px; left: -140px;
   animation: blob-float-1 18s ease-in-out infinite;
 }
 .bg-blob-2 {
-  width: 300px; height: 300px;
-  background: radial-gradient(circle, #a78bfa 0%, #7c5cbf 60%, transparent 100%);
-  top: 15%; right: -90px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle at 40% 36%, #d4c0fc 0%, #a78bfa 45%, #7c5cbf 100%);
+  top: 10%; right: -150px;
   animation: blob-float-2 22s ease-in-out infinite;
 }
 .bg-blob-3 {
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, #38c9e8 0%, #0ea5c9 60%, transparent 100%);
-  top: 35%; left: 5%;
+  width: 620px; height: 620px;
+  background: radial-gradient(circle at 42% 40%, #b3eef7 0%, #38c9e8 45%, #0ea5c9 100%);
+  top: 38%; left: -60px;
   animation: blob-float-3 26s ease-in-out infinite;
 }
 .bg-blob-4 {
-  width: 300px; height: 300px;
-  background: radial-gradient(circle, #f9c4dc 0%, #e896b8 60%, transparent 100%);
-  bottom: 15%; right: -20px;
+  width: 480px; height: 480px;
+  background: radial-gradient(circle at 40% 38%, #fde0ec 0%, #f9a8cc 45%, #e896b8 100%);
+  bottom: 0%; right: -120px;
   animation: blob-float-4 20s ease-in-out infinite;
 }
 .bg-blob-5 {
-  width: 240px; height: 240px;
-  background: radial-gradient(circle, #c4b5fd 0%, #8b5cf6 60%, transparent 100%);
-  bottom: 0%; left: -50px;
+  width: 440px; height: 440px;
+  background: radial-gradient(circle at 40% 38%, #ede0fe 0%, #c4b5fd 45%, #8b5cf6 100%);
+  bottom: 8%; left: -100px;
   animation: blob-float-5 24s ease-in-out infinite;
 }
 .bg-blob-6 {
-  width: 320px; height: 320px;
-  background: radial-gradient(circle, #7dd3fc 0%, #0284c7 60%, transparent 100%);
-  top: 55%; left: 45%;
+  width: 520px; height: 520px;
+  background: radial-gradient(circle at 40% 38%, #bae6fd 0%, #7dd3fc 45%, #0284c7 100%);
+  top: 52%; left: 38%;
   animation: blob-float-6 28s ease-in-out infinite;
 }
 
 @keyframes blob-float-1 {
   0%   { transform: translate(0px, 0px) scale(1); }
-  25%  { transform: translate(40px, 60px) scale(1.08); }
-  50%  { transform: translate(80px, 20px) scale(0.94); }
-  75%  { transform: translate(20px, 80px) scale(1.05); }
+  25%  { transform: translate(50px, 70px) scale(1.07); }
+  50%  { transform: translate(100px, 25px) scale(0.94); }
+  75%  { transform: translate(25px, 90px) scale(1.04); }
   100% { transform: translate(0px, 0px) scale(1); }
 }
 @keyframes blob-float-2 {
   0%   { transform: translate(0px, 0px) scale(1); }
-  30%  { transform: translate(-60px, 40px) scale(1.10); }
-  60%  { transform: translate(-30px, 80px) scale(0.92); }
-  80%  { transform: translate(-70px, 20px) scale(1.06); }
+  30%  { transform: translate(-70px, 50px) scale(1.09); }
+  60%  { transform: translate(-35px, 95px) scale(0.93); }
+  80%  { transform: translate(-80px, 25px) scale(1.05); }
   100% { transform: translate(0px, 0px) scale(1); }
 }
 @keyframes blob-float-3 {
   0%   { transform: translate(0px, 0px) scale(1); }
-  20%  { transform: translate(50px, -40px) scale(1.06); }
-  50%  { transform: translate(-40px, 60px) scale(0.96); }
-  75%  { transform: translate(60px, 30px) scale(1.04); }
+  20%  { transform: translate(60px, -50px) scale(1.06); }
+  50%  { transform: translate(-50px, 70px) scale(0.95); }
+  75%  { transform: translate(70px, 35px) scale(1.04); }
   100% { transform: translate(0px, 0px) scale(1); }
 }
 @keyframes blob-float-4 {
   0%   { transform: translate(0px, 0px) scale(1); }
-  33%  { transform: translate(-50px, -60px) scale(1.12); }
-  66%  { transform: translate(40px, -30px) scale(0.90); }
+  33%  { transform: translate(-60px, -70px) scale(1.10); }
+  66%  { transform: translate(50px, -35px) scale(0.91); }
   100% { transform: translate(0px, 0px) scale(1); }
 }
 @keyframes blob-float-5 {
   0%   { transform: translate(0px, 0px) scale(1); }
-  40%  { transform: translate(60px, -50px) scale(1.08); }
-  70%  { transform: translate(30px, -80px) scale(0.95); }
+  40%  { transform: translate(70px, -60px) scale(1.08); }
+  70%  { transform: translate(35px, -95px) scale(0.94); }
   100% { transform: translate(0px, 0px) scale(1); }
 }
 @keyframes blob-float-6 {
   0%   { transform: translate(0px, 0px) scale(1); }
-  25%  { transform: translate(-70px, 40px) scale(1.07); }
-  55%  { transform: translate(50px, 70px) scale(0.93); }
-  80%  { transform: translate(-30px, -40px) scale(1.05); }
+  25%  { transform: translate(-80px, 50px) scale(1.07); }
+  55%  { transform: translate(60px, 80px) scale(0.93); }
+  80%  { transform: translate(-35px, -50px) scale(1.05); }
   100% { transform: translate(0px, 0px) scale(1); }
 }
 
