@@ -61,7 +61,7 @@ isCanvasWorkflow = true
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "pnpm --filter @workspace/mockup-sandbox exec vite dev --port 8000 --host 0.0.0.0"
+args = "pnpm --filter @workspace/mockup-sandbox run dev --port 8000 --host 0.0.0.0"
 waitForPort = 8000
 
 [agent]
@@ -78,16 +78,16 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 8000
-externalPort = 8000
-
-[[ports]]
 localPort = 8080
 externalPort = 8080
 
 [[ports]]
 localPort = 8081
 externalPort = 8081
+
+[[ports]]
+localPort = 8000
+externalPort = 8000
 
 [userenv]
 
