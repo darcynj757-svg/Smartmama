@@ -259,7 +259,7 @@ function go(name) {
   if (name === 'home') loadHomeStats();
   if (name === 'sleep') loadSleepData();
   if (name === 'feed') loadFeedData();
-  if (name === 'workout') loadKbzhu();
+  if (name === 'workout' || name === 'kbzhu') loadKbzhu();
   if (name === 'diary') loadDiaryData();
   if (name === 'profile') fillProfile();
   if (name === 'referral') loadReferral();
@@ -852,8 +852,7 @@ function switchWorkoutTab(tab) {
 }
 
 function goWorkoutKbzhu() {
-  go('workout');
-  switchWorkoutTab('kbzhu');
+  go('kbzhu');
 }
 
 function updateKbzhuTotals() {

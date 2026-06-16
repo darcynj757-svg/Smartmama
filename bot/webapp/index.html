@@ -1013,141 +1013,145 @@
       <div class="chat-hdr-ico">🏋️</div>
       <div>
         <div class="chat-hdr-title">Тренировки для мам</div>
-        <div class="chat-hdr-sub">AI-тренер · Подсчёт КБЖУ</div>
+        <div class="chat-hdr-sub">AI-тренер · Упражнения дома</div>
+      </div>
+    </div>
+    <div class="chips-scroll">
+      <button class="chip" onclick="sendChip('workout','Тренировка для мамы на 15 минут дома')">Тренировка 15 мин</button>
+      <button class="chip" onclick="sendChip('workout','Упражнения для восстановления после родов')">После родов</button>
+      <button class="chip" onclick="sendChip('workout','Йога для мамы с малышом на руках')">Йога с малышом</button>
+      <button class="chip" onclick="sendChip('workout','Упражнения для укрепления спины и осанки')">Спина и осанка</button>
+      <button class="chip" onclick="sendChip('workout','Кардио тренировка без прыжков дома')">Кардио дома</button>
+      <button class="chip" onclick="sendChip('workout','Упражнения для живота после беременности')">Пресс после беременности</button>
+    </div>
+    <div class="msgs-area" id="workout-msgs"></div>
+    <div class="chat-bar">
+      <textarea id="workout-input" placeholder="Спроси про тренировку..." rows="1" onkeydown="chatKeydown(event,'workout')" oninput="autoResize(this)"></textarea>
+      <button id="workout-mic-btn" class="chat-btn btn-mic" onclick="toggleVoice('workout')">🎙️</button>
+      <button class="chat-btn btn-send" onclick="sendChat('workout')">➤</button>
+    </div>
+  </section>
+
+  <!-- ────────────── КБЖУ ────────────── -->
+  <section id="screen-kbzhu" class="screen">
+    <div class="chat-hdr" style="background:linear-gradient(135deg,#FFA96A,#F4C842)">
+      <button class="back-btn" onclick="goBack()">‹</button>
+      <div class="chat-hdr-ico">🥗</div>
+      <div>
+        <div class="chat-hdr-title">КБЖУ</div>
+        <div class="chat-hdr-sub">Калории · Белки · Жиры · Углеводы</div>
       </div>
     </div>
 
-    <!-- ── Вкладка: Чат с тренером ── -->
-    <div id="workout-tab-chat" class="workout-tab-content">
-      <div class="chips-scroll">
-        <button class="chip" onclick="sendChip('workout','Тренировка для мамы на 15 минут дома')">Тренировка 15 мин</button>
-        <button class="chip" onclick="sendChip('workout','Упражнения для восстановления после родов')">После родов</button>
-        <button class="chip" onclick="sendChip('workout','Йога для мамы с малышом на руках')">Йога с малышом</button>
-        <button class="chip" onclick="sendChip('workout','Упражнения для укрепления спины и осанки')">Спина и осанка</button>
-        <button class="chip" onclick="sendChip('workout','Кардио тренировка без прыжков дома')">Кардио дома</button>
-        <button class="chip" onclick="sendChip('workout','Упражнения для живота после беременности')">Пресс после беременности</button>
+    <!-- Сводка дня -->
+    <div class="kbzhu-summary">
+      <div class="kbzhu-cal-card">
+        <div class="kbzhu-cal-top">
+          <span class="kbzhu-cal-label">Калории сегодня</span>
+          <span class="kbzhu-cal-fraction"><span id="kbzhu-kcal-val">0</span> / <span id="kbzhu-kcal-goal">2000</span> ккал</span>
+        </div>
+        <div class="kbzhu-bar-bg"><div class="kbzhu-bar kbzhu-bar-kcal" id="kbzhu-kcal-bar" style="width:0%"></div></div>
       </div>
-      <div class="msgs-area" id="workout-msgs"></div>
-      <div class="chat-bar">
-        <textarea id="workout-input" placeholder="Спроси про тренировку..." rows="1" onkeydown="chatKeydown(event,'workout')" oninput="autoResize(this)"></textarea>
-        <button id="workout-mic-btn" class="chat-btn btn-mic" onclick="toggleVoice('workout')">🎙️</button>
-        <button class="chat-btn btn-send" onclick="sendChat('workout')">➤</button>
+      <div class="kbzhu-macros-row">
+        <div class="kbzhu-macro-card kbzhu-prot">
+          <div class="kbzhu-macro-val"><span id="kbzhu-p-val">0</span><span class="kbzhu-macro-unit">г</span></div>
+          <div class="kbzhu-bar-bg"><div class="kbzhu-bar kbzhu-bar-p" id="kbzhu-p-bar" style="width:0%"></div></div>
+          <div class="kbzhu-macro-label">Белки</div>
+          <div class="kbzhu-macro-sub">из <span id="kbzhu-p-goal">80</span>г</div>
+        </div>
+        <div class="kbzhu-macro-card kbzhu-fat">
+          <div class="kbzhu-macro-val"><span id="kbzhu-f-val">0</span><span class="kbzhu-macro-unit">г</span></div>
+          <div class="kbzhu-bar-bg"><div class="kbzhu-bar kbzhu-bar-f" id="kbzhu-f-bar" style="width:0%"></div></div>
+          <div class="kbzhu-macro-label">Жиры</div>
+          <div class="kbzhu-macro-sub">из <span id="kbzhu-f-goal">65</span>г</div>
+        </div>
+        <div class="kbzhu-macro-card kbzhu-carb">
+          <div class="kbzhu-macro-val"><span id="kbzhu-c-val">0</span><span class="kbzhu-macro-unit">г</span></div>
+          <div class="kbzhu-bar-bg"><div class="kbzhu-bar kbzhu-bar-c" id="kbzhu-c-bar" style="width:0%"></div></div>
+          <div class="kbzhu-macro-label">Углеводы</div>
+          <div class="kbzhu-macro-sub">из <span id="kbzhu-c-goal">280</span>г</div>
+        </div>
       </div>
     </div>
 
-    <!-- ── Вкладка: КБЖУ ── -->
-    <div id="workout-tab-kbzhu" class="workout-tab-content" style="display:none">
-
-      <!-- Сводка дня -->
-      <div class="kbzhu-summary">
-        <div class="kbzhu-cal-card">
-          <div class="kbzhu-cal-top">
-            <span class="kbzhu-cal-label">Калории сегодня</span>
-            <span class="kbzhu-cal-fraction"><span id="kbzhu-kcal-val">0</span> / <span id="kbzhu-kcal-goal">2000</span> ккал</span>
+    <!-- Добавить приём пищи -->
+    <div class="form-card">
+      <div class="form-toggle" onclick="toggleForm('kbzhu-form')">
+        <span class="form-toggle-title">+ Добавить приём пищи</span>
+        <span id="kbzhu-form-arrow">▼</span>
+      </div>
+      <div class="form-body" id="kbzhu-form" style="display:none">
+        <label class="field-label">Название блюда</label>
+        <input type="text" class="field-input" id="kbzhu-name" placeholder="Овсяная каша, куриная грудка...">
+        <label class="field-label">Калории (ккал)</label>
+        <input type="number" class="field-input" id="kbzhu-kcal-in" placeholder="300" min="0">
+        <div class="kbzhu-form-row">
+          <div class="kbzhu-form-col">
+            <label class="field-label">Белки (г)</label>
+            <input type="number" class="field-input" id="kbzhu-p-in" placeholder="15" min="0">
           </div>
-          <div class="kbzhu-bar-bg"><div class="kbzhu-bar kbzhu-bar-kcal" id="kbzhu-kcal-bar" style="width:0%"></div></div>
+          <div class="kbzhu-form-col">
+            <label class="field-label">Жиры (г)</label>
+            <input type="number" class="field-input" id="kbzhu-f-in" placeholder="10" min="0">
+          </div>
+          <div class="kbzhu-form-col">
+            <label class="field-label">Углеводы (г)</label>
+            <input type="number" class="field-input" id="kbzhu-c-in" placeholder="40" min="0">
+          </div>
         </div>
-        <div class="kbzhu-macros-row">
-          <div class="kbzhu-macro-card kbzhu-prot">
-            <div class="kbzhu-macro-val"><span id="kbzhu-p-val">0</span><span class="kbzhu-macro-unit">г</span></div>
-            <div class="kbzhu-bar-bg"><div class="kbzhu-bar kbzhu-bar-p" id="kbzhu-p-bar" style="width:0%"></div></div>
-            <div class="kbzhu-macro-label">Белки</div>
-            <div class="kbzhu-macro-sub">из <span id="kbzhu-p-goal">80</span>г</div>
-          </div>
-          <div class="kbzhu-macro-card kbzhu-fat">
-            <div class="kbzhu-macro-val"><span id="kbzhu-f-val">0</span><span class="kbzhu-macro-unit">г</span></div>
-            <div class="kbzhu-bar-bg"><div class="kbzhu-bar kbzhu-bar-f" id="kbzhu-f-bar" style="width:0%"></div></div>
-            <div class="kbzhu-macro-label">Жиры</div>
-            <div class="kbzhu-macro-sub">из <span id="kbzhu-f-goal">65</span>г</div>
-          </div>
-          <div class="kbzhu-macro-card kbzhu-carb">
-            <div class="kbzhu-macro-val"><span id="kbzhu-c-val">0</span><span class="kbzhu-macro-unit">г</span></div>
-            <div class="kbzhu-bar-bg"><div class="kbzhu-bar kbzhu-bar-c" id="kbzhu-c-bar" style="width:0%"></div></div>
-            <div class="kbzhu-macro-label">Углеводы</div>
-            <div class="kbzhu-macro-sub">из <span id="kbzhu-c-goal">280</span>г</div>
-          </div>
+        <div class="form-btns">
+          <button class="btn-out" onclick="toggleForm('kbzhu-form')">Отмена</button>
+          <button class="btn-pri" onclick="saveKbzhuMeal()">Добавить</button>
         </div>
       </div>
-
-      <!-- Добавить приём пищи -->
-      <div class="form-card">
-        <div class="form-toggle" onclick="toggleForm('kbzhu-form')">
-          <span class="form-toggle-title">+ Добавить приём пищи</span>
-          <span id="kbzhu-form-arrow">▼</span>
-        </div>
-        <div class="form-body" id="kbzhu-form" style="display:none">
-          <label class="field-label">Название блюда</label>
-          <input type="text" class="field-input" id="kbzhu-name" placeholder="Овсяная каша, куриная грудка...">
-          <label class="field-label">Калории (ккал)</label>
-          <input type="number" class="field-input" id="kbzhu-kcal-in" placeholder="300" min="0">
-          <div class="kbzhu-form-row">
-            <div class="kbzhu-form-col">
-              <label class="field-label">Белки (г)</label>
-              <input type="number" class="field-input" id="kbzhu-p-in" placeholder="15" min="0">
-            </div>
-            <div class="kbzhu-form-col">
-              <label class="field-label">Жиры (г)</label>
-              <input type="number" class="field-input" id="kbzhu-f-in" placeholder="10" min="0">
-            </div>
-            <div class="kbzhu-form-col">
-              <label class="field-label">Углеводы (г)</label>
-              <input type="number" class="field-input" id="kbzhu-c-in" placeholder="40" min="0">
-            </div>
-          </div>
-          <div class="form-btns">
-            <button class="btn-out" onclick="toggleForm('kbzhu-form')">Отмена</button>
-            <button class="btn-pri" onclick="saveKbzhuMeal()">Добавить</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Дневная норма -->
-      <div class="form-card" style="margin-top:10px">
-        <div class="form-toggle" onclick="toggleForm('kbzhu-goals-form')">
-          <span class="form-toggle-title">⚙️ Моя дневная норма</span>
-          <span id="kbzhu-goals-form-arrow">▼</span>
-        </div>
-        <div class="form-body" id="kbzhu-goals-form" style="display:none">
-          <div class="kbzhu-form-row">
-            <div class="kbzhu-form-col kbzhu-form-col-half">
-              <label class="field-label">Калории (ккал)</label>
-              <input type="number" class="field-input" id="kbzhu-goal-kcal" placeholder="2300" min="0">
-            </div>
-            <div class="kbzhu-form-col kbzhu-form-col-half">
-              <label class="field-label">Белки (г)</label>
-              <input type="number" class="field-input" id="kbzhu-goal-p" placeholder="90" min="0">
-            </div>
-          </div>
-          <div class="kbzhu-form-row">
-            <div class="kbzhu-form-col kbzhu-form-col-half">
-              <label class="field-label">Жиры (г)</label>
-              <input type="number" class="field-input" id="kbzhu-goal-f" placeholder="75" min="0">
-            </div>
-            <div class="kbzhu-form-col kbzhu-form-col-half">
-              <label class="field-label">Углеводы (г)</label>
-              <input type="number" class="field-input" id="kbzhu-goal-c" placeholder="310" min="0">
-            </div>
-          </div>
-          <div class="form-btns">
-            <button class="btn-out" onclick="toggleForm('kbzhu-goals-form')">Отмена</button>
-            <button class="btn-pri" onclick="saveKbzhuGoals()">Сохранить</button>
-          </div>
-          <div class="kbzhu-rec">
-            <div class="kbzhu-rec-title">💡 Рекомендации для кормящих мам</div>
-            <div class="kbzhu-rec-grid">
-              <span class="kbzhu-rec-item">Калории</span><strong>2300–2500 ккал</strong>
-              <span class="kbzhu-rec-item">Белки</span><strong>90–100 г</strong>
-              <span class="kbzhu-rec-item">Жиры</span><strong>70–80 г</strong>
-              <span class="kbzhu-rec-item">Углеводы</span><strong>300–350 г</strong>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="sec-title" style="margin-top:18px">Приёмы пищи сегодня</div>
-      <ul class="entry-list" id="kbzhu-list"></ul>
-
     </div>
+
+    <!-- Дневная норма -->
+    <div class="form-card" style="margin-top:10px">
+      <div class="form-toggle" onclick="toggleForm('kbzhu-goals-form')">
+        <span class="form-toggle-title">⚙️ Моя дневная норма</span>
+        <span id="kbzhu-goals-form-arrow">▼</span>
+      </div>
+      <div class="form-body" id="kbzhu-goals-form" style="display:none">
+        <div class="kbzhu-form-row">
+          <div class="kbzhu-form-col kbzhu-form-col-half">
+            <label class="field-label">Калории (ккал)</label>
+            <input type="number" class="field-input" id="kbzhu-goal-kcal" placeholder="2300" min="0">
+          </div>
+          <div class="kbzhu-form-col kbzhu-form-col-half">
+            <label class="field-label">Белки (г)</label>
+            <input type="number" class="field-input" id="kbzhu-goal-p" placeholder="90" min="0">
+          </div>
+        </div>
+        <div class="kbzhu-form-row">
+          <div class="kbzhu-form-col kbzhu-form-col-half">
+            <label class="field-label">Жиры (г)</label>
+            <input type="number" class="field-input" id="kbzhu-goal-f" placeholder="75" min="0">
+          </div>
+          <div class="kbzhu-form-col kbzhu-form-col-half">
+            <label class="field-label">Углеводы (г)</label>
+            <input type="number" class="field-input" id="kbzhu-goal-c" placeholder="310" min="0">
+          </div>
+        </div>
+        <div class="form-btns">
+          <button class="btn-out" onclick="toggleForm('kbzhu-goals-form')">Отмена</button>
+          <button class="btn-pri" onclick="saveKbzhuGoals()">Сохранить</button>
+        </div>
+        <div class="kbzhu-rec">
+          <div class="kbzhu-rec-title">💡 Рекомендации для кормящих мам</div>
+          <div class="kbzhu-rec-grid">
+            <span class="kbzhu-rec-item">Калории</span><strong>2300–2500 ккал</strong>
+            <span class="kbzhu-rec-item">Белки</span><strong>90–100 г</strong>
+            <span class="kbzhu-rec-item">Жиры</span><strong>70–80 г</strong>
+            <span class="kbzhu-rec-item">Углеводы</span><strong>300–350 г</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title" style="margin-top:18px">Приёмы пищи сегодня</div>
+    <ul class="entry-list" id="kbzhu-list"></ul>
+
   </section>
 
   <section id="screen-sounds" class="screen">
