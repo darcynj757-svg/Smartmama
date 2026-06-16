@@ -416,16 +416,53 @@
   <!-- ────────────── ТРЕКЕР СНА ────────────── -->
   <section id="screen-sleep" class="screen">
     <div class="page-title">💤 Трекер сна</div>
-    <div class="tr-card pink">
-      <div class="tr-title">Сон сегодня</div>
-      <div class="tr-val" id="sleep-val">0ч 0мин</div>
-      <div class="tr-norm" id="sleep-norm-txt">Норма: —</div>
-      <div class="tr-bar-bg"><div class="tr-bar" id="sleep-bar" style="width:0%"></div></div>
+
+    <!-- Hero ring -->
+    <div class="sleep-hero">
+      <div class="sleep-hero-ring">
+        <svg class="sleep-ring-svg" viewBox="0 0 100 100">
+          <circle class="sleep-ring-track" cx="50" cy="50" r="38"/>
+          <circle class="sleep-ring-fill" id="sleep-ring-fill" cx="50" cy="50" r="38"
+            stroke-dasharray="238.76" stroke-dashoffset="238.76"/>
+        </svg>
+        <div class="sleep-ring-center">
+          <div class="sleep-ring-h" id="sleep-val-h">0ч</div>
+          <div class="sleep-ring-m" id="sleep-val-m">0мин</div>
+        </div>
+        <span id="sleep-val" style="display:none">0ч 0мин</span>
+      </div>
+      <div class="sleep-hero-info">
+        <div class="sleep-hero-norm-label">Норма сегодня</div>
+        <div class="sleep-hero-norm" id="sleep-norm-txt">—</div>
+        <div class="sleep-hero-bar-wrap">
+          <div class="sleep-hero-bar" id="sleep-bar" style="width:0%"></div>
+        </div>
+        <div class="sleep-hero-hint" id="sleep-hero-hint"></div>
+      </div>
     </div>
 
+    <!-- Таймер сна -->
+    <div class="sleep-timer-wrap">
+      <button class="sleep-start-btn" id="sleep-start-btn" onclick="startSleepTimer()">
+        <span class="sleep-btn-icon">🌙</span>
+        <span class="sleep-btn-text">
+          <span>Уложила сейчас</span>
+          <span>Нажми когда укладываешь</span>
+        </span>
+      </button>
+      <div class="sleep-recording" id="sleep-recording" style="display:none">
+        <div class="sleep-rec-info">
+          <span class="sleep-rec-dot"></span>
+          <span class="sleep-rec-label">Спит с <strong id="sleep-rec-start">—</strong></span>
+        </div>
+        <button class="sleep-wake-btn" onclick="wakeFromTimer()">☀️ Проснулся</button>
+      </div>
+    </div>
+
+    <!-- Форма ручного ввода -->
     <div class="form-card">
       <div class="form-toggle" onclick="toggleForm('sleep-form')">
-        <span class="form-toggle-title">+ Записать сон</span>
+        <span class="form-toggle-title">+ Записать вручную</span>
         <span id="sleep-form-arrow">▼</span>
       </div>
       <div class="form-body" id="sleep-form" style="display:none">
@@ -442,9 +479,11 @@
       </div>
     </div>
 
+    <!-- Сегодня -->
     <div class="sec-title">Сегодня</div>
     <ul class="entry-list" id="sleep-list"></ul>
 
+    <!-- История -->
     <button class="collapse-toggle" onclick="toggleCollapse('sleep-history-body','sleep-history-arrow')">
       📋 История сна <span id="sleep-history-arrow">▼</span>
     </button>
@@ -452,13 +491,29 @@
       <ul class="entry-list" id="sleep-history-list"></ul>
     </div>
 
-    <div class="sec-title" style="margin-top:18px">Нормы сна по возрасту</div>
-    <div class="norm-list">
-      <div class="norm-item"><span>0–3 месяца</span><span class="norm-val">14–17 ч/сут</span></div>
-      <div class="norm-item"><span>3–6 месяцев</span><span class="norm-val">12–16 ч/сут</span></div>
-      <div class="norm-item"><span>6–12 месяцев</span><span class="norm-val">12–15 ч/сут</span></div>
-      <div class="norm-item"><span>1–2 года</span><span class="norm-val">11–14 ч/сут</span></div>
-      <div class="norm-item"><span>2–3 года</span><span class="norm-val">10–13 ч/сут</span></div>
+    <!-- Нормы по возрасту -->
+    <div class="sec-title" style="margin-top:18px">Нормы по возрасту</div>
+    <div class="sleep-norms-grid">
+      <div class="sleep-norm-card">
+        <div class="sleep-norm-card-age">0–3 мес</div>
+        <div class="sleep-norm-card-val">14–17 <span>ч/сут</span></div>
+      </div>
+      <div class="sleep-norm-card">
+        <div class="sleep-norm-card-age">3–6 мес</div>
+        <div class="sleep-norm-card-val">12–16 <span>ч/сут</span></div>
+      </div>
+      <div class="sleep-norm-card">
+        <div class="sleep-norm-card-age">6–12 мес</div>
+        <div class="sleep-norm-card-val">12–15 <span>ч/сут</span></div>
+      </div>
+      <div class="sleep-norm-card">
+        <div class="sleep-norm-card-age">1–2 года</div>
+        <div class="sleep-norm-card-val">11–14 <span>ч/сут</span></div>
+      </div>
+      <div class="sleep-norm-card sleep-norm-card--wide">
+        <div class="sleep-norm-card-age">2–3 года</div>
+        <div class="sleep-norm-card-val">10–13 <span>ч/сут</span></div>
+      </div>
     </div>
   </section>
 
@@ -1105,6 +1160,10 @@
     <linearGradient id="feedRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#64C8BE"/>
       <stop offset="100%" stop-color="#6BA0EB"/>
+    </linearGradient>
+    <linearGradient id="sleepRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#B8A0E8"/>
+      <stop offset="100%" stop-color="#8B6FD0"/>
     </linearGradient>
   </defs>
 </svg>

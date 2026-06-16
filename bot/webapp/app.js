@@ -592,31 +592,105 @@ function renderSleepData() {
   const h = Math.floor(totalMins / 60);
   const m = totalMins % 60;
   const norm = getSleepNorm(state.childAge);
+  const mid = (norm.min + norm.max) / 2;
+  const pct = Math.min(100, Math.round((totalMins / mid) * 100));
 
+  // Legacy element (hidden, used for compat)
   const valEl = document.getElementById('sleep-val');
-  const normEl = document.getElementById('sleep-norm-txt');
-  const barEl = document.getElementById('sleep-bar');
   if (valEl) valEl.textContent = `${h}ч ${m}мин`;
-  if (normEl) normEl.textContent = `Норма: ${norm.label}`;
-  if (barEl) {
-    const mid = (norm.min + norm.max) / 2;
-    const pct = Math.min(100, Math.round((totalMins / mid) * 100));
-    barEl.style.width = pct + '%';
+
+  // New ring display
+  const valH = document.getElementById('sleep-val-h');
+  const valM = document.getElementById('sleep-val-m');
+  if (valH) valH.textContent = `${h}ч`;
+  if (valM) valM.textContent = `${m}мин`;
+
+  const normEl = document.getElementById('sleep-norm-txt');
+  const barEl  = document.getElementById('sleep-bar');
+  const ringEl = document.getElementById('sleep-ring-fill');
+  const hintEl = document.getElementById('sleep-hero-hint');
+
+  if (normEl) normEl.textContent = norm.label;
+  if (barEl)  barEl.style.width = pct + '%';
+
+  // SVG ring (circ = 238.76)
+  if (ringEl) ringEl.style.strokeDashoffset = 238.76 * (1 - pct / 100);
+
+  // Hint text
+  if (hintEl) {
+    const remainMins = norm.min - totalMins;
+    if (totalMins === 0)       hintEl.textContent = 'Сон ещё не записан';
+    else if (remainMins > 0)   hintEl.textContent = `Ещё ${Math.ceil(remainMins/60)}ч до нормы`;
+    else                       hintEl.textContent = '✅ Норма выполнена!';
   }
 
   const list = document.getElementById('sleep-list');
   if (list) {
-    list.innerHTML = state.sleepToday.map(s => `
-      <li class="entry-item">
-        <span class="entry-ico">💤</span>
-        <div class="entry-text">
-          <div class="entry-main">${s.start} — ${s.end}</div>
-          <div class="entry-sub">${s.note || ''} · ${Math.floor(s.minutes/60)}ч ${s.minutes%60}мин</div>
-        </div>
-      </li>
-    `).join('');
+    if (state.sleepToday.length === 0) {
+      list.innerHTML = '<li style="text-align:center;padding:16px 0;color:var(--text-hint);font-size:13px">Сна пока нет — нажми «Уложила сейчас»</li>';
+    } else {
+      list.innerHTML = state.sleepToday.slice().reverse().map(s => `
+        <li class="entry-item">
+          <span class="entry-ico">💤</span>
+          <div class="entry-text">
+            <div class="entry-main">${s.start} — ${s.end || '...'}</div>
+            <div class="entry-sub">${s.note ? s.note + ' · ' : ''}${Math.floor(s.minutes/60)}ч ${s.minutes%60}мин</div>
+          </div>
+        </li>
+      `).join('');
+    }
   }
+
+  // Restore timer UI state on re-render
+  initSleepTimerUI();
   updateHomeTrackerStats();
+}
+
+function initSleepTimerUI() {
+  const timerStart = localStorage.getItem('sleep_timer_start');
+  const startBtn   = document.getElementById('sleep-start-btn');
+  const recBlock   = document.getElementById('sleep-recording');
+  const recLabel   = document.getElementById('sleep-rec-start');
+  if (!startBtn || !recBlock) return;
+  if (timerStart) {
+    startBtn.style.display = 'none';
+    recBlock.style.display = 'flex';
+    if (recLabel) recLabel.textContent = timerStart;
+  } else {
+    startBtn.style.display = 'flex';
+    recBlock.style.display = 'none';
+  }
+}
+
+function startSleepTimer() {
+  const now = new Date();
+  const time = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+  localStorage.setItem('sleep_timer_start', time);
+  initSleepTimerUI();
+  showToast('🌙 Таймер запущен — сладких снов!');
+}
+
+function wakeFromTimer() {
+  const startTime = localStorage.getItem('sleep_timer_start');
+  if (!startTime) return;
+  const now = new Date();
+  const endTime = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+
+  const [sh, sm] = startTime.split(':').map(Number);
+  const [eh, em] = endTime.split(':').map(Number);
+  let minutes = (eh * 60 + em) - (sh * 60 + sm);
+  if (minutes < 0) minutes += 24 * 60;
+
+  if (minutes < 1) { showToast('Слишком маленький интервал'); return; }
+
+  const today = now.toISOString().split('T')[0];
+  const entry = { start: startTime, end: endTime, note: '', minutes, date: today };
+  state.sleepToday.push(entry);
+  localStorage.setItem('sleep_' + today, JSON.stringify(state.sleepToday));
+  localStorage.removeItem('sleep_timer_start');
+
+  renderSleepData();
+  showToast(`☀️ Проснулся! Сон ${Math.floor(minutes/60)}ч ${minutes%60}мин записан ✅`);
 }
 
 function toggleForm(id) {
