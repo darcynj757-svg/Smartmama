@@ -980,7 +980,7 @@ body {
 .tile-ico.tile-fd { background: rgba(245,158,66,0.12); }
 .tile-ico.tile-gr { background: rgba(66,185,122,0.12); }
 
-.tile-name { font-size: 13px; font-weight: 700; color: var(--text-dark); }
+.tile-name { font-size: 12px; font-weight: 700; color: var(--text-dark); font-family: 'Unbounded', sans-serif; letter-spacing: -0.3px; }
 .tile-sub  { font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.4; }
 .tile-stat {
   position: absolute; top: 14px; right: 12px;
@@ -1338,8 +1338,8 @@ body {
   padding: 13px 18px;
   background: var(--brand-primary);
   color: #fff;
-  font-family: 'Inter', -apple-system, sans-serif;
-  font-size: 15px; font-weight: 700;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 14px; font-weight: 700; letter-spacing: -0.3px;
   border: none; border-radius: var(--radius-pill);
   cursor: pointer;
   text-align: center;
@@ -1355,8 +1355,8 @@ body {
   padding: 13px 18px;
   background: transparent;
   color: var(--text-dark);
-  font-family: 'Inter', -apple-system, sans-serif;
-  font-size: 15px; font-weight: 600;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 14px; font-weight: 700; letter-spacing: -0.3px;
   border: 1.5px solid var(--border-strong);
   border-radius: var(--radius-pill);
   cursor: pointer;
@@ -2313,10 +2313,12 @@ body {
   padding: 10px 12px 12px;
 }
 .img-tile-name {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--text-dark);
   line-height: 1.2;
+  font-family: 'Unbounded', sans-serif;
+  letter-spacing: -0.3px;
 }
 .img-tile-sub {
   font-size: 11px;
@@ -2362,10 +2364,12 @@ body {
 
 .wide-banner-text { flex: 1; min-width: 0; }
 .wide-banner-title {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--text-dark);
   line-height: 1.2;
+  font-family: 'Unbounded', sans-serif;
+  letter-spacing: -0.3px;
 }
 .wide-banner-sub {
   font-size: 12px;
@@ -2416,11 +2420,13 @@ body {
   position: relative;
 }
 .mini-tile-name {
-  font-size: 14px;
-  font-weight: 800;
+  font-size: 13px;
+  font-weight: 700;
   color: var(--text-dark);
   line-height: 1.2;
   position: relative;
+  font-family: 'Unbounded', sans-serif;
+  letter-spacing: -0.3px;
 }
 .mini-tile-sub {
   font-size: 12px;
