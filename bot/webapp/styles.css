@@ -715,14 +715,15 @@ body {
 
 .nav-ai-label {
   flex: 1;
-  font-size: 14px;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 13px;
   font-weight: 700;
   background: linear-gradient(90deg, #3AAED8 0%, #D4A0C8 52%, #8B6FD0 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-align: left;
-  letter-spacing: 0.1px;
+  letter-spacing: -0.3px;
   white-space: nowrap;
 }
 
