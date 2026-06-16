@@ -2302,6 +2302,7 @@ body {
 .img-tile:active { transform: scale(0.96); box-shadow: 0 1px 6px rgba(28,25,23,0.06); }
 
 .img-tile-pic {
+  position: relative;
   width: 100%;
   aspect-ratio: 4/3;
   overflow: hidden;
@@ -2310,6 +2311,25 @@ body {
   width: 100%; height: 100%;
   object-fit: cover;
   display: block;
+}
+.img-tile-camera-icon {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  pointer-events: none;
+}
+.img-tile-camera-icon svg {
+  width: 17px;
+  height: 17px;
+  color: #1C1917;
 }
 
 .img-tile-body {
