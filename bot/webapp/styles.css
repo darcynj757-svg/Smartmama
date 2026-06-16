@@ -718,11 +718,11 @@ body {
   font-family: 'Unbounded', sans-serif;
   font-size: 13px;
   font-weight: 700;
-  background: linear-gradient(90deg, #3AAED8 0%, #D4A0C8 52%, #8B6FD0 100%);
+  background: linear-gradient(90deg, #1278B0 0%, #A03898 52%, #5022A8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   -webkit-text-stroke: 0;
-  filter: drop-shadow(0 0 8px rgba(200, 160, 240, 0.90)) drop-shadow(0 0 18px rgba(140, 100, 210, 0.60));
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 12px rgba(255, 255, 255, 0.70));
   background-clip: text;
   text-align: left;
   letter-spacing: -0.3px;
