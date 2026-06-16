@@ -185,3 +185,21 @@ id = "_-oY_QWTQUbtN7L4Qupv3"
 uri = "file://attached_assets/stock_images/tile-ai.jpg"
 type = "image"
 title = "friendly AI chat robot assistant blue technology"
+
+[[outputs]]
+id = "MfoqUwFiKLjsUsvwhiVNa"
+uri = "file://attached_assets/stock_images/kbzhu_nutrition_1.jpg"
+type = "image"
+title = "Вариант 1"
+
+[[outputs]]
+id = "CksFl6Vtb9tBTcYmvdkhk"
+uri = "file://attached_assets/stock_images/kbzhu_nutrition_2.jpg"
+type = "image"
+title = "Вариант 2"
+
+[[outputs]]
+id = "XP2wtb0TsqJFxEE9faX_v"
+uri = "file://attached_assets/stock_images/kbzhu_nutrition_3.jpg"
+type = "image"
+title = "Вариант 3"
