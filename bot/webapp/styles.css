@@ -850,13 +850,23 @@ body {
 
 /* ── Benefits screen: warm amber/gold background tint ── */
 #bg-anim {
-  transition: filter 0.5s ease;
+  transition: filter 0.5s ease, background 0.3s ease;
 }
 body.on-benefits #bg-anim {
   filter: none;
 }
 body.on-referral #bg-anim {
   filter: none;
+}
+
+/* ── Solid white background on all non-home screens ── */
+body:not(.on-home) #bg-anim {
+  background: #ffffff !important;
+}
+body:not(.on-home) .bg-blob {
+  opacity: 0 !important;
+  animation: none !important;
+  transition: opacity 0.3s ease;
 }
 #screen-referral {
   background: transparent;

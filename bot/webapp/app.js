@@ -256,6 +256,7 @@ function go(name) {
     }
   }
   // Tint global background for themed screens
+  document.body.classList.toggle('on-home',      name === 'home');
   document.body.classList.toggle('on-benefits',  name === 'benefits');
   document.body.classList.toggle('on-referral',  name === 'referral');
   document.body.classList.toggle('on-pricing',   name === 'pricing');
