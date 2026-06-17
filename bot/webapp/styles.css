@@ -203,42 +203,42 @@ body {
 
 .bg-blob-1 {
   width: 600px; height: 560px;
-  background: radial-gradient(circle at 38% 38%, rgba(255,255,255,0.95) 0%, rgba(240,240,240,0.80) 100%);
+  background: radial-gradient(circle at 38% 38%, #d4edf8 0%, #a8d8f0 50%, #7bbcde 100%);
   opacity: 0.70;
   top: -180px; left: -140px;
   animation: blob-float-1 18s ease-in-out infinite;
 }
 .bg-blob-2 {
   width: 500px; height: 480px;
-  background: radial-gradient(circle at 40% 36%, rgba(255,255,255,0.90) 0%, rgba(245,245,245,0.75) 100%);
+  background: radial-gradient(circle at 40% 36%, #e4d8fc 0%, #c8b8f4 50%, #a898e0 100%);
   opacity: 0.60;
   top: 5%; right: -150px;
   animation: blob-float-2 22s ease-in-out infinite;
 }
 .bg-blob-3 {
   width: 580px; height: 580px;
-  background: radial-gradient(circle at 42% 40%, rgba(255,255,255,0.88) 0%, rgba(238,238,238,0.72) 100%);
+  background: radial-gradient(circle at 42% 40%, #c4edd8 0%, #90d4ae 50%, #60b888 100%);
   opacity: 0.55;
   top: 42%; left: -80px;
   animation: blob-float-3 26s ease-in-out infinite;
 }
 .bg-blob-4 {
   width: 520px; height: 480px;
-  background: radial-gradient(circle at 40% 38%, rgba(255,255,255,0.85) 0%, rgba(242,242,242,0.70) 100%);
+  background: radial-gradient(circle at 40% 38%, #d4edc8 0%, #a8d890 50%, #80c068 100%);
   opacity: 0.50;
   bottom: -60px; right: -120px;
   animation: blob-float-4 20s ease-in-out infinite;
 }
 .bg-blob-5 {
   width: 460px; height: 440px;
-  background: radial-gradient(circle at 40% 38%, rgba(255,255,255,0.88) 0%, rgba(244,244,244,0.72) 100%);
+  background: radial-gradient(circle at 40% 38%, #b8e8d0 0%, #80cca8 50%, #54b080 100%);
   opacity: 0.48;
   bottom: 10%; left: -100px;
   animation: blob-float-5 24s ease-in-out infinite;
 }
 .bg-blob-6 {
   width: 500px; height: 500px;
-  background: radial-gradient(circle at 40% 38%, rgba(255,255,255,0.90) 0%, rgba(248,248,248,0.74) 100%);
+  background: radial-gradient(circle at 40% 38%, #dce8f8 0%, #b0cce8 50%, #88aed4 100%);
   opacity: 0.45;
   top: 50%; left: 30%;
   animation: blob-float-6 28s ease-in-out infinite;
