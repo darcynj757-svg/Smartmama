@@ -688,28 +688,87 @@
 
   <!-- ────────────── ВЫПЛАТЫ ────────────── -->
   <section id="screen-benefits" class="screen">
-    <div class="page-title">💰 Выплаты и пособия</div>
-    <div style="display:flex;gap:8px;margin-bottom:12px">
-      <input type="text" class="field-input" id="benefits-region-input" placeholder="Введи регион..." style="margin-bottom:0;flex:1">
-      <button class="btn-pri" onclick="loadBenefits()" style="white-space:nowrap;padding:11px 16px">Найти</button>
+
+    <!-- Hero -->
+    <div class="ben-hero">
+      <div class="ben-hero-left">
+        <div class="ben-hero-title">Выплаты и пособия</div>
+        <div class="ben-hero-sub">AI подберёт выплаты с учётом<br>возраста вашего малыша</div>
+      </div>
+      <div class="ben-hero-ico">💰</div>
     </div>
-    <div class="benefits-chips">
-      <button class="benefits-chip" onclick="setBenefitsRegion('Москва')">Москва</button>
-      <button class="benefits-chip" onclick="setBenefitsRegion('Санкт-Петербург')">СПб</button>
-      <button class="benefits-chip" onclick="setBenefitsRegion('Краснодар')">Краснодар</button>
-      <button class="benefits-chip" onclick="setBenefitsRegion('Казань')">Казань</button>
-      <button class="benefits-chip" onclick="setBenefitsRegion('Екатеринбург')">Екатеринбург</button>
-      <button class="benefits-chip" onclick="setBenefitsRegion('Новосибирск')">Новосибирск</button>
-      <button class="benefits-chip" onclick="setBenefitsRegion('Ростов-на-Дону')">Ростов</button>
-      <button class="benefits-chip" onclick="setBenefitsRegion('Нижний Новгород')">Н.Новгород</button>
+
+    <!-- Search -->
+    <div class="ben-search-row">
+      <div class="ben-search-wrap">
+        <span class="ben-search-icon">🔍</span>
+        <input type="text" class="ben-search-input" id="benefits-region-input" placeholder="Введите регион...">
+      </div>
+      <button class="btn-pri ben-search-btn" onclick="loadBenefits()">Найти</button>
     </div>
-    <div id="benefits-result" style="display:none">
-      <div class="region-badge" id="benefits-region-badge">🗺 Регион</div>
-      <div class="benefits-result">
-        <div class="ai-response" id="benefits-text"></div>
+
+    <!-- City chips horizontal scroll -->
+    <div class="ben-chips-scroll">
+      <button class="benefits-chip" onclick="setBenefitsRegion('Москва')">🏙 Москва</button>
+      <button class="benefits-chip" onclick="setBenefitsRegion('Санкт-Петербург')">🌉 СПб</button>
+      <button class="benefits-chip" onclick="setBenefitsRegion('Краснодар')">☀️ Краснодар</button>
+      <button class="benefits-chip" onclick="setBenefitsRegion('Казань')">🕌 Казань</button>
+      <button class="benefits-chip" onclick="setBenefitsRegion('Екатеринбург')">⛰ Екатеринбург</button>
+      <button class="benefits-chip" onclick="setBenefitsRegion('Новосибирск')">❄️ Новосибирск</button>
+      <button class="benefits-chip" onclick="setBenefitsRegion('Ростов-на-Дону')">🌻 Ростов</button>
+      <button class="benefits-chip" onclick="setBenefitsRegion('Нижний Новгород')">🏛 Н.Новгород</button>
+    </div>
+
+    <!-- Pre-search info cards -->
+    <div id="benefits-info-cards">
+      <div class="section-label" style="margin:16px 0 10px">Какие выплаты найдём</div>
+      <div class="ben-info-grid">
+        <div class="ben-info-card">
+          <div class="ben-info-ico">👶</div>
+          <div class="ben-info-title">При рождении</div>
+          <div class="ben-info-sub">Единовременно</div>
+        </div>
+        <div class="ben-info-card">
+          <div class="ben-info-ico">📅</div>
+          <div class="ben-info-title">Ежемесячные</div>
+          <div class="ben-info-sub">До 1,5 лет и старше</div>
+        </div>
+        <div class="ben-info-card">
+          <div class="ben-info-ico">🏠</div>
+          <div class="ben-info-title">Маткапитал</div>
+          <div class="ben-info-sub">С детьми с 2020 г</div>
+        </div>
+        <div class="ben-info-card">
+          <div class="ben-info-ico">🌍</div>
+          <div class="ben-info-title">Региональные</div>
+          <div class="ben-info-sub">По вашему региону</div>
+        </div>
+      </div>
+      <div class="ben-hint">
+        <span>✨</span>
+        AI проанализирует все доступные выплаты для вашего региона и возраста малыша
       </div>
     </div>
-    <div id="benefits-loader" style="display:none"><div class="spinner"></div></div>
+
+    <!-- Loader -->
+    <div id="benefits-loader" style="display:none">
+      <div class="ben-loader-wrap">
+        <div class="spinner"></div>
+        <div class="ben-loader-text">AI ищет выплаты для вашего региона…</div>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div id="benefits-result" style="display:none">
+      <div class="ben-result-header">
+        <div class="region-badge" id="benefits-region-badge">🗺 Регион</div>
+        <button class="ben-reset-btn" onclick="resetBenefits()">✕ Другой регион</button>
+      </div>
+      <div class="ben-result-card">
+        <div id="benefits-text"></div>
+      </div>
+    </div>
+
   </section>
 
   <!-- ────────────── НЕЙРОФОТО ────────────── -->

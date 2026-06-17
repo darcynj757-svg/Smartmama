@@ -1168,30 +1168,120 @@ async function getDishRecipe(dishName) {
 function setBenefitsRegion(region) {
   document.getElementById('benefits-region-input').value = region;
   document.querySelectorAll('.benefits-chip').forEach(c => {
-    c.classList.toggle('selected', c.textContent === region || c.onclick?.toString().includes(region));
+    const chipRegion = c.getAttribute('onclick')?.match(/'([^']+)'/)?.[1] || '';
+    c.classList.toggle('selected', chipRegion === region);
   });
   loadBenefits();
 }
 
+function renderBenefitsMarkdown(text) {
+  const container = document.createElement('div');
+  const lines = text.split('\n');
+  let currentBlock = null;
+  let listEl = null;
+
+  function flushBlock() {
+    if (currentBlock) {
+      if (listEl) { currentBlock.querySelector('.ben-block-body').appendChild(listEl); listEl = null; }
+      container.appendChild(currentBlock);
+      currentBlock = null;
+    }
+  }
+
+  lines.forEach(raw => {
+    const line = raw.trim();
+    if (!line) { if (listEl) { flushBlock(); } return; }
+
+    // Heading: **Title** or ### Title or line ending with :
+    const boldHeading = line.match(/^\*\*(.+?)\*\*:?\s*$/);
+    const hashHeading = line.match(/^#{1,3}\s+(.+)/);
+    if (boldHeading || hashHeading) {
+      flushBlock();
+      currentBlock = document.createElement('div');
+      currentBlock.className = 'ben-block';
+      const t = document.createElement('div');
+      t.className = 'ben-block-title';
+      t.textContent = (boldHeading?.[1] || hashHeading?.[1]).replace(/\*\*/g, '');
+      currentBlock.appendChild(t);
+      const b = document.createElement('div');
+      b.className = 'ben-block-body';
+      currentBlock.appendChild(b);
+      listEl = null;
+      return;
+    }
+
+    // List item: - or • or *
+    const listMatch = line.match(/^[-•*]\s+(.+)/);
+    if (listMatch) {
+      if (!currentBlock) {
+        currentBlock = document.createElement('div');
+        currentBlock.className = 'ben-block';
+        const b = document.createElement('div');
+        b.className = 'ben-block-body';
+        currentBlock.appendChild(b);
+      }
+      if (!listEl) { listEl = document.createElement('ul'); }
+      const li = document.createElement('li');
+      li.innerHTML = listMatch[1].replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      listEl.appendChild(li);
+      return;
+    }
+
+    // Plain text
+    if (listEl) { flushBlock(); currentBlock = null; }
+    if (!currentBlock) {
+      currentBlock = document.createElement('div');
+      currentBlock.className = 'ben-block';
+      const b = document.createElement('div');
+      b.className = 'ben-block-body';
+      currentBlock.appendChild(b);
+    }
+    const body = currentBlock.querySelector('.ben-block-body');
+    const p = document.createElement('p');
+    p.style.margin = '0 0 4px';
+    p.innerHTML = line.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    if (listEl) { body.appendChild(listEl); listEl = null; }
+    body.appendChild(p);
+  });
+
+  flushBlock();
+  return container;
+}
+
 async function loadBenefits() {
   const region = document.getElementById('benefits-region-input')?.value?.trim();
-  if (!region) { showToast('Введи название региона'); return; }
+  if (!region) { showToast('Введите название региона'); return; }
 
   const loader = document.getElementById('benefits-loader');
   const result = document.getElementById('benefits-result');
+  const infoCards = document.getElementById('benefits-info-cards');
+
   loader.style.display = 'block';
   result.style.display = 'none';
+  if (infoCards) infoCards.style.display = 'none';
 
   try {
     const data = await apiCall('POST', '/ai/benefits', { region, ageMonths: state.childAge, profile: getChildProfile() });
     document.getElementById('benefits-region-badge').textContent = '🗺 ' + region;
-    document.getElementById('benefits-text').textContent = data.text || '';
+    const textEl = document.getElementById('benefits-text');
+    textEl.innerHTML = '';
+    textEl.appendChild(renderBenefitsMarkdown(data.text || ''));
     loader.style.display = 'none';
     result.style.display = 'block';
   } catch(e) {
     loader.style.display = 'none';
+    if (infoCards) infoCards.style.display = 'block';
     showToast('Ошибка загрузки: ' + e.message);
   }
+}
+
+function resetBenefits() {
+  document.getElementById('benefits-result').style.display = 'none';
+  document.getElementById('benefits-loader').style.display = 'none';
+  const infoCards = document.getElementById('benefits-info-cards');
+  if (infoCards) infoCards.style.display = 'block';
+  document.getElementById('benefits-region-input').value = '';
+  document.querySelectorAll('.benefits-chip').forEach(c => c.classList.remove('selected'));
 }
 
 // ─── Neuro photo ──────────────────────────────────────────────────────────────
