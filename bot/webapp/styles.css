@@ -4057,6 +4057,9 @@ body.on-kbzhu .kbzhu-meal-item {
   gap: 10px;
   margin: 0 16px 20px;
 }
+.mini-pair .img-tile-pic {
+  aspect-ratio: 2 / 1;
+}
 
 /* ── Mini Triple (3 колонки) ── */
 .mini-triple {
