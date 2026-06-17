@@ -4058,6 +4058,18 @@ body.on-kbzhu .kbzhu-meal-item {
   margin: 0 16px 20px;
 }
 
+/* ── Mini Triple (3 колонки) ── */
+.mini-triple {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin: 0 16px 12px;
+}
+.mini-triple .mini-tile {
+  min-height: 152px;
+}
+
+
 .mini-tile {
   position: relative;
   background: var(--mt-bg, var(--surface));
