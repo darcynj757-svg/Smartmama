@@ -1205,6 +1205,7 @@ body.on-sounds #bg-anim {
 }
 #screen-sounds {
   background: transparent;
+  padding-bottom: calc(var(--bottomnav-h) + var(--safe-bottom) + 30px);
 }
 
 /* ── Sounds: card tint ── */
@@ -1320,6 +1321,7 @@ body.on-feed #bg-anim {
 }
 #screen-feed {
   background: transparent;
+  padding-bottom: calc(var(--bottomnav-h) + var(--safe-bottom) + 30px);
 }
 
 /* ── Feed: hero card richer teal ── */
@@ -1379,6 +1381,7 @@ body.on-sleep #bg-anim {
 }
 #screen-sleep {
   background: transparent;
+  padding-bottom: calc(var(--bottomnav-h) + var(--safe-bottom) + 30px);
 }
 
 /* ── Sleep: hero card deeper night tones ── */
