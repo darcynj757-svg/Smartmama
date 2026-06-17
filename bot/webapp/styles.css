@@ -3624,6 +3624,7 @@ body.on-kbzhu .kbzhu-meal-item {
   color: var(--text-dark); cursor: pointer;
   transition: all 0.12s; -webkit-appearance: none;
   min-height: 36px; white-space: nowrap;
+  flex-shrink: 0;
   box-shadow: var(--shadow-sm);
 }
 .benefits-chip.selected {
