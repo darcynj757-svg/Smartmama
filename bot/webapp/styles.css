@@ -3688,6 +3688,101 @@ body.on-kbzhu .kbzhu-meal-item {
   padding-bottom: calc(var(--bottomnav-h) + var(--safe-bottom) + 30px);
 }
 
+/* ── Age drum picker ── */
+.age-picker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 20px;
+  margin-bottom: 14px;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+}
+.age-picker-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.age-picker-divider {
+  width: 1px;
+  height: 60px;
+  background: var(--border);
+  margin-bottom: 20px;
+}
+.age-drum-wrap {
+  position: relative;
+  height: 132px;
+  width: 72px;
+  overflow: hidden;
+  border-radius: 10px;
+}
+.age-drum-wrap::before,
+.age-drum-wrap::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 44px;
+  z-index: 3;
+  pointer-events: none;
+}
+.age-drum-wrap::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(248,247,244,0.96) 0%, rgba(248,247,244,0) 100%);
+}
+.age-drum-wrap::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(248,247,244,0.96) 0%, rgba(248,247,244,0) 100%);
+}
+.age-picker-sel {
+  position: absolute;
+  top: 44px; left: 3px; right: 3px;
+  height: 44px;
+  border-top: 1.5px solid var(--brand-primary);
+  border-bottom: 1.5px solid var(--brand-primary);
+  border-radius: 8px;
+  background: rgba(96,155,220,0.08);
+  pointer-events: none;
+  z-index: 2;
+}
+.age-drum {
+  height: 132px;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  overscroll-behavior: contain;
+}
+.age-drum::-webkit-scrollbar { display: none; }
+.age-drum-spacer {
+  height: 44px;
+  flex-shrink: 0;
+}
+.age-drum-item {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-dark);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: color 0.15s, opacity 0.15s;
+}
+.age-drum-lbl {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
 /* ── Support card ── */
 .support-card {
   background: var(--surface-2);

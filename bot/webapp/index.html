@@ -1072,8 +1072,25 @@
       </select>
       <label class="field-label">Дата рождения</label>
       <input type="date" class="field-input" id="profile-dob">
-      <label class="field-label">Возраст (месяцев)</label>
-      <input type="number" class="field-input" id="profile-age" placeholder="0–216" min="0" max="216">
+      <label class="field-label">Возраст ребёнка</label>
+      <div class="age-picker" id="age-picker-wrap">
+        <div class="age-picker-col">
+          <div class="age-drum-wrap">
+            <div class="age-picker-sel"></div>
+            <div class="age-drum" id="age-drum-years"></div>
+          </div>
+          <div class="age-drum-lbl">лет</div>
+        </div>
+        <div class="age-picker-divider"></div>
+        <div class="age-picker-col">
+          <div class="age-drum-wrap">
+            <div class="age-picker-sel"></div>
+            <div class="age-drum" id="age-drum-months"></div>
+          </div>
+          <div class="age-drum-lbl">мес.</div>
+        </div>
+      </div>
+      <input type="hidden" id="profile-age">
       <label class="field-label">Регион</label>
       <input type="text" class="field-input" id="profile-region" placeholder="Город / регион">
     </div>

@@ -996,7 +996,7 @@ function updateDiaryHero() {
   const ageEl  = document.getElementById('diary-hero-age');
   const statsEl = document.getElementById('diary-hero-stats');
   if (nameEl) nameEl.textContent = state.childName || 'Малыш';
-  if (ageEl)  ageEl.textContent  = state.childAge ? `${state.childAge} мес` : '';
+  if (ageEl)  ageEl.textContent  = state.childAge ? formatAge(state.childAge) : '';
   if (statsEl) {
     const lastHW = state.diaryEntries.find(e => e.type === 'height');
     let pills = '';
@@ -1467,11 +1467,102 @@ function openTgLink(url) {
   catch(e) { window.open(url, '_blank'); }
 }
 
+// ─── Age Drum Picker ──────────────────────────────────────────────────────────
+function pluralYears(n) {
+  const mod10 = n % 10, mod100 = n % 100;
+  if (mod10 === 1 && mod100 !== 11) return 'год';
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return 'года';
+  return 'лет';
+}
+function pluralMonths(n) {
+  const mod10 = n % 10, mod100 = n % 100;
+  if (mod10 === 1 && mod100 !== 11) return 'месяц';
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return 'месяца';
+  return 'месяцев';
+}
+function formatAge(months) {
+  months = parseInt(months) || 0;
+  if (months === 0) return 'не указан';
+  const y = Math.floor(months / 12);
+  const m = months % 12;
+  if (y === 0) return `${m} ${pluralMonths(m)}`;
+  if (m === 0) return `${y} ${pluralYears(y)}`;
+  return `${y} ${pluralYears(y)} ${m} ${pluralMonths(m)}`;
+}
+
+let _agePickerMonths = 0;
+
+function buildDrum(drumEl, count, initVal, onChanged) {
+  drumEl.innerHTML = '';
+  const top = document.createElement('div');
+  top.className = 'age-drum-spacer'; top.setAttribute('aria-hidden','true');
+  drumEl.appendChild(top);
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    el.className = 'age-drum-item';
+    el.textContent = String(i);
+    drumEl.appendChild(el);
+  }
+  const bot = document.createElement('div');
+  bot.className = 'age-drum-spacer'; bot.setAttribute('aria-hidden','true');
+  drumEl.appendChild(bot);
+
+  const ITEM_H = 44;
+  drumEl.scrollTop = initVal * ITEM_H;
+
+  let snapTimer = null;
+  drumEl.addEventListener('scroll', () => {
+    clearTimeout(snapTimer);
+    snapTimer = setTimeout(() => {
+      const raw = drumEl.scrollTop / ITEM_H;
+      const clamped = Math.max(0, Math.min(count - 1, Math.round(raw)));
+      if (Math.abs(drumEl.scrollTop - clamped * ITEM_H) > 1) {
+        drumEl.scrollTo({ top: clamped * ITEM_H, behavior: 'smooth' });
+      }
+      onChanged(clamped);
+    }, 80);
+  }, { passive: true });
+
+  drumEl.addEventListener('touchend', () => {
+    clearTimeout(snapTimer);
+    snapTimer = setTimeout(() => {
+      const clamped = Math.max(0, Math.min(count - 1, Math.round(drumEl.scrollTop / ITEM_H)));
+      drumEl.scrollTo({ top: clamped * ITEM_H, behavior: 'smooth' });
+      onChanged(clamped);
+    }, 50);
+  }, { passive: true });
+}
+
+function initAgePicker(totalMonths) {
+  const yearsEl  = document.getElementById('age-drum-years');
+  const monthsEl = document.getElementById('age-drum-months');
+  if (!yearsEl || !monthsEl) return;
+
+  totalMonths = parseInt(totalMonths) || 0;
+  _agePickerMonths = totalMonths;
+
+  const initY = Math.floor(totalMonths / 12);
+  const initM = totalMonths % 12;
+
+  buildDrum(yearsEl, 19, initY, (y) => {
+    const m = Math.max(0, Math.min(11, Math.round(monthsEl.scrollTop / 44)));
+    _agePickerMonths = y * 12 + m;
+    document.getElementById('profile-age').value = _agePickerMonths;
+  });
+  buildDrum(monthsEl, 12, initM, (m) => {
+    const y = Math.max(0, Math.min(18, Math.round(yearsEl.scrollTop / 44)));
+    _agePickerMonths = y * 12 + m;
+    document.getElementById('profile-age').value = _agePickerMonths;
+  });
+
+  document.getElementById('profile-age').value = totalMonths;
+}
+
 // ─── Profile ──────────────────────────────────────────────────────────────────
 function fillProfile() {
   document.getElementById('profile-child-name').value = state.childName || '';
   document.getElementById('profile-child-gender').value = state.childGender || '';
-  document.getElementById('profile-age').value = state.childAge || '';
+  initAgePicker(state.childAge || 0);
   document.getElementById('profile-region').value = state.region || '';
   const dobEl = document.getElementById('profile-dob');
   if (dobEl) dobEl.value = state.childDob || '';
