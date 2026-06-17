@@ -4065,8 +4065,17 @@ body.on-kbzhu .kbzhu-meal-item {
   gap: 8px;
   margin: 0 16px 12px;
 }
-.mini-triple .mini-tile {
-  min-height: 152px;
+.mini-triple .img-tile-pic {
+  aspect-ratio: 1 / 1;
+}
+.mini-triple .img-tile-name {
+  font-size: 10px;
+}
+.mini-triple .img-tile-sub {
+  font-size: 9px;
+}
+.mini-triple .img-tile-body {
+  padding: 7px 8px 9px;
 }
 
 
