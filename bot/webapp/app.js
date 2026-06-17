@@ -259,6 +259,7 @@ function go(name) {
   document.body.classList.toggle('on-benefits',  name === 'benefits');
   document.body.classList.toggle('on-referral',  name === 'referral');
   document.body.classList.toggle('on-pricing',   name === 'pricing');
+  document.body.classList.toggle('on-sounds',    name === 'sounds');
 
   screenHistory.push(name);
   if (name === 'home') loadHomeStats();
