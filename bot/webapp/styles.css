@@ -989,6 +989,63 @@ body.on-referral #bg-anim {
     rgba(255, 248, 218, 0.60);
 }
 
+/* ── Pricing screen themed background ── */
+body.on-pricing #bg-anim {
+  filter: hue-rotate(210deg) saturate(1.5) brightness(1.05);
+}
+#screen-pricing {
+  background:
+    radial-gradient(ellipse at 85% 4%,  rgba(100,120,255,0.22) 0%, transparent 48%),
+    radial-gradient(ellipse at 8%  45%, rgba(140,90,255,0.15)  0%, transparent 50%),
+    radial-gradient(ellipse at 55% 92%, rgba(80,150,255,0.16)  0%, transparent 45%);
+}
+
+/* ── Pricing screen: card colour accents ── */
+body.on-pricing .price-card.start-c {
+  border-color: rgba(90,150,240,0.50) !important;
+  background: linear-gradient(145deg, rgba(255,255,255,0.94) 0%, rgba(220,235,255,0.88) 100%);
+}
+body.on-pricing .price-card.start-c .price-card-badge {
+  background: linear-gradient(135deg, #6BAEF0 0%, #4B8FE0 100%);
+}
+body.on-pricing .price-card.prem-c {
+  border-color: rgba(110,80,230,0.55) !important;
+  border-width: 2px !important;
+  background: linear-gradient(145deg, rgba(255,255,255,0.94) 0%, rgba(230,220,255,0.88) 100%);
+}
+body.on-pricing .price-card.prem-c .price-card-badge {
+  background: linear-gradient(135deg, #9060E8 0%, #6B3ED8 100%);
+}
+body.on-pricing .price-card.free-c {
+  background: rgba(255,255,255,0.82);
+}
+
+/* ── Period toggle themed ── */
+body.on-pricing .period-toggle {
+  background: rgba(255,255,255,0.55);
+  border-color: rgba(100,120,255,0.20);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+body.on-pricing .period-btn.active {
+  background: rgba(255,255,255,0.90);
+  color: #4B6ED8;
+  box-shadow: 0 2px 8px rgba(80,100,240,0.18);
+}
+body.on-pricing .period-badge {
+  background: #6B5CE8;
+}
+
+/* ── Pricing buttons themed ── */
+body.on-pricing .price-btn.starter-btn {
+  background: linear-gradient(135deg, #70AFEF 0%, #4B8FE0 50%, #3568CF 100%);
+  box-shadow: 0 6px 20px rgba(70,120,220,0.40), 0 3px 8px rgba(70,120,220,0.22) !important;
+}
+body.on-pricing .price-btn.prem-btn {
+  background: linear-gradient(135deg, #A070EF 0%, #7B50E0 50%, #5B30D0 100%);
+  box-shadow: 0 6px 20px rgba(100,70,220,0.42), 0 3px 8px rgba(100,70,220,0.24) !important;
+}
+
 /* ── Home screen: hero extends under topbar ── */
 #screen-home {
   padding: 0;
