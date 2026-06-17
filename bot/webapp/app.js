@@ -264,6 +264,7 @@ function go(name) {
   document.body.classList.toggle('on-workout',   name === 'workout');
   document.body.classList.toggle('on-neuro',     name === 'neuro');
   document.body.classList.toggle('on-sleep',     name === 'sleep');
+  document.body.classList.toggle('on-feed',      name === 'feed');
 
   screenHistory.push(name);
   if (name === 'home') loadHomeStats();
