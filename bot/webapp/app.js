@@ -262,6 +262,7 @@ function go(name) {
   document.body.classList.toggle('on-sounds',    name === 'sounds');
   document.body.classList.toggle('on-kbzhu',     name === 'kbzhu');
   document.body.classList.toggle('on-workout',   name === 'workout');
+  document.body.classList.toggle('on-neuro',     name === 'neuro');
 
   screenHistory.push(name);
   if (name === 'home') loadHomeStats();

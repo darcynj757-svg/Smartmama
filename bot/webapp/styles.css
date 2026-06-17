@@ -1093,6 +1093,55 @@ body.on-sounds .sounds-mini-bar {
   border-color: rgba(60,170,200,0.35);
 }
 
+/* ── Neuro photo screen themed background ── */
+body.on-neuro #bg-anim {
+  filter: hue-rotate(260deg) saturate(1.6) brightness(1.08);
+}
+#screen-neuro {
+  background:
+    radial-gradient(ellipse at 90% 3%,  rgba(180,100,255,0.28) 0%, transparent 44%),
+    radial-gradient(ellipse at 5%  35%, rgba(130,80,240,0.22)  0%, transparent 50%),
+    radial-gradient(ellipse at 55% 88%, rgba(220,130,255,0.20) 0%, transparent 44%),
+    radial-gradient(ellipse at 30% 55%, rgba(160,100,255,0.10) 0%, transparent 38%);
+}
+
+/* ── Neuro: style buttons ── */
+body.on-neuro .neuro-style-btn {
+  background: linear-gradient(145deg, rgba(248,240,255,0.96) 0%, rgba(230,215,252,0.90) 100%) !important;
+  border-color: rgba(160,100,230,0.28) !important;
+  box-shadow:
+    0 3px 10px rgba(140,80,220,0.13),
+    inset 0 1.5px 0 rgba(255,255,255,0.95) !important;
+}
+body.on-neuro .neuro-style-btn.selected {
+  background: linear-gradient(135deg, rgba(200,140,255,0.42) 0%, rgba(160,100,240,0.36) 100%) !important;
+  border-color: rgba(160,100,230,0.70) !important;
+  box-shadow:
+    0 5px 18px rgba(160,100,240,0.35),
+    inset 0 1.5px 0 rgba(255,255,255,0.90) !important;
+}
+
+/* ── Neuro: section label ── */
+body.on-neuro .neuro-sec-label {
+  color: rgba(110,60,180,0.65);
+}
+
+/* ── Neuro: upload card ── */
+body.on-neuro .neuro-upload-card {
+  background: linear-gradient(145deg, rgba(245,238,255,0.96) 0%, rgba(228,210,255,0.88) 100%);
+  border-color: rgba(160,100,230,0.40);
+  box-shadow: 0 4px 16px rgba(140,80,220,0.14), inset 0 1.5px 0 rgba(255,255,255,0.85);
+}
+
+/* ── Neuro: create button (enhance the existing gradient) ── */
+body.on-neuro .btn-neuro-create:not(:disabled) {
+  background: linear-gradient(135deg, #C070FF 0%, #8B40E8 45%, #6020D0 100%);
+  box-shadow:
+    0 10px 30px rgba(140,64,232,0.45),
+    0 4px 12px rgba(140,64,232,0.25),
+    inset 0 1.5px 0 rgba(255,255,255,0.25);
+}
+
 /* ── Workout screen themed background ── */
 body.on-workout #bg-anim {
   filter: hue-rotate(300deg) saturate(1.4) brightness(1.05);
