@@ -3684,6 +3684,10 @@ body.on-kbzhu .kbzhu-meal-item {
 .profile-item-sub  { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
 .profile-item-arr  { font-size: 18px; color: var(--text-hint); }
 
+#screen-profile {
+  padding-bottom: calc(var(--bottomnav-h) + var(--safe-bottom) + 30px);
+}
+
 /* ── Support card ── */
 .support-card {
   background: var(--surface-2);
