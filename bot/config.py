@@ -11,10 +11,13 @@ ADMIN_TOKEN = os.environ.get("ADMIN_TOKEN", "")
 
 REPLIT_DOMAINS = os.environ.get("REPLIT_DOMAINS", "")
 first_domain = REPLIT_DOMAINS.split(",")[0].strip() if REPLIT_DOMAINS else ""
-PUBLIC_BASE_URL = f"https://{first_domain}" if first_domain else ""
+_replit_url = f"https://{first_domain}" if first_domain else ""
+
+PUBLIC_BASE_URL = os.environ.get("PUBLIC_URL", _replit_url)
 
 REPLIT_DEPLOYMENT = os.environ.get("REPLIT_DEPLOYMENT")
-if REPLIT_DEPLOYMENT:
+RENDER = os.environ.get("RENDER")
+if REPLIT_DEPLOYMENT or RENDER:
     WEBAPP_PATH = "/"
 else:
     WEBAPP_PATH = "/webapp/"

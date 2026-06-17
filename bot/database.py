@@ -4,11 +4,12 @@ from datetime import date, datetime, timedelta
 from typing import Optional
 import os
 
-DB_PATH = "bot/data/smartmama.db"
+_data_dir = os.environ.get("DATA_DIR", "bot/data")
+DB_PATH = os.path.join(_data_dir, "smartmama.db")
 
 
 async def init_db():
-    os.makedirs("bot/data", exist_ok=True)
+    os.makedirs(_data_dir, exist_ok=True)
     async with aiosqlite.connect(DB_PATH) as db:
         await db.execute("""
             CREATE TABLE IF NOT EXISTS users (

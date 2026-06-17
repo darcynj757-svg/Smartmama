@@ -172,7 +172,9 @@ async def main():
     db.set_admin_ids_cache(ADMIN_USER_IDS)
 
     bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-    dp = Dispatcher(storage=SqliteStorage("bot/data/fsm.db"))
+    import os as _os
+    _data_dir = _os.environ.get("DATA_DIR", "bot/data")
+    dp = Dispatcher(storage=SqliteStorage(_os.path.join(_data_dir, "fsm.db")))
     dp.include_router(router)
 
     asyncio.create_task(scheduler_daily(bot))

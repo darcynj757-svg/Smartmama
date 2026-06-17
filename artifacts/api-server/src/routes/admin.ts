@@ -3,7 +3,7 @@ import path from "path";
 import { logger } from "../lib/logger";
 
 const router = Router();
-const DB_PATH = path.join(process.cwd(), "bot/data/smartmama.db");
+const DB_PATH = path.join(process.env["DATA_DIR"] ?? path.join(process.cwd(), "bot/data"), "smartmama.db");
 
 async function getDb(readonly = false) {
   const mod = await import("better-sqlite3");

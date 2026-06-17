@@ -5,7 +5,7 @@ import { verifyInitDataLax } from "../lib/telegram-auth";
 import { logger } from "../lib/logger";
 
 const router = Router();
-const DB_PATH = path.join(process.cwd(), "bot/data/smartmama.db");
+const DB_PATH = path.join(process.env["DATA_DIR"] ?? path.join(process.cwd(), "bot/data"), "smartmama.db");
 
 const PLANS: Record<string, Record<number, number>> = {
   starter: { 1: 290, 3: 826, 6: 1566, 12: 2958 },
