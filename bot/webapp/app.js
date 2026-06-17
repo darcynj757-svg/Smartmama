@@ -260,6 +260,7 @@ function go(name) {
   document.body.classList.toggle('on-referral',  name === 'referral');
   document.body.classList.toggle('on-pricing',   name === 'pricing');
   document.body.classList.toggle('on-sounds',    name === 'sounds');
+  document.body.classList.toggle('on-kbzhu',     name === 'kbzhu');
 
   screenHistory.push(name);
   if (name === 'home') loadHomeStats();
