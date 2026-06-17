@@ -1093,6 +1093,75 @@ body.on-sounds .sounds-mini-bar {
   border-color: rgba(60,170,200,0.35);
 }
 
+/* ── Sleep screen themed background ── */
+body.on-sleep #bg-anim {
+  filter: hue-rotate(230deg) saturate(1.2) brightness(0.95);
+}
+#screen-sleep {
+  background:
+    radial-gradient(ellipse at 85% 4%,  rgba(100,80,200,0.24)  0%, transparent 46%),
+    radial-gradient(ellipse at 5%  35%, rgba(80,60,180,0.18)   0%, transparent 52%),
+    radial-gradient(ellipse at 50% 90%, rgba(120,90,220,0.18)  0%, transparent 44%),
+    radial-gradient(ellipse at 70% 55%, rgba(60,50,160,0.10)   0%, transparent 38%);
+}
+
+/* ── Sleep: hero card deeper night tones ── */
+body.on-sleep .sleep-hero {
+  background: linear-gradient(135deg,
+    rgba(100,80,200,0.28) 0%,
+    rgba(80,60,180,0.22)  50%,
+    rgba(60,80,210,0.18)  100%);
+  box-shadow:
+    0 10px 36px rgba(80,60,200,0.28),
+    0 3px 10px rgba(80,60,200,0.16),
+    inset 0 1.5px 0 rgba(255,255,255,0.80);
+}
+
+/* ── Sleep: norm cards ── */
+body.on-sleep .sleep-norm-card {
+  background: linear-gradient(145deg, rgba(230,225,255,0.94) 0%, rgba(210,200,250,0.88) 100%);
+  border-color: rgba(100,80,200,0.28) !important;
+  box-shadow:
+    0 4px 14px rgba(80,60,200,0.14),
+    inset 0 1.5px 0 rgba(255,255,255,0.90);
+}
+body.on-sleep .sleep-norm-card-val {
+  color: #5040B0;
+}
+
+/* ── Sleep: form card ── */
+body.on-sleep .form-card {
+  background: rgba(228,222,255,0.92);
+  border-color: rgba(100,80,200,0.22) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+/* ── Sleep: section label ── */
+body.on-sleep .section-label {
+  color: rgba(80,60,180,0.65);
+}
+
+/* ── Sleep: start button stronger night gradient ── */
+body.on-sleep .sleep-start-btn {
+  background: linear-gradient(135deg,
+    rgba(110,85,230,0.65) 0%,
+    rgba(85,65,210,0.58)  50%,
+    rgba(65,80,225,0.52)  100%);
+  box-shadow:
+    0 10px 36px rgba(90,70,220,0.46),
+    0 4px 12px rgba(90,70,220,0.26),
+    inset 0 1.5px 0 rgba(255,255,255,0.65),
+    inset 0 -2px 0 rgba(0,0,0,0.12);
+}
+
+/* ── Sleep: wake button ── */
+body.on-sleep .sleep-wake-btn {
+  background: linear-gradient(135deg, rgba(110,85,230,0.18) 0%, rgba(85,65,210,0.12) 100%);
+  border-color: rgba(100,80,200,0.30);
+  color: #5040B0;
+}
+
 /* ── Neuro photo screen themed background ── */
 body.on-neuro #bg-anim {
   filter: hue-rotate(260deg) saturate(1.6) brightness(1.08);
