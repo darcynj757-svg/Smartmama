@@ -751,6 +751,8 @@ body {
   padding: 0 14px;
   gap: 12px;
   color: #4A90B8;
+  align-self: center;
+  height: calc(var(--bottomnav-h) / 2);
   /* inherits liquid glass from .nav-item */
 }
 
