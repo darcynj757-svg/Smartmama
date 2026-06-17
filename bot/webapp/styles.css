@@ -3926,8 +3926,8 @@ body.on-kbzhu .kbzhu-meal-item {
   inset: 0;
   background: linear-gradient(
     to top,
-    var(--tile-grad-dark, rgba(60,40,80,0.72)) 0%,
-    var(--tile-grad-mid, rgba(60,40,80,0.28)) 48%,
+    var(--tile-grad-dark, rgba(60,40,80,0.45)) 0%,
+    var(--tile-grad-mid, rgba(60,40,80,0.14)) 48%,
     transparent 100%
   );
   pointer-events: none;
@@ -4109,9 +4109,9 @@ body.on-kbzhu .kbzhu-meal-item {
   inset: 0;
   background: linear-gradient(
     90deg,
-    rgba(180,60,100,0.58) 0%,
-    rgba(210,80,120,0.30) 55%,
-    rgba(230,100,140,0.08) 100%
+    rgba(180,60,100,0.32) 0%,
+    rgba(210,80,120,0.14) 55%,
+    rgba(230,100,140,0.04) 100%
   );
   pointer-events: none;
 }
