@@ -4991,6 +4991,7 @@ body.on-kbzhu .kbzhu-meal-item {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-top: 14px;
   margin-bottom: 14px;
 }
 
