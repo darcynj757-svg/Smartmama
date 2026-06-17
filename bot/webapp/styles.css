@@ -4053,7 +4053,7 @@ body.on-kbzhu .kbzhu-meal-item {
 /* ── Diary Hero Banner ── */
 .diary-hero-banner {
   position: relative;
-  margin: 0 16px 12px;
+  margin: 16px 16px 12px;
   border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
