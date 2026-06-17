@@ -3978,7 +3978,7 @@ body.on-kbzhu .kbzhu-meal-item {
   padding: 10px 12px 12px;
 }
 .img-tile-name {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--text-dark);
   line-height: 1.2;
@@ -4069,7 +4069,7 @@ body.on-kbzhu .kbzhu-meal-item {
   aspect-ratio: 1 / 1;
 }
 .mini-triple .img-tile-name {
-  font-size: 10px;
+  font-size: 12px;
 }
 .mini-triple .img-tile-sub {
   font-size: 9px;
