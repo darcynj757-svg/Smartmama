@@ -850,20 +850,12 @@ body.on-benefits #bg-anim {
   filter: sepia(0.65) hue-rotate(330deg) saturate(1.5) brightness(1.08);
 }
 #screen-benefits {
-  background: rgba(255, 248, 220, 0.55);
-}
-#screen-benefits::before {
-  content: '';
-  position: fixed;
-  inset: 0;
   background:
-    radial-gradient(ellipse at 15% 10%, rgba(255, 220, 100, 0.28) 0%, transparent 50%),
-    radial-gradient(ellipse at 85% 30%, rgba(255, 190, 80, 0.20) 0%, transparent 45%),
-    radial-gradient(ellipse at 50% 80%, rgba(255, 230, 140, 0.22) 0%, transparent 55%);
-  pointer-events: none;
-  z-index: 0;
+    radial-gradient(ellipse at 15% 8%,  rgba(255,215,90,0.30) 0%, transparent 48%),
+    radial-gradient(ellipse at 88% 28%, rgba(255,185,70,0.22) 0%, transparent 44%),
+    radial-gradient(ellipse at 50% 85%, rgba(255,225,120,0.24) 0%, transparent 52%),
+    rgba(255, 248, 218, 0.60);
 }
-#screen-benefits > * { position: relative; z-index: 1; }
 
 /* ── Home screen: hero extends under topbar ── */
 #screen-home {
@@ -3045,8 +3037,18 @@ body.on-benefits #bg-anim {
   background: transparent;
   padding: 11px 0;
 }
+.ben-search-wrap:focus-within {
+  border-color: #C8960A;
+  box-shadow: 0 0 0 3px rgba(200,150,10,0.12);
+}
 .ben-search-input::placeholder { color: var(--text-muted); }
-.ben-search-btn { white-space: nowrap; padding: 11px 18px; border-radius: var(--radius-pill) !important; }
+.ben-search-btn {
+  white-space: nowrap; padding: 11px 18px;
+  border-radius: var(--radius-pill) !important;
+  background: linear-gradient(135deg, #F5C842 0%, #E8A820 50%, #D4890A 100%) !important;
+  box-shadow: 0 4px 14px rgba(210,150,10,0.38) !important;
+}
+.ben-search-btn:active { opacity: 0.85; transform: scale(0.97); }
 
 /* City chips — horizontal scroll */
 .ben-chips-scroll {
@@ -3074,11 +3076,11 @@ body.on-benefits #bg-anim {
   box-shadow: var(--shadow-sm);
 }
 .benefits-chip.selected {
-  background: rgba(107,186,216,0.14);
-  border-color: var(--brand-primary);
-  color: var(--brand-primary);
+  background: rgba(220,160,40,0.14);
+  border-color: #C8960A;
+  color: #9A6F00;
 }
-.benefits-chip:active { background: rgba(107,186,216,0.10); border-color: var(--brand-primary); transform: scale(0.96); }
+.benefits-chip:active { background: rgba(220,160,40,0.10); border-color: #C8960A; transform: scale(0.96); }
 
 /* Info grid */
 .ben-info-grid {
@@ -3086,11 +3088,11 @@ body.on-benefits #bg-anim {
   margin-bottom: 14px;
 }
 .ben-info-card {
-  background: var(--surface);
-  border: 1.5px solid var(--border);
+  background: rgba(255,252,240,0.92);
+  border: 1.5px solid rgba(210,165,40,0.22);
   border-radius: var(--radius);
   padding: 14px 12px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 2px 8px rgba(210,150,10,0.08);
   text-align: center;
 }
 .ben-info-ico { font-size: 28px; margin-bottom: 6px; }
@@ -3100,12 +3102,12 @@ body.on-benefits #bg-anim {
 /* Hint */
 .ben-hint {
   display: flex; align-items: flex-start; gap: 8px;
-  background: rgba(107,186,216,0.08);
-  border: 1px solid rgba(107,186,216,0.22);
+  background: rgba(220,170,40,0.10);
+  border: 1px solid rgba(210,155,30,0.28);
   border-radius: var(--radius-sm);
   padding: 12px 14px;
   font-size: 13px; line-height: 1.5;
-  color: #4A7A8A; font-weight: 500;
+  color: #7A5A00; font-weight: 500;
   margin-bottom: 8px;
 }
 .ben-hint span { flex-shrink: 0; font-size: 15px; margin-top: 1px; }
@@ -3126,27 +3128,27 @@ body.on-benefits #bg-anim {
   display: inline-block;
   padding: 5px 14px; border-radius: var(--radius-pill);
   font-size: 13px; font-weight: 700;
-  background: rgba(58,186,180,0.12);
-  border: 1px solid rgba(58,186,180,0.30);
-  color: var(--brand-teal);
+  background: rgba(215,160,30,0.14);
+  border: 1px solid rgba(200,150,10,0.35);
+  color: #8A6200;
 }
 .ben-reset-btn {
   font-family: 'Inter', -apple-system, sans-serif;
   font-size: 12px; font-weight: 600;
-  color: var(--text-muted); background: none;
-  border: 1.5px solid var(--border);
+  color: #9A7010; background: rgba(220,170,40,0.08);
+  border: 1.5px solid rgba(200,150,10,0.30);
   border-radius: var(--radius-pill);
   padding: 5px 12px; cursor: pointer;
   -webkit-appearance: none;
 }
-.ben-reset-btn:active { transform: scale(0.96); }
+.ben-reset-btn:active { transform: scale(0.96); opacity: 0.8; }
 
 .ben-result-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: rgba(255,252,240,0.95);
+  border: 1px solid rgba(210,165,40,0.22);
   border-radius: var(--radius);
   padding: 16px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 2px 10px rgba(210,150,10,0.10);
   margin-bottom: 16px;
 }
 
@@ -3168,7 +3170,7 @@ body.on-benefits #bg-anim {
 }
 .ben-block-body li::before {
   content: '•'; position: absolute; left: 4px;
-  color: var(--brand-primary); font-weight: 900;
+  color: #C8960A; font-weight: 900;
 }
 .ben-block-body strong { color: var(--text-dark); font-weight: 700; }
 
