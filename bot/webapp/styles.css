@@ -3907,7 +3907,7 @@ body.on-kbzhu .kbzhu-meal-item {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin: 0 16px 12px;
+  margin: 0 16px 20px;
 }
 
 .img-tile {
@@ -4166,7 +4166,7 @@ body.on-kbzhu .kbzhu-meal-item {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 8px;
-  margin: 0 16px 12px;
+  margin: 0 16px 20px;
 }
 .mini-triple .img-tile {
   aspect-ratio: 4 / 3;
