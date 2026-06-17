@@ -1093,6 +1093,68 @@ body.on-sounds .sounds-mini-bar {
   border-color: rgba(60,170,200,0.35);
 }
 
+/* ── Workout screen themed background ── */
+body.on-workout #bg-anim {
+  filter: hue-rotate(300deg) saturate(1.4) brightness(1.05);
+}
+#screen-workout {
+  background:
+    radial-gradient(ellipse at 80% 5%,  rgba(244,160,192,0.28) 0%, transparent 46%),
+    radial-gradient(ellipse at 8%  40%, rgba(192,132,232,0.20) 0%, transparent 52%),
+    radial-gradient(ellipse at 50% 90%, rgba(255,130,180,0.18) 0%, transparent 44%);
+}
+/* Break the white background only for the workout screen */
+body.on-workout #screen-workout {
+  background:
+    radial-gradient(ellipse at 80% 5%,  rgba(244,160,192,0.28) 0%, transparent 46%),
+    radial-gradient(ellipse at 8%  40%, rgba(192,132,232,0.20) 0%, transparent 52%),
+    radial-gradient(ellipse at 50% 90%, rgba(255,130,180,0.18) 0%, transparent 44%) !important;
+}
+
+/* ── Workout: chips ── */
+body.on-workout .chip {
+  background: linear-gradient(145deg, rgba(255,232,242,0.96) 0%, rgba(248,210,230,0.90) 100%) !important;
+  border-color: rgba(220,100,160,0.35) !important;
+  color: #9B3470 !important;
+  box-shadow:
+    0 4px 14px rgba(200,80,140,0.14),
+    0 1px 4px rgba(200,80,140,0.08),
+    inset 0 1.5px 0 rgba(255,255,255,0.85) !important;
+}
+
+/* ── Workout: user messages ── */
+body.on-workout .msg.user {
+  background: linear-gradient(135deg, #F4A0C0 0%, #C084E8 100%);
+  box-shadow: 0 3px 12px rgba(200,100,200,0.35);
+}
+
+/* ── Workout: AI messages ── */
+body.on-workout .msg.ai {
+  background: rgba(255,240,248,0.94);
+  border-color: rgba(220,140,190,0.28);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ── Workout: chat input bar ── */
+body.on-workout .chat-bar {
+  background: rgba(255,240,250,0.92);
+  border-top-color: rgba(220,140,190,0.30);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+body.on-workout .chat-bar textarea {
+  background: rgba(255,255,255,0.75);
+  border-color: rgba(220,140,190,0.35);
+}
+body.on-workout .chat-bar textarea:focus {
+  border-color: #C084E8;
+}
+body.on-workout .btn-send {
+  background: linear-gradient(135deg, #F4A0C0 0%, #C084E8 100%);
+  box-shadow: 0 3px 12px rgba(192,132,232,0.40);
+}
+
 /* ── КБЖУ screen themed background ── */
 body.on-kbzhu #bg-anim {
   filter: hue-rotate(80deg) saturate(1.35) brightness(1.05);

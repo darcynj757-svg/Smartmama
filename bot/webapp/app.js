@@ -261,6 +261,7 @@ function go(name) {
   document.body.classList.toggle('on-pricing',   name === 'pricing');
   document.body.classList.toggle('on-sounds',    name === 'sounds');
   document.body.classList.toggle('on-kbzhu',     name === 'kbzhu');
+  document.body.classList.toggle('on-workout',   name === 'workout');
 
   screenHistory.push(name);
   if (name === 'home') loadHomeStats();
