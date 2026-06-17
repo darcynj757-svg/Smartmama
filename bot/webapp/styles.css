@@ -966,9 +966,20 @@ body.on-referral #bg-anim {
   box-shadow: 0 4px 14px rgba(120,80,220,0.38) !important;
 }
 .ref-copy-btn {
-  border-color: rgba(120,80,200,0.35) !important;
-  color: #6B3ED8 !important;
+  display: block; width: 100%;
+  padding: 13px 18px;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 14px; font-weight: 700; letter-spacing: -0.3px;
+  text-align: center; cursor: pointer;
+  -webkit-appearance: none;
+  background: rgba(255,255,255,0.90);
+  border: 2px solid #8B5CE8;
+  border-radius: var(--radius-pill);
+  color: #6B3ED8;
+  box-shadow: 0 2px 10px rgba(120,80,200,0.18);
+  transition: transform 0.10s, opacity 0.10s;
 }
+.ref-copy-btn:active { transform: scale(0.97); opacity: 0.85; }
 
 #screen-benefits {
   background:
