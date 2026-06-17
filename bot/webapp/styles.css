@@ -858,6 +858,26 @@ body.on-benefits #bg-anim {
 body.on-referral #bg-anim {
   filter: none;
 }
+body.on-referral .bg-blob-1 {
+  background: radial-gradient(circle at 40% 40%, rgba(255,255,255,0.95), rgba(240,240,240,0.80));
+  opacity: 0.70;
+}
+body.on-referral .bg-blob-2 {
+  background: radial-gradient(circle at 60% 40%, rgba(255,255,255,0.90), rgba(245,245,245,0.75));
+  opacity: 0.60;
+}
+body.on-referral .bg-blob-3 {
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.88), rgba(238,238,238,0.70));
+  opacity: 0.55;
+}
+body.on-referral .bg-blob-4 {
+  background: radial-gradient(circle at 55% 55%, rgba(255,255,255,0.85), rgba(242,242,242,0.72));
+  opacity: 0.50;
+}
+body.on-referral .bg-blob-5 {
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.90), rgba(248,248,248,0.76));
+  opacity: 0.55;
+}
 #screen-referral {
   background: transparent;
 }
