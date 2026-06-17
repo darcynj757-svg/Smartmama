@@ -4066,7 +4066,7 @@ body.on-kbzhu .kbzhu-meal-item {
   margin: 0 16px 12px;
 }
 .mini-triple .img-tile-pic {
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 3;
 }
 .mini-triple .img-tile-name {
   font-size: 12px;
