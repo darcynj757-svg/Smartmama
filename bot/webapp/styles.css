@@ -355,7 +355,13 @@ body {
   line-height: 1;
   transition: color 0.25s;
 }
-.topbar-logo span { color: var(--brand-primary); transition: color 0.25s; }
+.topbar-logo span {
+  background: linear-gradient(90deg, #1278B0 0%, #A03898 52%, #5022A8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: none;
+}
 
 #profile-btn {
   position: absolute;
