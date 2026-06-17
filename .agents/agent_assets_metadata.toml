@@ -203,3 +203,9 @@ id = "XP2wtb0TsqJFxEE9faX_v"
 uri = "file://attached_assets/stock_images/kbzhu_nutrition_3.jpg"
 type = "image"
 title = "Вариант 3"
+
+[[outputs]]
+id = "bbc2GBBZkTrhNM1xpjcbc"
+uri = "file://attached_assets/stock_images/mom_workout.jpg"
+type = "image"
+title = "Новое фото для кнопки «Тренировки»"
