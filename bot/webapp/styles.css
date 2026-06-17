@@ -310,8 +310,11 @@ body {
   border-bottom-color: transparent;
   box-shadow: none;
 }
-#topbar.hero-mode .topbar-logo { color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.25); }
-#topbar.hero-mode .topbar-logo span { color: rgba(255,255,255,0.95); text-shadow: 0 1px 4px rgba(0,0,0,0.25); }
+#topbar.hero-mode .topbar-logo {
+  background: none;
+  -webkit-text-fill-color: #fff;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.30);
+}
 #topbar.hero-mode #profile-btn {
   background: rgba(255,255,255,0.22);
   border-color: rgba(255,255,255,0.35);
@@ -350,17 +353,12 @@ body {
   font-family: 'Unbounded', -apple-system, sans-serif;
   font-size: 16px;
   font-weight: 700;
-  color: var(--text-dark);
   letter-spacing: -0.3px;
   line-height: 1;
-  transition: color 0.25s;
-}
-.topbar-logo span {
-  background: linear-gradient(90deg, #1278B0 0%, #A03898 52%, #5022A8 100%);
+  background: linear-gradient(90deg, #1278B0 0%, #A03898 48%, #5022A8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  transition: none;
 }
 
 #profile-btn {
