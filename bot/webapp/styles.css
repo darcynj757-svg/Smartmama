@@ -997,13 +997,13 @@ body.on-referral #bg-anim {
 
 /* ── Pricing screen themed background ── */
 body.on-pricing #bg-anim {
-  filter: hue-rotate(210deg) saturate(1.5) brightness(1.05);
+  filter: saturate(1.1) brightness(1.02);
 }
 #screen-pricing {
   background:
-    radial-gradient(ellipse at 85% 4%,  rgba(100,120,255,0.22) 0%, transparent 48%),
-    radial-gradient(ellipse at 8%  45%, rgba(140,90,255,0.15)  0%, transparent 50%),
-    radial-gradient(ellipse at 55% 92%, rgba(80,150,255,0.16)  0%, transparent 45%);
+    radial-gradient(ellipse at 92% 5%,  rgba(180,200,240,0.28) 0%, transparent 45%),
+    radial-gradient(ellipse at 6%  38%, rgba(160,190,230,0.18) 0%, transparent 48%),
+    radial-gradient(ellipse at 80% 88%, rgba(140,210,170,0.20) 0%, transparent 42%);
 }
 
 /* ── Pricing screen: card colour accents ── */
