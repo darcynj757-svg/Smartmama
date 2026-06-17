@@ -849,6 +849,127 @@ body {
 body.on-benefits #bg-anim {
   filter: sepia(0.65) hue-rotate(330deg) saturate(1.5) brightness(1.08);
 }
+body.on-referral #bg-anim {
+  filter: sepia(0.25) hue-rotate(200deg) saturate(2.0) brightness(1.06);
+}
+#screen-referral {
+  background:
+    radial-gradient(ellipse at 18% 10%, rgba(190,150,255,0.28) 0%, transparent 48%),
+    radial-gradient(ellipse at 82% 35%, rgba(160,110,240,0.20) 0%, transparent 44%),
+    radial-gradient(ellipse at 45% 82%, rgba(210,180,255,0.22) 0%, transparent 52%),
+    rgba(250, 247, 255, 0.65);
+}
+
+/* ── Referral hero ── */
+.ref-hero {
+  display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(135deg, #F3EEFF 0%, #EAE0FF 100%);
+  border: 1.5px solid rgba(160,110,240,0.22);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 12px rgba(140,100,220,0.12);
+}
+.ref-hero-left { flex: 1; }
+.ref-hero-title {
+  font-size: 20px; font-weight: 800;
+  color: #2D2040; letter-spacing: -0.4px;
+  line-height: 1.2; margin-bottom: 5px;
+}
+.ref-hero-sub {
+  font-size: 13px; line-height: 1.5;
+  color: #6A4A90; font-weight: 500;
+}
+.ref-hero-ico { font-size: 46px; margin-left: 12px; }
+
+/* ── Referral stats ── */
+.ref-stats-bar { display: flex; gap: 10px; margin-bottom: 16px; }
+.ref-stat {
+  flex: 1;
+  background: rgba(255,255,255,0.88);
+  border: 1.5px solid rgba(160,110,240,0.18);
+  border-radius: var(--radius-sm);
+  padding: 14px 10px; text-align: center;
+  box-shadow: 0 2px 8px rgba(140,100,220,0.08);
+}
+.ref-stat-ico { font-size: 20px; margin-bottom: 4px; }
+.ref-stat-val {
+  font-size: 26px; font-weight: 800;
+  color: var(--text-dark); font-family: 'Unbounded', sans-serif;
+}
+.ref-stat-val--status { font-size: 14px; font-weight: 800; color: #7040C0; }
+.ref-stat-label { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
+.ref-stat--status { background: rgba(240,233,255,0.90); border-color: rgba(140,100,220,0.28); }
+
+/* ── Amb cards redesign ── */
+.amb-card {
+  border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px;
+  border: 1.5px solid transparent;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+}
+.amb-card-head {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 10px;
+}
+.amb-badge-wrap {
+  width: 46px; height: 46px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; flex-shrink: 0;
+}
+.amb-badge-wrap--1 { background: linear-gradient(135deg, #FFE8F4 0%, #FFD0E8 100%); }
+.amb-badge-wrap--2 { background: linear-gradient(135deg, #FFF8D6 0%, #FFE89A 100%); }
+.amb-badge-wrap--3 { background: linear-gradient(135deg, #EEE8FF 0%, #D8C8FF 100%); }
+
+.amb-card.level-1 {
+  background: linear-gradient(135deg, #FFF8FC 0%, #FFE8F4 100%);
+  border-color: rgba(230,100,160,0.22);
+}
+.amb-card.level-2 {
+  background: linear-gradient(135deg, #FFFDF0 0%, #FFF5CC 100%);
+  border-color: rgba(210,160,30,0.22);
+}
+.amb-card.level-3 {
+  background: linear-gradient(135deg, #F6F0FF 0%, #EAE0FF 100%);
+  border-color: rgba(120,80,200,0.22);
+}
+.amb-badge  { font-size: 24px; margin-bottom: 5px; }
+.amb-title  { font-size: 15px; font-weight: 800; margin-bottom: 3px; color: var(--text-dark); }
+.amb-req    { font-size: 12px; color: var(--text-secondary); font-weight: 500; }
+.amb-rewards { font-size: 13px; color: var(--text-dark); list-style: none; padding: 0; margin: 0; }
+.amb-rewards li {
+  padding: 3px 0 3px 16px; position: relative;
+}
+.amb-rewards li::before {
+  content: '✓'; position: absolute; left: 0;
+  font-size: 11px; font-weight: 800;
+}
+.amb-card.level-1 .amb-rewards li::before { color: #D4588A; }
+.amb-card.level-2 .amb-rewards li::before { color: #B8860A; }
+.amb-card.level-3 .amb-rewards li::before { color: #7040C0; }
+
+/* ── Promo hint ── */
+.ref-promo-hint {
+  display: flex; align-items: flex-start; gap: 8px;
+  background: rgba(160,110,240,0.09);
+  border: 1px solid rgba(140,90,220,0.25);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-size: 13px; line-height: 1.5;
+  color: #5A3090; font-weight: 500;
+  margin-bottom: 14px;
+}
+.ref-promo-hint span { flex-shrink: 0; font-size: 15px; }
+
+/* ── Share/copy buttons ── */
+.ref-share-btn {
+  background: linear-gradient(135deg, #B07EF0 0%, #8B5CE8 50%, #6B3ED8 100%) !important;
+  box-shadow: 0 4px 14px rgba(120,80,220,0.38) !important;
+}
+.ref-copy-btn {
+  border-color: rgba(120,80,200,0.35) !important;
+  color: #6B3ED8 !important;
+}
+
 #screen-benefits {
   background:
     radial-gradient(ellipse at 15% 8%,  rgba(255,215,90,0.30) 0%, transparent 48%),
@@ -2914,18 +3035,7 @@ body.on-benefits #bg-anim {
 .ai-usage-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); flex: 1; }
 .ai-usage-count { font-size: 14px; font-weight: 800; color: var(--text-dark); }
 
-/* ── Referral ── */
-.ref-stats-bar { display: flex; gap: 10px; margin-bottom: 16px; }
-.ref-stat {
-  flex: 1;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm); padding: 14px; text-align: center;
-  box-shadow: var(--shadow-sm);
-}
-.ref-stat-val   { font-size: 28px; font-weight: 800; color: var(--text-dark); font-family: 'Unbounded', sans-serif; }
-.ref-stat-label { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
-
+/* ── Referral link box (kept for other uses) ── */
 .ref-link-box {
   background: var(--surface-2);
   border: 1px solid var(--border);
@@ -2933,21 +3043,6 @@ body.on-benefits #bg-anim {
   font-size: 13px; font-weight: 600; color: var(--text-dark);
   word-break: break-all;
 }
-
-.amb-card {
-  border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  box-shadow: var(--shadow-sm);
-}
-.amb-card.level-1 { border-left: 4px solid var(--brand-primary); }
-.amb-card.level-2 { border-left: 4px solid var(--brand-yellow); }
-.amb-card.level-3 { border-left: 4px solid var(--brand-blue); }
-.amb-badge  { font-size: 24px; margin-bottom: 5px; }
-.amb-title  { font-size: 15px; font-weight: 800; margin-bottom: 3px; }
-.amb-req    { font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; }
-.amb-rewards { font-size: 13px; color: var(--text-dark); list-style: none; }
-.amb-rewards li { padding: 2px 0; }
 
 /* ── Profile ── */
 .profile-header {

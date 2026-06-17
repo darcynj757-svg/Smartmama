@@ -17,7 +17,7 @@
     #app{position:fixed;top:0;left:0;right:0;bottom:calc(var(--bottomnav-h) + var(--safe-bottom));overflow:hidden;z-index:1;background:transparent}
     #bg-anim{display:block;position:fixed;inset:-15% -5%;width:110%;height:130%;z-index:0;overflow:hidden;pointer-events:none;background:transparent}
   </style>
-  <link rel="stylesheet" href="styles.css?v=26" onerror="this.onerror=null;this.href=''">
+  <link rel="stylesheet" href="styles.css?v=27" onerror="this.onerror=null;this.href=''">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
@@ -945,42 +945,70 @@
 
   <!-- ────────────── РЕФЕРАЛЬНАЯ ПРОГРАММА ────────────── -->
   <section id="screen-referral" class="screen">
-    <div class="page-title">🎁 Программа Амбассадоров</div>
 
+    <!-- Hero -->
+    <div class="ref-hero">
+      <div class="ref-hero-left">
+        <div class="ref-hero-title">Программа<br>Амбассадоров</div>
+        <div class="ref-hero-sub">Приглашай подруг — получай привилегии и подарки</div>
+      </div>
+      <div class="ref-hero-ico">🎁</div>
+    </div>
+
+    <!-- Stats -->
     <div class="ref-stats-bar">
       <div class="ref-stat">
+        <div class="ref-stat-ico">👭</div>
         <div class="ref-stat-val" id="ref-invited-count">0</div>
         <div class="ref-stat-label">Подруг приглашено</div>
       </div>
-      <div class="ref-stat">
-        <div class="ref-stat-val" id="ref-level-label">—</div>
+      <div class="ref-stat ref-stat--status">
+        <div class="ref-stat-ico">🏅</div>
+        <div class="ref-stat-val ref-stat-val--status" id="ref-level-label">—</div>
         <div class="ref-stat-label">Твой статус</div>
       </div>
     </div>
 
+    <!-- Level cards -->
+    <div class="section-label" style="margin-bottom:10px">Уровни программы</div>
+
     <div class="amb-card level-1">
-      <div class="amb-badge">🌸</div>
-      <div class="amb-title">Мама-Помощница</div>
-      <div class="amb-req">2 оплаченные подруги</div>
+      <div class="amb-card-head">
+        <div class="amb-badge-wrap amb-badge-wrap--1">🌸</div>
+        <div>
+          <div class="amb-title">Мама-Помощница</div>
+          <div class="amb-req">2 оплаченные подруги</div>
+        </div>
+      </div>
       <ul class="amb-rewards">
         <li>+15 AI-запросов/день</li>
         <li>Значок 🌸 в профиле</li>
       </ul>
     </div>
+
     <div class="amb-card level-2">
-      <div class="amb-badge">⭐</div>
-      <div class="amb-title">Мама-Звезда</div>
-      <div class="amb-req">5 оплаченных подруг</div>
+      <div class="amb-card-head">
+        <div class="amb-badge-wrap amb-badge-wrap--2">⭐</div>
+        <div>
+          <div class="amb-title">Мама-Звезда</div>
+          <div class="amb-req">5 оплаченных подруг</div>
+        </div>
+      </div>
       <ul class="amb-rewards">
-        <li>Стартер бесплатно пока 5+ активных</li>
+        <li>Стартер бесплатно при 5+ активных</li>
         <li>Ранний доступ к новым функциям</li>
         <li>Значок ⭐</li>
       </ul>
     </div>
+
     <div class="amb-card level-3">
-      <div class="amb-badge">💎</div>
-      <div class="amb-title">Смарт Мама Амбассадор</div>
-      <div class="amb-req">10 оплаченных подруг</div>
+      <div class="amb-card-head">
+        <div class="amb-badge-wrap amb-badge-wrap--3">💎</div>
+        <div>
+          <div class="amb-title">Смарт Мама Амбассадор</div>
+          <div class="amb-req">10 оплаченных подруг</div>
+        </div>
+      </div>
       <ul class="amb-rewards">
         <li>Премиум навсегда</li>
         <li>Упоминание в канале</li>
@@ -989,14 +1017,18 @@
       </ul>
     </div>
 
-    <p style="text-align:center;font-size:13px;color:#fff;padding:12px 0">
-      🎁 Подруга получает первый месяц со скидкой 50% по твоей ссылке
-    </p>
-
-    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:32px">
-      <button class="btn-pri" onclick="shareRef()">📤 Поделиться с подругой</button>
-      <button class="btn-out" onclick="copyRef()">📋 Скопировать ссылку</button>
+    <!-- Promo hint -->
+    <div class="ref-promo-hint">
+      <span>🎁</span>
+      Подруга получает первый месяц со скидкой 50% по твоей ссылке
     </div>
+
+    <!-- Actions -->
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:32px">
+      <button class="btn-pri ref-share-btn" onclick="shareRef()">📤 Поделиться с подругой</button>
+      <button class="btn-out ref-copy-btn" onclick="copyRef()">📋 Скопировать ссылку</button>
+    </div>
+
   </section>
 
   <!-- ────────────── ПРОФИЛЬ ────────────── -->

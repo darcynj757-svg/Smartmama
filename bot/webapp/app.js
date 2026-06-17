@@ -256,7 +256,8 @@ function go(name) {
     }
   }
   // Tint global background for themed screens
-  document.body.classList.toggle('on-benefits', name === 'benefits');
+  document.body.classList.toggle('on-benefits',  name === 'benefits');
+  document.body.classList.toggle('on-referral',  name === 'referral');
 
   screenHistory.push(name);
   if (name === 'home') loadHomeStats();
