@@ -842,6 +842,29 @@ body {
 }
 .screen.active { display: block; animation: fadeIn 0.18s ease; }
 
+/* ── Benefits screen: warm amber/gold background tint ── */
+#bg-anim {
+  transition: filter 0.5s ease;
+}
+body.on-benefits #bg-anim {
+  filter: sepia(0.65) hue-rotate(330deg) saturate(1.5) brightness(1.08);
+}
+#screen-benefits {
+  background: rgba(255, 248, 220, 0.55);
+}
+#screen-benefits::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 15% 10%, rgba(255, 220, 100, 0.28) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 30%, rgba(255, 190, 80, 0.20) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 80%, rgba(255, 230, 140, 0.22) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+#screen-benefits > * { position: relative; z-index: 1; }
+
 /* ── Home screen: hero extends under topbar ── */
 #screen-home {
   padding: 0;

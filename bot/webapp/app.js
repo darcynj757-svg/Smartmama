@@ -255,6 +255,9 @@ function go(name) {
       topbar.classList.remove('hero-mode');
     }
   }
+  // Tint global background for themed screens
+  document.body.classList.toggle('on-benefits', name === 'benefits');
+
   screenHistory.push(name);
   if (name === 'home') loadHomeStats();
   if (name === 'sleep') loadSleepData();
