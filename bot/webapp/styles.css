@@ -3926,9 +3926,9 @@ body.on-kbzhu .kbzhu-meal-item {
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(160,50,90,0.68) 0%,
-    rgba(160,50,90,0.28) 45%,
-    rgba(160,50,90,0.04) 100%
+    var(--tile-grad-dark, rgba(60,40,80,0.72)) 0%,
+    var(--tile-grad-mid, rgba(60,40,80,0.28)) 48%,
+    transparent 100%
   );
   pointer-events: none;
   z-index: 1;
@@ -4286,19 +4286,7 @@ body.on-kbzhu .kbzhu-meal-item {
     inset 0 1.5px 0 rgba(255,255,255,0.55);
 }
 .img-tile-body {
-  position: relative;
-  overflow: hidden;
-}
-.img-tile-body::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg,
-    rgba(255,255,255,0.80) 0%,
-    rgba(255,255,255,0.30) 25%,
-    rgba(255,255,255,0) 50%);
-  pointer-events: none;
-  border-radius: 0 0 18px 18px;
+  overflow: visible;
 }
 
 /* ── Hero cards — photo-based, NO glass overlay ── */
