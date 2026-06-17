@@ -4093,8 +4093,10 @@ body.on-kbzhu .kbzhu-meal-item {
 .diary-hero-banner-content {
   position: relative;
   z-index: 2;
-  padding: 14px 16px 14px 18px;
+  padding: 14px 16px 8px 18px;
   flex: 1;
+  align-self: flex-end;
+  margin-bottom: 2px;
 }
 .diary-hero-banner-title {
   font-size: 16px;
