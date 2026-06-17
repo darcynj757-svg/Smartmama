@@ -4006,14 +4006,14 @@ body.on-kbzhu .kbzhu-meal-item {
   line-height: 1.2;
   font-family: 'Unbounded', sans-serif;
   letter-spacing: -0.3px;
-  text-shadow: 0 1px 6px rgba(0,0,0,0.25);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.55), 0 2px 12px rgba(0,0,0,0.40);
 }
 .img-tile-sub {
   font-size: 11px;
-  color: rgba(255,255,255,0.82);
+  color: rgba(255,255,255,0.92);
   margin-top: 2px;
   line-height: 1.3;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.20);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.50), 0 2px 8px rgba(0,0,0,0.35);
 }
 .img-tile-stat {
   font-size: 11px;
