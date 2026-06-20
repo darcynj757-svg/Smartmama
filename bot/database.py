@@ -59,6 +59,8 @@ async def init_db():
         for col_def in [
             "ALTER TABLE users ADD COLUMN webapp_json TEXT",
             "ALTER TABLE users ADD COLUMN last_tip_date TEXT",
+            "ALTER TABLE users ADD COLUMN plan TEXT DEFAULT 'free'",
+            "ALTER TABLE users ADD COLUMN plan_period INTEGER DEFAULT 1",
         ]:
             try:
                 await db.execute(col_def)

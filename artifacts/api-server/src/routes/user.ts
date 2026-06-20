@@ -39,7 +39,9 @@ router.get("/sync", async (req: Request, res: Response): Promise<void> => {
     }
 
     const today = new Date().toISOString().split("T")[0];
-    const plan = userData.premium_until && (userData.premium_until as string) >= today ? "premium" : "free";
+    const hasActiveSub = userData.premium_until && (userData.premium_until as string) >= today;
+    const storedPlan = (userData.plan as string) ?? "free";
+    const plan = hasActiveSub ? (storedPlan === "starter" ? "starter" : "premium") : "free";
 
     let webappData: Record<string, unknown> = {};
     try {
@@ -50,6 +52,7 @@ router.get("/sync", async (req: Request, res: Response): Promise<void> => {
       user_id: userId,
       plan,
       premium_until: userData.premium_until ?? null,
+      plan_period: userData.plan_period ?? 1,
       mama_name: userData.mama_name ?? "",
       child_name: userData.child_name ?? "",
       child_age_months: userData.child_age_months ?? 0,

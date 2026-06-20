@@ -98,10 +98,10 @@ router.post("/webhook", async (req: Request, res: Response): Promise<void> => {
       if (existing > today) base = existing;
     }
     const newDate = new Date(base.getTime() + days * 86400000).toISOString().split("T")[0];
-    db.prepare("UPDATE users SET premium_until=? WHERE user_id=?").run(newDate, userId);
+    db.prepare("UPDATE users SET premium_until=?, plan=?, plan_period=? WHERE user_id=?").run(newDate, metadata.plan, period, userId);
     db.close();
 
-    logger.info({ userId, plan: metadata.plan, until: newDate }, "Payment succeeded");
+    logger.info({ userId, plan: metadata.plan, period, until: newDate }, "Payment succeeded");
     res.json({ ok: true });
   } catch (err) {
     logger.error({ err }, "Payment webhook error");
