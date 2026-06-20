@@ -1985,8 +1985,8 @@ async function init() {
     state.childDob  = data.child_dob  || state.childDob || '';
     state.profile   = data.profile    || {};
 
-    // Show onboarding if user has no profile yet (opened Mini App without bot)
-    if (!data.child_name && !state.childName) {
+    // Show onboarding if DB has no profile yet (regardless of localStorage cache)
+    if (!data.child_name) {
       showOnboarding();
     }
 
