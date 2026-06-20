@@ -2,7 +2,7 @@ modules = ["nodejs-20", "web", "python-3.11"]
 
 [deployment]
 router = "application"
-deploymentTarget = "autoscale"
+deploymentTarget = "vm"
 run = ["bash", "start-prod.sh"]
 build = ["bash", "-c", "pip install --user -r bot/requirements.txt --quiet --no-cache-dir && pnpm --filter @workspace/api-server run build"]
 
@@ -95,8 +95,10 @@ externalPort = 8081
 
 [userenv.shared]
 ADMIN_USER_ID = "288113313"
-PORT = "5000"
 BASE_PATH = "/__mockup"
+
+[userenv.development]
+PORT = "5000"
 
 [nix]
 channel = "stable-25_05"
