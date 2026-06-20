@@ -4,7 +4,7 @@ modules = ["nodejs-20", "web", "python-3.11"]
 router = "application"
 deploymentTarget = "autoscale"
 run = ["bash", "start-prod.sh"]
-build = ["pnpm", "--filter", "@workspace/api-server", "run", "build"]
+build = ["bash", "-c", "python3 -m venv .venv && pnpm --filter @workspace/api-server run build"]
 
 [deployment.postBuild]
 args = ["pnpm", "store", "prune"]
