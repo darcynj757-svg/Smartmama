@@ -1,0 +1,18 @@
+[Unit]
+Description=Smart Mama Telegram Bot
+After=network.target smartmama-api.service
+
+[Service]
+Type=simple
+User=smartmama
+WorkingDirectory=/opt/smartmama
+EnvironmentFile=/opt/smartmama/.env
+ExecStart=/opt/smartmama/.venv/bin/python3 -m bot.main
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=smartmama-bot
+
+[Install]
+WantedBy=multi-user.target

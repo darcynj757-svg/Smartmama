@@ -1,0 +1,20 @@
+[Unit]
+Description=Smart Mama API Server
+After=network.target
+
+[Service]
+Type=simple
+User=smartmama
+WorkingDirectory=/opt/smartmama
+EnvironmentFile=/opt/smartmama/.env
+Environment=NODE_ENV=production
+Environment=PORT=3000
+ExecStart=/usr/local/bin/node --enable-source-maps artifacts/api-server/dist/index.mjs
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=smartmama-api
+
+[Install]
+WantedBy=multi-user.target
