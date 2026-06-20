@@ -2,7 +2,9 @@ modules = ["nodejs-20", "web", "python-3.11"]
 
 [deployment]
 router = "application"
-deploymentTarget = "autoscale"
+deploymentTarget = "vm"
+run = ["bash", "start-prod.sh"]
+build = ["pnpm", "--filter", "@workspace/api-server", "run", "build"]
 
 [deployment.postBuild]
 args = ["pnpm", "store", "prune"]
