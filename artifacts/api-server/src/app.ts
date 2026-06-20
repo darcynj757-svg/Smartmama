@@ -41,7 +41,9 @@ app.use("/api", router);
 // go up to workspace root then into bot/webapp
 const webappDir = path.resolve(__dirname, "../../../bot/webapp");
 app.use("/webapp", express.static(webappDir));
-// Also serve at root so the Replit preview pane loads it directly
+// Redirect root to webapp
+app.get("/", (_req, res) => { res.redirect(301, "/webapp/"); });
+// Fallback static serve at root for direct asset requests
 app.use("/", express.static(webappDir));
 
 export default app;
