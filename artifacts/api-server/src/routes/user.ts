@@ -72,12 +72,40 @@ router.post("/save", async (req: Request, res: Response): Promise<void> => {
   if (!parsed?.user) { res.status(401).json({ error: "Unauthorized" }); return; }
 
   const userId = parsed.user.id;
+  const tgUser = parsed.user;
   const profileData = req.body;
 
   try {
     const db = await getDb();
+    const now = new Date().toISOString();
+
+    // Upsert: create user row if not exists (e.g. opened Mini App without bot onboarding)
+    db.prepare(`
+      INSERT OR IGNORE INTO users (user_id, username, first_name, created_at, last_seen)
+      VALUES (?, ?, ?, ?, ?)
+    `).run(userId, tgUser.username ?? "", tgUser.first_name ?? "", now, now);
+
+    // Update last_seen
+    db.prepare("UPDATE users SET last_seen=? WHERE user_id=?").run(now, userId);
+
+    // Extract main profile fields sent from Mini App
+    const childName      = typeof profileData.child_name === "string"       ? profileData.child_name.trim()       : null;
+    const childAgeMonths = typeof profileData.child_age_months === "number" ? profileData.child_age_months        : null;
+    const childGender    = typeof profileData.child_gender === "string"     ? profileData.child_gender            : null;
+    const region         = typeof profileData.region === "string"           ? profileData.region.trim()           : null;
+    const mamaName       = typeof profileData.mama_name === "string"        ? profileData.mama_name.trim()        : null;
+
+    // Update main columns so the bot can use them for broadcasts and messages
+    if (childName      !== null) db.prepare("UPDATE users SET child_name=? WHERE user_id=?").run(childName, userId);
+    if (childAgeMonths !== null) db.prepare("UPDATE users SET child_age_months=? WHERE user_id=?").run(childAgeMonths, userId);
+    if (childGender    !== null) db.prepare("UPDATE users SET child_gender=? WHERE user_id=?").run(childGender, userId);
+    if (region         !== null) db.prepare("UPDATE users SET region=? WHERE user_id=?").run(region, userId);
+    if (mamaName       !== null) db.prepare("UPDATE users SET mama_name=? WHERE user_id=?").run(mamaName, userId);
+
+    // Also persist full profile blob in webapp_json for extended fields
     const webappJson = JSON.stringify(profileData);
     db.prepare("UPDATE users SET webapp_json=? WHERE user_id=?").run(webappJson, userId);
+
     db.close();
     res.json({ success: true });
   } catch (err) {

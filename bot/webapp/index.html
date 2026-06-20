@@ -1433,6 +1433,41 @@
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
+<!-- Onboarding overlay: shown when user has no profile in DB -->
+<div id="onboarding-overlay" style="display:none">
+  <div id="onboarding-card">
+    <div class="ob-emoji">🌸</div>
+    <h2 class="ob-title">Привет! Я — Смарт Мама</h2>
+    <p class="ob-sub">Расскажи немного о себе, чтобы я могла помочь</p>
+
+    <div class="ob-field">
+      <label class="ob-label">Как тебя зовут, мамочка?</label>
+      <input id="ob-mama-name" class="ob-input" type="text" placeholder="Имя мамы" autocomplete="off">
+    </div>
+    <div class="ob-field">
+      <label class="ob-label">Как зовут малыша?</label>
+      <input id="ob-child-name" class="ob-input" type="text" placeholder="Имя ребёнка" autocomplete="off">
+    </div>
+    <div class="ob-field">
+      <label class="ob-label">Сколько месяцев малышу?</label>
+      <input id="ob-child-age" class="ob-input" type="number" placeholder="0–216" min="0" max="216" inputmode="numeric">
+    </div>
+    <div class="ob-field">
+      <label class="ob-label">Кто твой малыш?</label>
+      <div class="ob-gender-row">
+        <button class="ob-gender-btn" id="ob-gender-boy" onclick="selectObGender('boy')">👦 Мальчик</button>
+        <button class="ob-gender-btn" id="ob-gender-girl" onclick="selectObGender('girl')">👧 Девочка</button>
+      </div>
+    </div>
+    <div class="ob-field">
+      <label class="ob-label">Регион России</label>
+      <input id="ob-region" class="ob-input" type="text" placeholder="Например: Москва" autocomplete="off">
+    </div>
+
+    <button class="ob-btn-submit" onclick="submitOnboarding()">Начать 🚀</button>
+  </div>
+</div>
+
 <script src="app.js"></script>
 </body>
 </html>

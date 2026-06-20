@@ -1874,6 +1874,73 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
+// ─── Onboarding overlay ──────────────────────────────────────────────────────
+let _obGender = '';
+
+function selectObGender(gender) {
+  _obGender = gender;
+  document.getElementById('ob-gender-boy')?.classList.toggle('selected', gender === 'boy');
+  document.getElementById('ob-gender-girl')?.classList.toggle('selected', gender === 'girl');
+}
+
+function showOnboarding() {
+  const overlay = document.getElementById('onboarding-overlay');
+  if (overlay) overlay.style.display = 'flex';
+}
+
+function hideOnboarding() {
+  const overlay = document.getElementById('onboarding-overlay');
+  if (overlay) overlay.style.display = 'none';
+}
+
+async function submitOnboarding() {
+  const mamaName  = document.getElementById('ob-mama-name')?.value?.trim() || '';
+  const childName = document.getElementById('ob-child-name')?.value?.trim() || '';
+  const childAge  = parseInt(document.getElementById('ob-child-age')?.value) || 0;
+  const region    = document.getElementById('ob-region')?.value?.trim() || '';
+
+  if (!childName) { showToast('Введи имя малыша 🙏'); return; }
+
+  const btn = document.querySelector('.ob-btn-submit');
+  if (btn) { btn.disabled = true; btn.textContent = 'Сохраняем…'; }
+
+  try {
+    const profileData = {
+      mama_name:        mamaName,
+      child_name:       childName,
+      child_age_months: childAge,
+      child_gender:     _obGender,
+      region:           region,
+    };
+    await apiCall('POST', '/user/save', profileData);
+
+    // Apply to state
+    state.mamaName    = mamaName;
+    state.childName   = childName || 'малыш';
+    state.childAge    = childAge;
+    state.childGender = _obGender;
+    state.region      = region;
+
+    // Rebuild children array
+    state.children = [{ childName: state.childName, childAge: state.childAge, childGender: state.childGender, childDob: '', region: state.region }];
+    saveChildrenCache();
+
+    localStorage.setItem('profile_cache', JSON.stringify({
+      childName: state.childName, childAge: state.childAge,
+      childGender: state.childGender, region: state.region, plan: state.plan,
+    }));
+
+    hideOnboarding();
+    loadHomeStats();
+    renderChildDots();
+    applyChild(0);
+    showToast('Добро пожаловать! 🎉');
+  } catch(e) {
+    showToast('Ошибка: ' + e.message);
+    if (btn) { btn.disabled = false; btn.textContent = 'Начать 🚀'; }
+  }
+}
+
 // ─── Init ─────────────────────────────────────────────────────────────────────
 async function init() {
   // Restore cached profile first for instant display
@@ -1917,6 +1984,11 @@ async function init() {
     state.mamaName  = data.mama_name  || '';
     state.childDob  = data.child_dob  || state.childDob || '';
     state.profile   = data.profile    || {};
+
+    // Show onboarding if user has no profile yet (opened Mini App without bot)
+    if (!data.child_name && !state.childName) {
+      showOnboarding();
+    }
 
     // Merge API child (index 0) into children array
     if (state.children.length === 0) {
