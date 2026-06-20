@@ -7,7 +7,7 @@ from aiogram.exceptions import TelegramBadRequest
 
 import bot.database as db
 from bot.config import ADMIN_USER_IDS
-from bot.keyboards import open_app_kb, gender_kb
+from bot.keyboards import open_app_kb, gender_kb, reset_confirm_kb
 
 router = Router()
 
@@ -300,6 +300,42 @@ async def cmd_userinfo(message: Message):
         f"Последний визит: {(user.get('last_seen') or '')[:10]}"
     )
     await message.answer(text, parse_mode="HTML")
+
+
+@router.message(Command("reset_profile"))
+async def cmd_reset_profile(message: Message, state: FSMContext):
+    await state.clear()
+    await message.answer(
+        "⚠️ Ты хочешь сбросить профиль малыша?\n\n"
+        "Данные аккаунта, история платежей и дневник <b>не удалятся</b> — "
+        "только имя, возраст, пол и регион. После сброса запустится онбординг заново.",
+        reply_markup=reset_confirm_kb(),
+        parse_mode="HTML"
+    )
+
+
+@router.callback_query(F.data == "reset:confirm")
+async def reset_confirm(callback: CallbackQuery, state: FSMContext):
+    await db.reset_profile(callback.from_user.id)
+    await state.clear()
+    try:
+        await callback.message.edit_text("✅ Профиль сброшен!")
+    except TelegramBadRequest:
+        pass
+    await state.set_state(Onboarding.mama_name)
+    await callback.message.answer(
+        "Давай начнём заново! 🌸\n\nКак тебя зовут, мамочка?"
+    )
+    await callback.answer()
+
+
+@router.callback_query(F.data == "reset:cancel")
+async def reset_cancel(callback: CallbackQuery):
+    try:
+        await callback.message.edit_text("❌ Сброс отменён — всё осталось как было.")
+    except TelegramBadRequest:
+        pass
+    await callback.answer()
 
 
 @router.message(Command("cancel"))

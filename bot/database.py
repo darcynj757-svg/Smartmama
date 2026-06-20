@@ -97,6 +97,17 @@ async def upsert_user(user_id: int, username: str, first_name: str):
         await db.commit()
 
 
+async def reset_profile(user_id: int):
+    async with aiosqlite.connect(DB_PATH) as db:
+        await db.execute("""
+            UPDATE users SET
+                child_name=NULL, child_age_months=NULL, child_gender=NULL,
+                region=NULL, mama_name=NULL, webapp_json=NULL
+            WHERE user_id=?
+        """, (user_id,))
+        await db.commit()
+
+
 async def get_user(user_id: int) -> Optional[dict]:
     async with aiosqlite.connect(DB_PATH) as db:
         db.row_factory = aiosqlite.Row

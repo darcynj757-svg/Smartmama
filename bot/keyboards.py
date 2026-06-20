@@ -24,3 +24,10 @@ def gender_kb() -> InlineKeyboardMarkup:
         InlineKeyboardButton(text="👦 Мальчик", callback_data="ob:gender:boy"),
         InlineKeyboardButton(text="👧 Девочка", callback_data="ob:gender:girl"),
     ]])
+
+
+def reset_confirm_kb() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(inline_keyboard=[[
+        InlineKeyboardButton(text="✅ Да, сбросить", callback_data="reset:confirm"),
+        InlineKeyboardButton(text="❌ Отмена", callback_data="reset:cancel"),
+    ]])
