@@ -1,15 +1,8 @@
 import { Router, type Request, type Response } from "express";
-import path from "path";
 import { logger } from "../lib/logger";
+import { getDb } from "../lib/db";
 
 const router = Router();
-const DB_PATH = path.join(process.env["DATA_DIR"] ?? path.join(process.cwd(), "bot/data"), "smartmama.db");
-
-async function getDb(readonly = false) {
-  const mod = await import("better-sqlite3");
-  const Database = mod.default;
-  return new Database(DB_PATH, readonly ? { readonly: true } : {});
-}
 
 function checkAdminAuth(req: Request, res: Response): boolean {
   const auth = req.headers["authorization"] as string;
@@ -26,7 +19,7 @@ router.get("/stats", async (req: Request, res: Response): Promise<void> => {
   if (!checkAdminAuth(req, res)) return;
 
   try {
-    const db = await getDb(true);
+    const db = getDb();
     const today = new Date().toISOString().split("T")[0];
     const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().split("T")[0];
 
@@ -44,7 +37,6 @@ router.get("/stats", async (req: Request, res: Response): Promise<void> => {
       recent: db.prepare("SELECT * FROM users ORDER BY created_at DESC LIMIT 10").all(),
     };
 
-    db.close();
     res.json(stats);
   } catch (err) {
     logger.error({ err }, "Admin stats error");
@@ -57,10 +49,9 @@ router.get("/users", async (req: Request, res: Response): Promise<void> => {
   if (!checkAdminAuth(req, res)) return;
 
   try {
-    const db = await getDb(true);
+    const db = getDb();
     const limit = parseInt(req.query["limit"] as string) || 50;
     const users = db.prepare("SELECT * FROM users ORDER BY created_at DESC LIMIT ?").all(limit);
-    db.close();
     res.json({ users });
   } catch (err) {
     logger.error({ err }, "Admin users error");
@@ -76,7 +67,7 @@ router.post("/gift", async (req: Request, res: Response): Promise<void> => {
   if (!user_id || !days) { res.status(400).json({ error: "user_id and days required" }); return; }
 
   try {
-    const db = await getDb();
+    const db = getDb();
     const today = new Date();
     const row = db.prepare("SELECT premium_until FROM users WHERE user_id=?").get(user_id) as { premium_until?: string } | undefined;
     let base = today;
@@ -86,7 +77,6 @@ router.post("/gift", async (req: Request, res: Response): Promise<void> => {
     }
     const newDate = new Date(base.getTime() + days * 86400000).toISOString().split("T")[0];
     db.prepare("UPDATE users SET premium_until=? WHERE user_id=?").run(newDate, user_id);
-    db.close();
     res.json({ success: true, premium_until: newDate });
   } catch (err) {
     logger.error({ err }, "Admin gift error");

@@ -3,9 +3,12 @@ import OpenAI from "openai";
 import multer from "multer";
 import { verifyInitDataLax } from "../lib/telegram-auth";
 import { logger } from "../lib/logger";
+import { aiRateLimit } from "../lib/rateLimiter";
 
 const router = Router();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
+
+router.use(aiRateLimit);
 
 function getOpenAI() {
   return new OpenAI({ apiKey: process.env["OPENAI_API_KEY"] });

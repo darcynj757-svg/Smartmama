@@ -11,6 +11,11 @@ DB_PATH = os.path.join(_data_dir, "smartmama.db")
 async def init_db():
     os.makedirs(_data_dir, exist_ok=True)
     async with aiosqlite.connect(DB_PATH) as db:
+        # WAL mode: разрешает одновременные чтения и запись из нескольких процессов
+        await db.execute("PRAGMA journal_mode=WAL")
+        await db.execute("PRAGMA synchronous=NORMAL")
+        await db.execute("PRAGMA cache_size=-8000")  # 8 MB page cache
+        await db.execute("PRAGMA foreign_keys=ON")
         await db.execute("""
             CREATE TABLE IF NOT EXISTS users (
                 user_id          INTEGER PRIMARY KEY,
@@ -55,6 +60,11 @@ async def init_db():
                 added_at TEXT
             )
         """)
+        # Индексы для ускорения запросов при 1000+ пользователях
+        await db.execute("CREATE INDEX IF NOT EXISTS idx_usage_user_feature_date ON usage(user_id, feature, used_at)")
+        await db.execute("CREATE INDEX IF NOT EXISTS idx_users_username ON users(username)")
+        await db.execute("CREATE INDEX IF NOT EXISTS idx_users_last_seen ON users(last_seen)")
+        await db.execute("CREATE INDEX IF NOT EXISTS idx_diary_user_date ON diary(user_id, event_date)")
         # Миграции
         for col_def in [
             "ALTER TABLE users ADD COLUMN webapp_json TEXT",

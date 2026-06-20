@@ -1,22 +1,15 @@
 import { Router, type Request, type Response } from "express";
 import crypto from "crypto";
-import path from "path";
 import { verifyInitDataLax } from "../lib/telegram-auth";
 import { logger } from "../lib/logger";
+import { getDb } from "../lib/db";
 
 const router = Router();
-const DB_PATH = path.join(process.env["DATA_DIR"] ?? path.join(process.cwd(), "bot/data"), "smartmama.db");
 
 const PLANS: Record<string, Record<number, number>> = {
   starter: { 1: 290, 3: 826, 6: 1566, 12: 2958 },
   premium: { 1: 490, 3: 1396, 6: 2646, 12: 4998 },
 };
-
-async function getDb() {
-  const mod = await import("better-sqlite3");
-  const Database = mod.default;
-  return new Database(DB_PATH);
-}
 
 // POST /api/payment/create
 router.post("/create", async (req: Request, res: Response): Promise<void> => {
@@ -89,7 +82,7 @@ router.post("/webhook", async (req: Request, res: Response): Promise<void> => {
     const daysMap: Record<number, number> = { 1: 30, 3: 92, 6: 183, 12: 365 };
     const days = daysMap[period] ?? 30;
 
-    const db = await getDb();
+    const db = getDb();
     const today = new Date();
     const row = db.prepare("SELECT premium_until FROM users WHERE user_id=?").get(userId) as { premium_until?: string } | undefined;
     let base = today;
@@ -99,7 +92,6 @@ router.post("/webhook", async (req: Request, res: Response): Promise<void> => {
     }
     const newDate = new Date(base.getTime() + days * 86400000).toISOString().split("T")[0];
     db.prepare("UPDATE users SET premium_until=?, plan=?, plan_period=? WHERE user_id=?").run(newDate, metadata.plan, period, userId);
-    db.close();
 
     logger.info({ userId, plan: metadata.plan, period, until: newDate }, "Payment succeeded");
     res.json({ ok: true });
