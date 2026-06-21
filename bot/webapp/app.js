@@ -7,6 +7,14 @@ try {
   if (tg) {
     tg.ready();
     tg.expand();
+    // Apply Telegram content safe area (native header: close btn + 3-dot menu)
+    function applyTgSafeArea() {
+      const contentTop = (tg.contentSafeAreaInset && tg.contentSafeAreaInset.top) || 0;
+      document.documentElement.style.setProperty('--tg-content-safe-top', contentTop + 'px');
+    }
+    applyTgSafeArea();
+    tg.onEvent('contentSafeAreaChanged', applyTgSafeArea);
+    tg.onEvent('safeAreaChanged', applyTgSafeArea);
   }
 } catch(e) { console.warn('TG WebApp init failed:', e); }
 

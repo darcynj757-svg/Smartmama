@@ -32,9 +32,10 @@
   --shadow-md:  0 4px 16px rgba(28,25,23,0.10);
   --shadow-lg:  0 8px 32px rgba(28,25,23,0.12);
 
-  --safe-top:    env(safe-area-inset-top, 0px);
-  --safe-bottom: env(safe-area-inset-bottom, 16px);
-  --topbar-h:    54px;
+  --safe-top:             env(safe-area-inset-top, 0px);
+  --safe-bottom:          env(safe-area-inset-bottom, 16px);
+  --tg-content-safe-top:  0px;
+  --topbar-h:             54px;
   --bottomnav-h: 64px;
 
   /* legacy compat */
@@ -293,8 +294,8 @@ body {
   background: rgba(255,255,255,0.82);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  padding: calc(var(--safe-top) + 10px) 16px 10px;
-  height: calc(var(--safe-top) + var(--topbar-h));
+  padding: calc(var(--safe-top) + var(--tg-content-safe-top) + 10px) 16px 10px;
+  height: calc(var(--safe-top) + var(--tg-content-safe-top) + var(--topbar-h));
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -861,7 +862,7 @@ body {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
-  padding: calc(var(--safe-top) + var(--topbar-h) + 14px) 14px 20px;
+  padding: calc(var(--safe-top) + var(--tg-content-safe-top) + var(--topbar-h) + 14px) 14px 20px;
   background: transparent;
 }
 .screen.active { display: block; animation: fadeIn 0.18s ease; }
@@ -1931,7 +1932,7 @@ body.on-kbzhu .kbzhu-meal-item {
 .chat-screen { overflow: hidden; padding: 0; background: #ffffff; }
 .screen.chat-screen.active {
   display: flex; flex-direction: column;
-  padding: calc(var(--safe-top) + var(--topbar-h)) 14px calc(var(--bottomnav-h) + var(--safe-bottom) + 10px);
+  padding: calc(var(--safe-top) + var(--tg-content-safe-top) + var(--topbar-h)) 14px calc(var(--bottomnav-h) + var(--safe-bottom) + 10px);
   overflow: hidden;
 }
 
@@ -3341,7 +3342,7 @@ body.on-kbzhu .kbzhu-meal-item {
   align-items: flex-start;
   justify-content: center;
   overflow-y: auto;
-  padding: calc(var(--safe-top) + 24px) 16px calc(var(--safe-bottom) + 24px);
+  padding: calc(var(--safe-top) + var(--tg-content-safe-top) + 24px) 16px calc(var(--safe-bottom) + 24px);
 }
 #onboarding-card {
   width: 100%;
