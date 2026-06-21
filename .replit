@@ -24,10 +24,6 @@ args = "Telegram Bot"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Mockup Sandbox"
-
-[[workflows.workflow.tasks]]
-task = "workflow.run"
 args = "Start application"
 
 [[workflows.workflow]]
@@ -40,19 +36,6 @@ outputType = "console"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "PYTHONPATH=/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages:$PYTHONPATH env -u PORT python3 -m bot.main"
-
-[[workflows.workflow]]
-name = "Mockup Sandbox"
-author = "agent"
-
-[workflows.workflow.metadata]
-outputType = "console"
-isCanvasWorkflow = true
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd artifacts/mockup-sandbox && node node_modules/vite/bin/vite.js dev --port 8000 --host 0.0.0.0"
-waitForPort = 8000
 
 [[workflows.workflow]]
 name = "Start application"
