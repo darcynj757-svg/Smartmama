@@ -35,7 +35,7 @@ outputType = "console"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "PYTHONPATH=/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages:$PYTHONPATH env -u PORT python3 -m bot.main"
+args = "env -u PORT .venv/bin/python -m bot.main"
 
 [[workflows.workflow]]
 name = "Start application"
