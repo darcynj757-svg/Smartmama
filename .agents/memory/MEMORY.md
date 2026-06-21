@@ -1,2 +1,3 @@
 - [Smart Mama project](smartmama-project.md) — SQLite shared between Python bot (aiosqlite) and Node API (better-sqlite3); bot must have webhook deleted before polling; prod switches to webhook when PORT is set.
+- [Replit artifact router port](artifact-router-port.md) — API server MUST listen on port 8080 (not 5000); artifact router occupies port 5000 and proxies to 8080 per artifact.toml.
 - [pass.config command](pass-config.md) — when user writes "pass.config", fetch non-secret config files from github.com/darcynj757-svg/Smartmama and sync them to the project.
