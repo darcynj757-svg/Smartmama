@@ -1896,7 +1896,9 @@ function hideOnboarding() {
 async function submitOnboarding() {
   const mamaName  = document.getElementById('ob-mama-name')?.value?.trim() || '';
   const childName = document.getElementById('ob-child-name')?.value?.trim() || '';
-  const childAge  = parseInt(document.getElementById('ob-child-age')?.value) || 0;
+  const ageYears  = parseInt(document.getElementById('ob-child-age-years')?.value) || 0;
+  const ageMonths = parseInt(document.getElementById('ob-child-age-months')?.value) || 0;
+  const childAge  = ageYears * 12 + ageMonths;
   const region    = document.getElementById('ob-region')?.value?.trim() || '';
 
   if (!childName) { showToast('Введи имя малыша 🙏'); return; }

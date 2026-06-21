@@ -3405,6 +3405,36 @@ body.on-kbzhu .kbzhu-meal-item {
 .ob-input:focus {
   border-color: var(--brand-primary);
 }
+.ob-age-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.ob-age-col {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ob-age-col .ob-input {
+  flex: 1;
+  min-width: 0;
+}
+.ob-age-unit {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.ob-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239CA3AF' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 30px;
+  cursor: pointer;
+}
 .ob-gender-row {
   display: flex;
   gap: 10px;
