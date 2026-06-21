@@ -26,6 +26,10 @@ args = "Telegram Bot"
 task = "workflow.run"
 args = "Mockup Sandbox"
 
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start application"
+
 [[workflows.workflow]]
 name = "Telegram Bot"
 author = "agent"
@@ -50,6 +54,18 @@ task = "shell.exec"
 args = "cd artifacts/mockup-sandbox && node node_modules/vite/bin/vite.js dev --port 8000 --host 0.0.0.0"
 waitForPort = 8000
 
+[[workflows.workflow]]
+name = "Start application"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pnpm --filter @workspace/api-server run dev"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
 [agent]
 stack = "BEST_EFFORT_FALLBACK"
 expertMode = true
@@ -62,10 +78,6 @@ timeoutMs = 20000
 [[ports]]
 localPort = 5000
 externalPort = 80
-
-[[ports]]
-localPort = 8000
-externalPort = 8000
 
 [[ports]]
 localPort = 8080
