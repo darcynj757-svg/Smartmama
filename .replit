@@ -63,7 +63,7 @@ isCanvasWorkflow = true
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "pnpm --filter @workspace/mockup-sandbox run dev --port 8000 --host 0.0.0.0"
+args = "cd artifacts/mockup-sandbox && node node_modules/vite/bin/vite.js dev --port 8000 --host 0.0.0.0"
 waitForPort = 8000
 
 [agent]
@@ -82,10 +82,6 @@ externalPort = 80
 [[ports]]
 localPort = 8000
 externalPort = 8000
-
-[[ports]]
-localPort = 8080
-externalPort = 8080
 
 [[ports]]
 localPort = 8081
