@@ -1445,6 +1445,13 @@
       <input id="ob-mama-name" class="ob-input" type="text" placeholder="Имя мамы" autocomplete="off">
     </div>
     <div class="ob-field">
+      <label class="ob-label">Кто твой малыш?</label>
+      <div class="ob-gender-row">
+        <button class="ob-gender-btn" id="ob-gender-boy" onclick="selectObGender('boy')">👦 Мальчик</button>
+        <button class="ob-gender-btn" id="ob-gender-girl" onclick="selectObGender('girl')">👧 Девочка</button>
+      </div>
+    </div>
+    <div class="ob-field">
       <label class="ob-label">Как зовут малыша?</label>
       <input id="ob-child-name" class="ob-input" type="text" placeholder="Имя ребёнка" autocomplete="off">
     </div>
@@ -1463,13 +1470,6 @@
           </select>
           <span class="ob-age-unit">мес.</span>
         </div>
-      </div>
-    </div>
-    <div class="ob-field">
-      <label class="ob-label">Кто твой малыш?</label>
-      <div class="ob-gender-row">
-        <button class="ob-gender-btn" id="ob-gender-boy" onclick="selectObGender('boy')">👦 Мальчик</button>
-        <button class="ob-gender-btn" id="ob-gender-girl" onclick="selectObGender('girl')">👧 Девочка</button>
       </div>
     </div>
     <div class="ob-field">
