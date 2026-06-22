@@ -297,7 +297,8 @@ body {
   padding: 0;
   height: calc(var(--safe-top) + var(--tg-content-safe-top) + var(--topbar-h));
   display: block;
-  border-bottom: 1px solid rgba(231,228,220,0.70);
+  border-bottom: 2px solid #e8403a;
+  overflow: visible;
   transition: background 0.25s ease, border-color 0.25s ease, backdrop-filter 0.25s ease;
 }
 
@@ -367,8 +368,8 @@ body {
 
 #profile-btn {
   position: absolute;
-  right: 22px; bottom: 9px;
-  width: 38px; height: 38px;
+  right: 16px; bottom: -22px;
+  width: 44px; height: 44px;
   background: linear-gradient(180deg, #ffffff 0%, #e8f4fc 100%);
   border-radius: 50%;
   border: 1px solid rgba(255,255,255,0.90);
