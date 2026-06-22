@@ -1036,6 +1036,7 @@ body:not(.on-home) #bowl-balls {
 }
 #screen-referral {
   background: transparent;
+  padding-bottom: calc(var(--bottomnav-h) + var(--safe-bottom) + 30px);
 }
 
 /* ── Referral hero ── */
@@ -1161,6 +1162,7 @@ body:not(.on-home) #bowl-balls {
 
 #screen-benefits {
   background: transparent;
+  padding-bottom: calc(var(--bottomnav-h) + var(--safe-bottom) + 30px);
 }
 
 /* ── Pricing screen themed background ── */
@@ -1169,6 +1171,7 @@ body.on-pricing #bg-anim {
 }
 #screen-pricing {
   background: transparent;
+  padding-bottom: calc(var(--bottomnav-h) + var(--safe-bottom) + 30px);
 }
 
 /* ── Pricing screen: card colour accents ── */
@@ -1268,6 +1271,7 @@ body.on-diary #bg-anim {
 }
 #screen-diary {
   background: transparent;
+  padding-bottom: calc(var(--bottomnav-h) + var(--safe-bottom) + 30px);
 }
 
 /* ── Diary: hero card rose-pink ── */
