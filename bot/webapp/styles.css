@@ -1254,67 +1254,67 @@ body.on-diary #bg-anim {
   background: transparent;
 }
 
-/* ── Diary: hero card warm peach ── */
+/* ── Diary: hero card rose-pink ── */
 body.on-diary .diary-hero {
-  background: linear-gradient(135deg, rgba(255,225,210,0.95) 0%, rgba(255,210,200,0.88) 50%, rgba(245,215,230,0.85) 100%);
-  border-color: rgba(240,150,120,0.30);
-  box-shadow: 0 4px 18px rgba(230,120,100,0.16), inset 0 1.5px 0 rgba(255,255,255,0.90);
+  background: linear-gradient(135deg, rgba(255,220,230,0.95) 0%, rgba(250,200,218,0.90) 50%, rgba(245,210,230,0.87) 100%);
+  border-color: rgba(210,120,150,0.28);
+  box-shadow: 0 4px 18px rgba(200,100,135,0.16), inset 0 1.5px 0 rgba(255,255,255,0.90);
 }
 body.on-diary .diary-stat-pill {
   background: rgba(255,255,255,0.85);
-  border-color: rgba(230,140,110,0.28);
-  color: #8B4030;
+  border-color: rgba(210,120,150,0.28);
+  color: #8B3055;
 }
 
 /* ── Diary: segment control ── */
 body.on-diary .diary-segment {
-  background: rgba(255,245,240,0.80);
-  border-color: rgba(240,150,120,0.28);
+  background: rgba(255,240,248,0.80);
+  border-color: rgba(210,120,150,0.26);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
 body.on-diary .diary-seg.active {
-  background: linear-gradient(135deg, #F4907A 0%, #E06860 50%, #C8484A 100%);
-  box-shadow: 0 3px 12px rgba(220,100,90,0.38);
+  background: linear-gradient(135deg, #E8758A 0%, #D4566A 50%, #C04060 100%);
+  box-shadow: 0 3px 12px rgba(200,80,110,0.38);
 }
 
 /* ── Diary: filter tabs ── */
 body.on-diary .diary-tab {
-  background: linear-gradient(145deg, rgba(255,238,230,0.96) 0%, rgba(255,220,205,0.90) 100%);
-  border-color: rgba(230,140,110,0.32);
-  color: #8B4030;
+  background: linear-gradient(145deg, rgba(255,235,242,0.96) 0%, rgba(255,218,232,0.90) 100%);
+  border-color: rgba(210,120,150,0.30);
+  color: #8B3055;
 }
 body.on-diary .diary-tab.active {
-  background: linear-gradient(135deg, #F4907A 0%, #E06860 100%);
+  background: linear-gradient(135deg, #E8758A 0%, #D4566A 100%);
   border-color: transparent;
   color: #fff;
-  box-shadow: 0 3px 10px rgba(220,100,90,0.35);
+  box-shadow: 0 3px 10px rgba(200,80,110,0.35);
 }
 
 /* ── Diary: timeline items ── */
 body.on-diary .diary-tl-item {
-  background: linear-gradient(145deg, rgba(255,240,232,0.96) 0%, rgba(255,225,212,0.88) 100%);
-  border-color: rgba(230,140,110,0.25);
-  box-shadow: 0 3px 12px rgba(210,100,80,0.12), inset 0 1px 0 rgba(255,255,255,0.90);
+  background: linear-gradient(145deg, rgba(255,238,246,0.96) 0%, rgba(255,220,236,0.88) 100%);
+  border-color: rgba(210,120,150,0.22);
+  box-shadow: 0 3px 12px rgba(190,90,120,0.10), inset 0 1px 0 rgba(255,255,255,0.90);
 }
 
 /* ── Diary: doc items ── */
 body.on-diary .doc-item {
-  background: linear-gradient(145deg, rgba(255,240,232,0.96) 0%, rgba(255,225,212,0.88) 100%);
-  border-color: rgba(230,140,110,0.28);
-  box-shadow: 0 3px 10px rgba(210,100,80,0.10);
+  background: linear-gradient(145deg, rgba(255,238,246,0.96) 0%, rgba(255,220,236,0.88) 100%);
+  border-color: rgba(210,120,150,0.24);
+  box-shadow: 0 3px 10px rgba(190,90,120,0.09);
 }
 body.on-diary .doc-item:active {
-  background: rgba(255,200,180,0.50);
+  background: rgba(240,185,210,0.50);
 }
 
 /* ── Diary: FAB button ── */
 body.on-diary .diary-fab {
-  background: linear-gradient(135deg, #F4907A 0%, #E06860 50%, #C8484A 100%);
+  background: linear-gradient(135deg, #E8758A 0%, #D4566A 50%, #C04060 100%);
   box-shadow:
-    0 8px 24px rgba(220,100,90,0.42),
-    0 3px 8px rgba(220,100,90,0.22),
-    inset 0 1.5px 0 rgba(255,255,255,0.30);
+    0 8px 24px rgba(200,80,110,0.42),
+    0 3px 8px rgba(200,80,110,0.22),
+    inset 0 1.5px 0 rgba(255,255,255,0.28);
 }
 
 /* ── Feed screen themed background ── */
