@@ -169,45 +169,80 @@ function renderChildDots() {
 function initChildSwipe() {
   const wrap = document.getElementById('hero-photo-wrap');
   if (!wrap) return;
-  let startX = 0, startY = 0, moved = false;
+  let startX = 0, startY = 0, startTime = 0, isDragging = false, deltaX = 0;
 
   wrap.addEventListener('touchstart', e => {
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
-    moved = false;
+    startTime = Date.now();
+    isDragging = false;
+    deltaX = 0;
+    wrap.style.transition = 'none';
   }, { passive: true });
 
   wrap.addEventListener('touchmove', e => {
     const dx = e.touches[0].clientX - startX;
     const dy = e.touches[0].clientY - startY;
-    if (Math.abs(dx) > 10) moved = true;
+    if (!isDragging && Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) {
+      isDragging = true;
+    }
+    if (isDragging && state.children.length > 1) {
+      deltaX = dx;
+      // Drag-follow: move hero content slightly with finger
+      const info = document.getElementById('hero-baby-info');
+      if (info) info.style.transform = `translateX(${dx * 0.35}px)`;
+    }
   }, { passive: true });
 
   wrap.addEventListener('touchend', e => {
-    if (!moved) return;
-    if (state.children.length <= 1) return;
-    const dx = e.changedTouches[0].clientX - startX;
-    const dy = e.changedTouches[0].clientY - startY;
-    if (Math.abs(dx) < 40 || Math.abs(dy) > Math.abs(dx)) return;
-    // Animate wrap
-    const dir = dx < 0 ? 1 : -1;
+    const info = document.getElementById('hero-baby-info');
+    if (!isDragging || state.children.length <= 1) {
+      if (info) info.style.transform = '';
+      return;
+    }
+    const elapsed = Date.now() - startTime;
+    const isFastSwipe = Math.abs(deltaX) > 30 && elapsed < 350;
+    const isBigSwipe  = Math.abs(deltaX) > wrap.offsetWidth * 0.25;
+
+    if (!isFastSwipe && !isBigSwipe) {
+      // Snap back
+      if (info) { info.style.transition = 'transform 0.22s ease'; info.style.transform = ''; setTimeout(() => { if (info) info.style.transition = ''; }, 230); }
+      return;
+    }
+
+    const dir = deltaX < 0 ? 1 : -1;
     let next = state.currentChildIndex + dir;
     if (next < 0) next = state.children.length - 1;
     if (next >= state.children.length) next = 0;
-    // Slide animation
-    wrap.style.transition = 'transform 0.2s ease';
-    wrap.style.transform = `translateX(${dir * -60}px)`;
+
+    // Slide out current info
+    if (info) {
+      info.style.transition = 'transform 0.18s ease, opacity 0.18s ease';
+      info.style.transform = `translateX(${dir * -55}%)`;
+      info.style.opacity = '0';
+    }
+
     setTimeout(() => {
-      wrap.style.transition = 'none';
-      wrap.style.transform = '';
       applyChild(next);
       renderChildDots();
-    }, 180);
-    // Prevent click from firing after swipe
-    wrap.onclick = null;
-    setTimeout(() => {
-      wrap.onclick = () => document.getElementById('hero-photo-input').click();
-    }, 300);
+      // Slide in new info from opposite side
+      if (info) {
+        info.style.transition = 'none';
+        info.style.transform = `translateX(${dir * 40}%)`;
+        info.style.opacity = '0';
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            info.style.transition = 'transform 0.22s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.22s ease';
+            info.style.transform = '';
+            info.style.opacity = '';
+          });
+        });
+      }
+    }, 170);
+
+    // Prevent tap after swipe
+    wrap.style.pointerEvents = 'none';
+    setTimeout(() => { wrap.style.pointerEvents = ''; }, 350);
   }, { passive: true });
 }
 
