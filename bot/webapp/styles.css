@@ -879,7 +879,7 @@ body {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
-  padding: calc(var(--safe-top) + var(--tg-content-safe-top) + var(--topbar-h) + 14px) 14px 20px;
+  padding: calc(var(--safe-top) + var(--tg-content-safe-top) + var(--topbar-h) + 36px) 14px 20px;
   background: transparent;
 }
 .screen.active { display: block; animation: fadeIn 0.18s ease; }
@@ -1949,7 +1949,7 @@ body.on-kbzhu .kbzhu-meal-item {
 .chat-screen { overflow: hidden; padding: 0; background: #ffffff; }
 .screen.chat-screen.active {
   display: flex; flex-direction: column;
-  padding: calc(var(--safe-top) + var(--tg-content-safe-top) + var(--topbar-h)) 14px calc(var(--bottomnav-h) + var(--safe-bottom) + 10px);
+  padding: calc(var(--safe-top) + var(--tg-content-safe-top) + var(--topbar-h) + 22px) 14px calc(var(--bottomnav-h) + var(--safe-bottom) + 10px);
   overflow: hidden;
 }
 
