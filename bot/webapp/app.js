@@ -1924,41 +1924,163 @@ function addChild() {
 }
 
 // ─── Sounds / Player ──────────────────────────────────────────────────────────
+// ─── Web Audio API noise/ambient generator ────────────────────────────────────
+let _wac = null;
+let _wacNodes = [];
+
+function _getWAC() {
+  if (!_wac || _wac.state === 'closed') {
+    _wac = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (_wac.state === 'suspended') _wac.resume();
+  return _wac;
+}
+
+function _makeNoiseBuf(ctx, type) {
+  const sr = ctx.sampleRate;
+  const buf = ctx.createBuffer(1, sr * 4, sr);
+  const d = buf.getChannelData(0);
+  if (type === 'pink') {
+    let b = [0,0,0,0,0,0,0];
+    for (let i = 0; i < d.length; i++) {
+      const w = Math.random() * 2 - 1;
+      b[0] = 0.99886*b[0] + w*0.0555179; b[1] = 0.99332*b[1] + w*0.0750759;
+      b[2] = 0.96900*b[2] + w*0.1538520; b[3] = 0.86650*b[3] + w*0.3104856;
+      b[4] = 0.55000*b[4] + w*0.5329522; b[5] = -0.7616*b[5] - w*0.0168980;
+      d[i] = (b[0]+b[1]+b[2]+b[3]+b[4]+b[5]+b[6]+w*0.5362)*0.11; b[6]=w*0.115926;
+    }
+  } else {
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+  }
+  return buf;
+}
+
+function _playGenerated(type) {
+  const ctx = _getWAC();
+  const nodes = [];
+  const master = ctx.createGain();
+  master.gain.value = 0.55;
+  master.connect(ctx.destination);
+  nodes.push(master);
+
+  const addSrc = (noiseType) => {
+    const s = ctx.createBufferSource();
+    s.buffer = _makeNoiseBuf(ctx, noiseType);
+    s.loop = true; s.start(); nodes.push(s); return s;
+  };
+  const addLP = (freq, q=0.5) => {
+    const f = ctx.createBiquadFilter(); f.type='lowpass'; f.frequency.value=freq; f.Q.value=q; nodes.push(f); return f;
+  };
+  const addHP = (freq) => {
+    const f = ctx.createBiquadFilter(); f.type='highpass'; f.frequency.value=freq; nodes.push(f); return f;
+  };
+  const addBP = (freq, q=0.5) => {
+    const f = ctx.createBiquadFilter(); f.type='bandpass'; f.frequency.value=freq; f.Q.value=q; nodes.push(f); return f;
+  };
+  const addLFO = (rate, depth, target) => {
+    const o = ctx.createOscillator(); o.frequency.value=rate;
+    const g = ctx.createGain(); g.gain.value=depth;
+    o.connect(g); g.connect(target); o.start(); nodes.push(o,g);
+  };
+
+  if (type === 'white') {
+    addSrc('white').connect(master);
+  } else if (type === 'pink') {
+    addSrc('pink').connect(master);
+  } else if (type === 'fan') {
+    const s = addSrc('white');
+    const lp = addLP(700, 0.4); const hp = addHP(60);
+    s.connect(lp); lp.connect(hp); hp.connect(master);
+  } else if (type === 'rain') {
+    const s = addSrc('white'); const hp = addHP(1200);
+    master.gain.value = 0.4;
+    s.connect(hp); hp.connect(master);
+    addLFO(0.15, 0.1, master.gain);
+  } else if (type === 'ocean') {
+    master.gain.value = 0.5;
+    for (let i = 0; i < 3; i++) {
+      const s = addSrc('pink');
+      const bp = addBP(200 + i*180, 0.4);
+      const g = ctx.createGain(); g.gain.value=0.35; nodes.push(g);
+      s.connect(bp); bp.connect(g); g.connect(master);
+      addLFO(0.06+i*0.025, 0.22, g.gain);
+    }
+  } else if (type === 'fire') {
+    const s = addSrc('pink'); const lp = addLP(450);
+    master.gain.value = 0.45;
+    s.connect(lp); lp.connect(master);
+    addLFO(5, 0.18, master.gain);
+  } else if (type === 'stream') {
+    const s = addSrc('white'); const bp = addBP(900, 0.3);
+    master.gain.value = 0.45;
+    s.connect(bp); bp.connect(master);
+    addLFO(0.4, 0.18, master.gain);
+  } else if (type === 'crickets') {
+    master.gain.value = 0.35;
+    [4200, 4800, 5300].forEach((freq, i) => {
+      const o = ctx.createOscillator(); o.type='sine'; o.frequency.value=freq;
+      const g = ctx.createGain(); g.gain.value=0;
+      o.connect(g); g.connect(master); o.start(); nodes.push(o,g);
+      addLFO(3.5+i*0.3, 0.12, g.gain);
+    });
+  } else if (type === 'storm') {
+    const s = addSrc('white'); const hp = addHP(900);
+    master.gain.value = 0.5;
+    s.connect(hp); hp.connect(master);
+    addLFO(0.1, 0.2, master.gain);
+    const rumble = addSrc('pink'); const lp = addLP(80);
+    const rg = ctx.createGain(); rg.gain.value=0.3; nodes.push(rg);
+    rumble.connect(lp); lp.connect(rg); rg.connect(master);
+    addLFO(0.05, 0.25, rg.gain);
+  }
+
+  _wacNodes = nodes;
+  return { isGenerated: true };
+}
+
+function _stopGenerated() {
+  for (const n of _wacNodes) {
+    try { if (n.stop) n.stop(); n.disconnect(); } catch(e) {}
+  }
+  _wacNodes = [];
+}
+
 const SOUNDS_DATA = {
   lullabies: [
-    { id: 'lull1', ico: '🌙', name: 'Спи, моя радость', desc: 'Классическая', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
-    { id: 'lull2', ico: '⭐', name: 'Баю-баюшки-баю', desc: 'Русская', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' },
-    { id: 'lull3', ico: '🌸', name: 'Колыбельная медведицы', desc: 'Из мультфильма', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3' },
-    { id: 'lull4', ico: '🦋', name: 'Тихая ночь', desc: 'Нежная', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3' },
+    { id: 'lull1', ico: '🌙', name: 'Спи, моя радость', desc: 'Классическая', url: 'https://upload.wikimedia.org/wikipedia/commons/3/31/Brahms_Op49_No4.ogg' },
+    { id: 'lull2', ico: '⭐', name: 'Баю-баюшки-баю', desc: 'Русская', url: 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Kinderszenen%2C_Op._15%2C_No._7_%22Tr%C3%A4umerei%22.ogg' },
+    { id: 'lull3', ico: '🌸', name: 'Колыбельная медведицы', desc: 'Из мультфильма', url: 'https://upload.wikimedia.org/wikipedia/commons/b/b3/Chopin_-_Nocturne_op_9_no_2_E_flat_major.ogg' },
+    { id: 'lull4', ico: '🦋', name: 'Тихая ночь', desc: 'Нежная', url: 'https://upload.wikimedia.org/wikipedia/commons/b/b0/Debussy_clair_de_lune.ogg' },
   ],
   noise: [
-    { id: 'noise1', ico: '🤍', name: 'Белый шум', desc: 'Успокаивает', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3', loop: true },
-    { id: 'noise2', ico: '🩷', name: 'Розовый шум', desc: 'Мягче белого', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3', loop: true },
-    { id: 'noise3', ico: '🌊', name: 'Шум моря', desc: 'Волны', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3', loop: true },
-    { id: 'noise4', ico: '🌧', name: 'Дождь', desc: 'Монотонный', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3', loop: true },
-    { id: 'noise5', ico: '🌬', name: 'Фен / Пылесос', desc: 'Любимый малышами', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3', loop: true },
-    { id: 'noise6', ico: '🔥', name: 'Потрескивание огня', desc: 'Тепло и уют', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3', loop: true },
+    { id: 'noise1', ico: '🤍', name: 'Белый шум', desc: 'Успокаивает', generate: 'white', loop: true },
+    { id: 'noise2', ico: '🩷', name: 'Розовый шум', desc: 'Мягче белого', generate: 'pink', loop: true },
+    { id: 'noise3', ico: '🌊', name: 'Шум моря', desc: 'Волны', generate: 'ocean', loop: true },
+    { id: 'noise4', ico: '🌧', name: 'Дождь', desc: 'Монотонный', generate: 'rain', loop: true },
+    { id: 'noise5', ico: '🌬', name: 'Фен / Пылесос', desc: 'Любимый малышами', generate: 'fan', loop: true },
+    { id: 'noise6', ico: '🔥', name: 'Потрескивание огня', desc: 'Тепло и уют', generate: 'fire', loop: true },
   ],
   nature: [
-    { id: 'nat1', ico: '🐦', name: 'Пение птиц', desc: 'Утренний лес', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3', loop: true },
-    { id: 'nat2', ico: '🌿', name: 'Ручей', desc: 'Журчание воды', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3', loop: true },
-    { id: 'nat3', ico: '🌙', name: 'Ночной лес', desc: 'Сверчки', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3', loop: true },
-    { id: 'nat4', ico: '⛈', name: 'Гроза вдали', desc: 'Дождь + гром', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3', loop: true },
+    { id: 'nat1', ico: '🐦', name: 'Пение птиц', desc: 'Утренний лес', url: 'https://upload.wikimedia.org/wikipedia/commons/4/47/Luscinia_megarhynchos_-_song.ogg', loop: true },
+    { id: 'nat2', ico: '🌿', name: 'Ручей', desc: 'Журчание воды', generate: 'stream', loop: true },
+    { id: 'nat3', ico: '🌙', name: 'Ночной лес', desc: 'Сверчки', generate: 'crickets', loop: true },
+    { id: 'nat4', ico: '⛈', name: 'Гроза вдали', desc: 'Дождь + гром', generate: 'storm', loop: true },
   ],
   classic: [
-    { id: 'cl1', ico: '🎹', name: 'Моцарт для малышей', desc: 'Развитие мозга', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3' },
-    { id: 'cl2', ico: '🎻', name: 'Дебюсси — Лунный свет', desc: 'Нежно', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3' },
-    { id: 'cl3', ico: '🎼', name: 'Брамс — Колыбельная', desc: 'Классика', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3' },
-    { id: 'cl4', ico: '🎵', name: 'Шопен — Ноктюрн', desc: 'Спокойно', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
+    { id: 'cl1', ico: '🎹', name: 'Моцарт для малышей', desc: 'Развитие мозга', url: 'https://upload.wikimedia.org/wikipedia/commons/a/a3/Ein_Kleine_Nachtmusik_-_Mvt_1_-_Prazak_Quartet.ogg' },
+    { id: 'cl2', ico: '🎻', name: 'Дебюсси — Лунный свет', desc: 'Нежно', url: 'https://upload.wikimedia.org/wikipedia/commons/b/b0/Debussy_clair_de_lune.ogg' },
+    { id: 'cl3', ico: '🎼', name: 'Брамс — Колыбельная', desc: 'Классика', url: 'https://upload.wikimedia.org/wikipedia/commons/3/31/Brahms_Op49_No4.ogg' },
+    { id: 'cl4', ico: '🎵', name: 'Шопен — Ноктюрн', desc: 'Спокойно', url: 'https://upload.wikimedia.org/wikipedia/commons/b/b3/Chopin_-_Nocturne_op_9_no_2_E_flat_major.ogg' },
   ],
 };
 
 let soundPlayer = {
   audio: null,
-  current: null,   // { id, ico, name, url, loop }
+  current: null,
   isPlaying: false,
-  timerMin: 0,      // 0 = бесконечно
-  timerLeft: 0,     // секунды
+  isGenerated: false,
+  timerMin: 0,
+  timerLeft: 0,
   timerInterval: null,
   elapsedSec: 0,
   elapsedInterval: null,
@@ -2002,16 +2124,25 @@ function playSound(id, catKey) {
   // Останавливаем предыдущий
   _stopAudio();
 
-  // Создаём новый
-  const audio = new Audio(track.url);
-  audio.loop = !!track.loop;
-  audio.volume = 0.8;
-  audio.play().catch(() => {});
-
-  soundPlayer.audio = audio;
   soundPlayer.current = track;
   soundPlayer.isPlaying = true;
   soundPlayer.elapsedSec = 0;
+
+  if (track.generate) {
+    // Генерируем звук через Web Audio API
+    soundPlayer.isGenerated = true;
+    soundPlayer.audio = null;
+    _playGenerated(track.generate);
+  } else {
+    // Обычный аудиофайл
+    soundPlayer.isGenerated = false;
+    const audio = new Audio(track.url);
+    audio.loop = !!track.loop;
+    audio.volume = 0.8;
+    audio.play().catch(() => {});
+    soundPlayer.audio = audio;
+    audio.addEventListener('ended', () => { if (!audio.loop) stopSound(); });
+  }
 
   // Обновляем UI карточек
   document.querySelectorAll('.sound-card').forEach(c => {
@@ -2036,23 +2167,31 @@ function playSound(id, catKey) {
 
   _updatePlayBtn();
   _startElapsed();
-
-  // По окончании (для нелупающихся)
-  audio.addEventListener('ended', () => {
-    if (!audio.loop) stopSound();
-  });
 }
 
 function togglePlay() {
-  if (!soundPlayer.audio) return;
-  if (soundPlayer.isPlaying) {
-    soundPlayer.audio.pause();
-    soundPlayer.isPlaying = false;
-    _stopElapsed();
+  if (!soundPlayer.current) return;
+  if (soundPlayer.isGenerated) {
+    if (soundPlayer.isPlaying) {
+      if (_wac) _wac.suspend();
+      soundPlayer.isPlaying = false;
+      _stopElapsed();
+    } else {
+      if (_wac) _wac.resume();
+      soundPlayer.isPlaying = true;
+      _startElapsed();
+    }
   } else {
-    soundPlayer.audio.play().catch(() => {});
-    soundPlayer.isPlaying = true;
-    _startElapsed();
+    if (!soundPlayer.audio) return;
+    if (soundPlayer.isPlaying) {
+      soundPlayer.audio.pause();
+      soundPlayer.isPlaying = false;
+      _stopElapsed();
+    } else {
+      soundPlayer.audio.play().catch(() => {});
+      soundPlayer.isPlaying = true;
+      _startElapsed();
+    }
   }
   _updatePlayBtn();
   // Анимация волны
@@ -2078,6 +2217,10 @@ function stopSound() {
 }
 
 function _stopAudio() {
+  if (soundPlayer.isGenerated) {
+    _stopGenerated();
+    soundPlayer.isGenerated = false;
+  }
   if (soundPlayer.audio) {
     soundPlayer.audio.pause();
     soundPlayer.audio.src = '';
