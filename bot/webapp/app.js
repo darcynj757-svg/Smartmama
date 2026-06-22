@@ -250,9 +250,10 @@ function go(name) {
   // Diary FAB: only visible on diary screen
   const diaryFab = document.querySelector('.diary-fab');
   if (diaryFab) diaryFab.style.display = name === 'diary' ? '' : 'none';
-  // Hero photo fixed: only visible on home screen
+  // Hero photo fixed: only visible on home screen AND only when photo is set
   const heroFixed = document.getElementById('hero-photo-fixed');
-  if (heroFixed) heroFixed.style.display = name === 'home' ? 'block' : 'none';
+  const hasPhoto = heroFixed && heroFixed.getAttribute('src') && heroFixed.getAttribute('src') !== '';
+  if (heroFixed) heroFixed.style.display = (name === 'home' && hasPhoto) ? 'block' : 'none';
   // Topbar: hero-mode only on home when scrolled to top
   const topbar = document.getElementById('topbar');
   if (topbar) {

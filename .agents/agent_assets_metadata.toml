@@ -121,18 +121,6 @@ type = "image"
 title = "generated_image"
 
 [[outputs]]
-id = "ujAX_hEitN8S6ijOwqmm_"
-uri = "file://attached_assets/generated_images/tarif_gift.png"
-type = "image"
-title = "Вариант 1 — Подарочная коробочка"
-
-[[outputs]]
-id = "CxB9G0NWVDc8m99f22iHm"
-uri = "file://attached_assets/generated_images/tarif_stars.png"
-type = "image"
-title = "Вариант 2 — Звёзды и лавровый венок"
-
-[[outputs]]
 id = "7bea3JEtx0eu1Yfb-aZ1N"
 uri = "file://attached_assets/generated_images/tarif_hearts.png"
 type = "image"
