@@ -362,6 +362,93 @@ function sendChip(screen, text) {
   if (input) { input.value = text; autoResize(input); sendChat(screen); }
 }
 
+// ─── Curated YouTube workout videos for moms ────────────────────────────────
+const WORKOUT_VIDEOS = [
+  {
+    keywords: ['после родов', 'восстановлени', 'послеродов', 'кесар'],
+    title: 'Восстановление после родов: безопасные упражнения',
+    channel: 'Фитнес для мам · YouTube',
+    search: 'упражнения восстановление после родов для мам',
+    emoji: '🤰',
+  },
+  {
+    keywords: ['йога', 'с малышом', 'малыш на руках'],
+    title: 'Йога для мамы с малышом на руках',
+    channel: 'Йога для мам · YouTube',
+    search: 'йога для мамы с малышом дома',
+    emoji: '🧘‍♀️',
+  },
+  {
+    keywords: ['спина', 'осанк', 'позвоноч', 'шея', 'поясниц'],
+    title: 'Упражнения для спины и осанки молодой мамы',
+    channel: 'Здоровая спина · YouTube',
+    search: 'упражнения для спины осанки молодые мамы',
+    emoji: '🦋',
+  },
+  {
+    keywords: ['кардио', 'без прыжков', 'похудеть', 'сжечь'],
+    title: 'Кардио без прыжков — тренировка дома',
+    channel: 'Кардио дома · YouTube',
+    search: 'кардио без прыжков дома для мамы после родов',
+    emoji: '🏃‍♀️',
+  },
+  {
+    keywords: ['пресс', 'живот', 'диастаз', 'животик'],
+    title: 'Живот и пресс после беременности (без диастаза)',
+    channel: 'Восстановление фигуры · YouTube',
+    search: 'упражнения живот пресс после беременности диастаз',
+    emoji: '✨',
+  },
+  {
+    keywords: ['15 мин', '15 минут', 'быстр', 'коротк', 'экспресс'],
+    title: 'Тренировка 15 минут дома для мамы',
+    channel: 'Фитнес 15 минут · YouTube',
+    search: 'тренировка 15 минут дома для мамы без инвентаря',
+    emoji: '⚡',
+  },
+  {
+    keywords: ['растяжк', 'гибкост', 'стрейчинг'],
+    title: 'Растяжка для мам — снять напряжение за 10 мин',
+    channel: 'Растяжка дома · YouTube',
+    search: 'растяжка для мам после родов расслабление',
+    emoji: '🌸',
+  },
+];
+
+function appendWorkoutVideo(msgsId, userText) {
+  const lower = userText.toLowerCase();
+  let video = WORKOUT_VIDEOS.find(v => v.keywords.some(k => lower.includes(k)));
+  if (!video) {
+    video = {
+      title: 'Тренировки для мам дома',
+      channel: 'Фитнес для мам · YouTube',
+      search: 'тренировка для мамы дома после родов',
+      emoji: '🏋️‍♀️',
+    };
+  }
+  const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(video.search)}`;
+  const area = document.getElementById(msgsId);
+  if (!area) return;
+  const card = document.createElement('div');
+  card.className = 'yt-video-card';
+  card.innerHTML = `
+    <div class="yt-thumb">
+      <span class="yt-thumb-emoji">${video.emoji || '▶'}</span>
+      <div class="yt-play-btn">▶</div>
+    </div>
+    <div class="yt-info">
+      <div class="yt-title">${video.title}</div>
+      <div class="yt-channel">${video.channel}</div>
+      <button class="yt-watch-btn" onclick="openYT('${url}')">Смотреть на YouTube ↗</button>
+    </div>`;
+  area.appendChild(card);
+  area.scrollTop = area.scrollHeight;
+}
+
+function openYT(url) {
+  try { tg?.openLink(url); } catch(e) { window.open(url, '_blank'); }
+}
+
 // ─── Chat histories per screen ──────────────────────────────────────────────
 const chatHistories = { aichat: [], speech: [], games: [], nutrition: [], health: [], workout: [] };
 const chatEndpoints = {
@@ -557,6 +644,11 @@ async function sendChat(screen) {
     const aiText = data.text || 'Что-то пошло не так, попробуй ещё раз 🌸';
     chatHistories[screen].push({ role: 'assistant', content: aiText });
     appendMsg(msgsId, aiText, 'ai');
+
+    // YouTube видео для тренировочного чата
+    if (screen === 'workout') {
+      appendWorkoutVideo(msgsId, text);
+    }
 
     // Обновляем счётчик AI
     const counter = document.getElementById('aichat-ai-counter');
