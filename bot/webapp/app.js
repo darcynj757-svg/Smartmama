@@ -1146,7 +1146,7 @@ function diarySetDate(mode, btn) {
   } else {
     dateInput.style.display = 'block';
     dateInput.value = today.toISOString().split('T')[0];
-    setTimeout(() => dateInput.showPicker?.(), 50);
+    setTimeout(() => { try { dateInput.showPicker?.(); } catch(e) {} }, 50);
   }
 }
 
