@@ -4020,6 +4020,37 @@ body.on-kbzhu .kbzhu-meal-item {
 
 #screen-profile {
   padding-bottom: calc(var(--bottomnav-h) + var(--safe-bottom) + 30px);
+  padding-top: calc(var(--safe-top) + var(--tg-content-safe-top) + var(--topbar-h) + 4px);
+}
+
+/* ── Profile floating hero ── */
+.profile-float-hero {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 2px 18px;
+}
+.profile-float-avatar {
+  font-size: 52px;
+  line-height: 1;
+  flex-shrink: 0;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.10));
+}
+.profile-float-info {
+  flex: 1;
+  min-width: 0;
+}
+.profile-float-plan {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text-dark);
+  font-family: 'Unbounded', -apple-system, sans-serif;
+  letter-spacing: -0.3px;
+}
+.profile-float-until {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 3px;
 }
 
 /* ── Age drum picker ── */

@@ -52,7 +52,7 @@
       <polyline points="15 18 9 12 15 6"/>
     </svg>
   </button>
-  <div class="topbar-logo">Смарт&nbsp;Мама</div>
+  <div class="topbar-logo" id="topbar-logo">Смарт&nbsp;Мама</div>
   <button id="profile-btn" onclick="go('profile')">👩</button>
 </div>
 
@@ -1047,17 +1047,17 @@
 
   <!-- ────────────── ПРОФИЛЬ ────────────── -->
   <section id="screen-profile" class="screen">
-    <div class="page-title">👩 Профиль</div>
 
-    <div class="children-bar" id="profile-children-bar">
-    </div>
-
-    <div class="plan-card">
-      <div>
-        <div class="plan-name" id="profile-plan-name">🆓 Бесплатно</div>
-        <div class="plan-until" id="profile-plan-until"></div>
+    <div class="profile-float-hero">
+      <div class="profile-float-avatar">👩</div>
+      <div class="profile-float-info">
+        <div class="profile-float-plan" id="profile-plan-name">🆓 Бесплатно</div>
+        <div class="profile-float-until" id="profile-plan-until"></div>
       </div>
       <button class="plan-change-btn" onclick="go('pricing')">Изменить</button>
+    </div>
+
+    <div class="children-bar" id="profile-children-bar">
     </div>
 
     <div class="form-card">

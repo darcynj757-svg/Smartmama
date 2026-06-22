@@ -299,6 +299,13 @@ function go(name) {
       topbar.classList.remove('hero-mode');
     }
   }
+  // Topbar logo title
+  const topbarLogo = document.getElementById('topbar-logo');
+  if (topbarLogo) {
+    const titles = { profile: 'Профиль', pricing: 'Тарифы', referral: 'Реферальная программа' };
+    topbarLogo.textContent = titles[name] || 'Смарт\u00a0Мама';
+  }
+
   // Tint global background for themed screens
   document.body.classList.toggle('on-home',      name === 'home');
   document.body.classList.toggle('on-benefits',  name === 'benefits');
