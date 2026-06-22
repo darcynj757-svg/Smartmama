@@ -1595,9 +1595,7 @@ function fillProfile() {
   if (extra.health_notes) document.getElementById('profile-health-notes').value = extra.health_notes || '';
 
   // Children bar
-  const bar = document.getElementById('profile-children-bar');
-  const chipEl = document.getElementById('profile-child-chip-0');
-  if (chipEl) chipEl.textContent = state.childName || 'Малыш';
+  renderChildrenBar();
 }
 
 async function saveProfile() {
@@ -1616,6 +1614,16 @@ async function saveProfile() {
   state.childGender = gender || state.childGender;
   state.region      = region || state.region;
   state.childDob    = dob || state.childDob;
+
+  // Save back into children array
+  if (state.children[state.currentChildIndex]) {
+    state.children[state.currentChildIndex] = {
+      ...state.children[state.currentChildIndex],
+      childName, childAge: age, childGender: gender, childDob: dob, region,
+    };
+    saveChildrenCache();
+    renderChildrenBar();
+  }
 
   const profileData = {
     ...state.profile,
@@ -1640,8 +1648,81 @@ async function saveProfile() {
   }
 }
 
+function renderChildrenBar() {
+  const bar = document.getElementById('profile-children-bar');
+  if (!bar) return;
+  bar.innerHTML = '';
+  state.children.forEach((c, i) => {
+    const chip = document.createElement('button');
+    chip.className = 'child-chip' + (i === state.currentChildIndex ? ' active' : '');
+    chip.textContent = c.childName || 'Малыш ' + (i + 1);
+    chip.onclick = () => switchToChild(i);
+    if (state.children.length > 1) {
+      const del = document.createElement('span');
+      del.textContent = ' ×';
+      del.style.cssText = 'opacity:0.6;font-size:14px;margin-left:2px';
+      del.onclick = (e) => { e.stopPropagation(); removeChild(i); };
+      chip.appendChild(del);
+    }
+    bar.appendChild(chip);
+  });
+  if (state.children.length < 5) {
+    const add = document.createElement('button');
+    add.className = 'child-chip add-child-btn';
+    add.textContent = '+ Добавить';
+    add.onclick = addChild;
+    bar.appendChild(add);
+  }
+}
+
+function switchToChild(index) {
+  // Save current form values back into current child before switching
+  const currentChild = state.children[state.currentChildIndex];
+  if (currentChild) {
+    currentChild.childName   = document.getElementById('profile-child-name')?.value?.trim() || currentChild.childName;
+    currentChild.childAge    = parseInt(document.getElementById('profile-age')?.value) || currentChild.childAge;
+    currentChild.childGender = document.getElementById('profile-child-gender')?.value || currentChild.childGender;
+    currentChild.childDob    = document.getElementById('profile-dob')?.value || currentChild.childDob;
+    currentChild.region      = document.getElementById('profile-region')?.value?.trim() || currentChild.region;
+  }
+  applyChild(index);
+  saveChildrenCache();
+  fillProfile();
+}
+
+function removeChild(index) {
+  if (state.children.length <= 1) { showToast('Нельзя удалить единственного ребёнка'); return; }
+  const name = state.children[index].childName || ('Малыш ' + (index + 1));
+  if (!confirm('Удалить ' + name + '?')) return;
+  state.children.splice(index, 1);
+  // Remove saved photo for this child
+  try { localStorage.removeItem(index === 0 ? 'heroBabyPhoto' : 'heroBabyPhoto_' + index); } catch(e) {}
+  const newIndex = Math.min(state.currentChildIndex, state.children.length - 1);
+  applyChild(newIndex);
+  saveChildrenCache();
+  fillProfile();
+  showToast('Ребёнок удалён');
+}
+
 function addChild() {
-  showToast('Несколько детей — в разработке 🌸');
+  if (state.children.length >= 5) { showToast('Максимум 5 детей'); return; }
+  // Save current form to current child first
+  const cur = state.children[state.currentChildIndex];
+  if (cur) {
+    cur.childName   = document.getElementById('profile-child-name')?.value?.trim() || cur.childName;
+    cur.childAge    = parseInt(document.getElementById('profile-age')?.value) || cur.childAge;
+    cur.childGender = document.getElementById('profile-child-gender')?.value || cur.childGender;
+    cur.childDob    = document.getElementById('profile-dob')?.value || cur.childDob;
+    cur.region      = document.getElementById('profile-region')?.value?.trim() || cur.region;
+  }
+  const newChild = { childName: '', childAge: 0, childGender: '', childDob: '', region: state.region || '' };
+  state.children.push(newChild);
+  const newIndex = state.children.length - 1;
+  applyChild(newIndex);
+  saveChildrenCache();
+  fillProfile();
+  document.getElementById('profile-child-name')?.focus();
+  showToast('Заполни данные нового ребёнка 🍼');
 }
 
 // ─── Sounds / Player ──────────────────────────────────────────────────────────
