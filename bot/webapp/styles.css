@@ -1465,6 +1465,7 @@ body.on-neuro #bg-anim {
 }
 #screen-neuro {
   background: transparent;
+  padding-bottom: calc(var(--bottomnav-h) + var(--safe-bottom) + 30px);
 }
 
 /* ── Neuro: style buttons ── */
