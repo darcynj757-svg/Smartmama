@@ -305,6 +305,16 @@ function go(name) {
     const titles = { profile: 'Профиль', pricing: 'Тарифы', referral: 'Реферальная программа' };
     topbarLogo.textContent = titles[name] || 'Смарт\u00a0Мама';
   }
+  // Topbar subtitle — child greeting on home, screen hint elsewhere
+  const topbarSubtitle = document.getElementById('topbar-subtitle');
+  if (topbarSubtitle) {
+    if (name === 'home') {
+      const childName = state.childName && state.childName !== 'малыш' ? state.childName : null;
+      topbarSubtitle.textContent = childName ? `Мама ${childName} 🌸` : 'Твой помощник каждый день 🌸';
+    } else {
+      topbarSubtitle.textContent = '';
+    }
+  }
 
   // Tint global background for themed screens
   document.body.classList.toggle('on-home',      name === 'home');
