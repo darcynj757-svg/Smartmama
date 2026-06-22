@@ -329,7 +329,7 @@ body {
 #topbar-back-btn {
   position: absolute;
   left: 16px;
-  bottom: 8px;
+  top: calc(var(--safe-top) + 3px);
   width: 36px; height: 36px;
   border-radius: 50%;
   background: rgba(0,0,0,0.05);
