@@ -375,7 +375,7 @@ body {
 
 #profile-btn {
   position: absolute;
-  right: 16px; bottom: -22px;
+  right: 28px; bottom: -22px;
   width: 44px; height: 44px;
   background: linear-gradient(180deg, #ffffff 0%, #e8f4fc 100%);
   border-radius: 50%;
