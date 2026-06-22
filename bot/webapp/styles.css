@@ -1566,6 +1566,7 @@ body.on-kbzhu #bg-anim {
 }
 #screen-kbzhu {
   background: transparent;
+  padding-bottom: calc(var(--bottomnav-h) + var(--safe-bottom) + 30px);
 }
 
 /* ── КБЖУ: calorie card ── */
