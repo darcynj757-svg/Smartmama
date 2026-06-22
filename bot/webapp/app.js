@@ -1553,13 +1553,15 @@ function initAgePicker(totalMonths) {
   const initY = Math.floor(totalMonths / 12);
   const initM = totalMonths % 12;
 
-  buildDrum(yearsEl, 19, initY, (y) => {
-    const m = Math.max(0, Math.min(11, Math.round(monthsEl.scrollTop / 44)));
+  buildDrum(yearsEl, 7, initY, (y) => {
+    const m = y >= 6 ? 0 : Math.max(0, Math.min(11, Math.round(monthsEl.scrollTop / 44)));
+    if (y >= 6) { monthsEl.scrollTo({ top: 0, behavior: 'smooth' }); monthsEl.style.opacity = '0.4'; monthsEl.style.pointerEvents = 'none'; }
+    else { monthsEl.style.opacity = ''; monthsEl.style.pointerEvents = ''; }
     _agePickerMonths = y * 12 + m;
     document.getElementById('profile-age').value = _agePickerMonths;
   });
   buildDrum(monthsEl, 12, initM, (m) => {
-    const y = Math.max(0, Math.min(18, Math.round(yearsEl.scrollTop / 44)));
+    const y = Math.max(0, Math.min(6, Math.round(yearsEl.scrollTop / 44)));
     _agePickerMonths = y * 12 + m;
     document.getElementById('profile-age').value = _agePickerMonths;
   });
