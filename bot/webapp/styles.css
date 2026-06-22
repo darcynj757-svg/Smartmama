@@ -4035,7 +4035,7 @@ body.on-kbzhu .kbzhu-meal-item {
 
 #screen-profile {
   padding-bottom: calc(var(--bottomnav-h) + var(--safe-bottom) + 30px);
-  padding-top: calc(var(--safe-top) + var(--tg-content-safe-top) + var(--topbar-h) + 4px);
+  padding-top: calc(var(--safe-top) + var(--tg-content-safe-top) + var(--topbar-h) + 30px);
 }
 
 /* ── Profile floating hero ── */
