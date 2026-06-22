@@ -133,12 +133,6 @@ type = "image"
 title = "Вариант 3"
 
 [[outputs]]
-id = "xto9l1VqtVJNpud3cO38e"
-uri = "file://attached_assets/stock_images/tarif_stock_4.jpg"
-type = "image"
-title = "Вариант 4"
-
-[[outputs]]
 id = "50hZ0Sd_f82XYtx51tqoJ"
 uri = "file://attached_assets/stock_images/tile-neuro.jpg"
 type = "image"

@@ -1060,27 +1060,78 @@ function setDiaryTab(tab, btn) {
 
 function openAddDiaryModal() {
   document.getElementById('add-diary-modal').classList.add('open');
-  document.getElementById('diary-date').value = new Date().toISOString().split('T')[0];
   state.selectedDiaryType = null;
-  document.getElementById('diary-form-height').style.display = 'none';
-  document.getElementById('diary-form-text').style.display = 'none';
-  document.querySelectorAll('#diary-type-chips .chip').forEach(c => c.classList.remove('active'));
+  // Reset to step 1
+  document.getElementById('diary-step-type').style.display = '';
+  document.getElementById('diary-step-form').style.display = 'none';
+  // Reset date to today
+  diarySetDate('today', document.getElementById('diary-date-today'));
 }
 
 function closeDiaryModal() {
   document.getElementById('add-diary-modal').classList.remove('open');
 }
 
+function diaryBackToTypes() {
+  document.getElementById('diary-step-type').style.display = '';
+  document.getElementById('diary-step-form').style.display = 'none';
+  state.selectedDiaryType = null;
+}
+
+function diarySetDate(mode, btn) {
+  document.querySelectorAll('.diary-date-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  const dateInput = document.getElementById('diary-date');
+  const today = new Date();
+  if (mode === 'today') {
+    dateInput.style.display = 'none';
+    dateInput.value = today.toISOString().split('T')[0];
+  } else if (mode === 'yesterday') {
+    const y = new Date(today); y.setDate(y.getDate() - 1);
+    dateInput.style.display = 'none';
+    dateInput.value = y.toISOString().split('T')[0];
+  } else {
+    dateInput.style.display = 'block';
+    dateInput.value = today.toISOString().split('T')[0];
+    setTimeout(() => dateInput.showPicker?.(), 50);
+  }
+}
+
 function selectDiaryType(type, label, btn) {
   state.selectedDiaryType = { type, label };
-  document.querySelectorAll('#diary-type-chips .chip').forEach(c => c.classList.remove('active'));
-  btn.classList.add('active');
-  if (type === 'height') {
-    document.getElementById('diary-form-height').style.display = 'block';
-    document.getElementById('diary-form-text').style.display = 'none';
-  } else {
-    document.getElementById('diary-form-height').style.display = 'none';
-    document.getElementById('diary-form-text').style.display = 'block';
+  // Switch to step 2
+  document.getElementById('diary-step-type').style.display = 'none';
+  document.getElementById('diary-step-form').style.display = '';
+  document.getElementById('diary-form-type-label').textContent = label;
+  // Hide all type-specific forms
+  ['height','temp','vaccine','illness','medicine','doctor','text'].forEach(id => {
+    const el = document.getElementById('diary-form-' + id);
+    if (el) el.style.display = 'none';
+  });
+  // Show relevant form
+  const formMap = {
+    height: 'height', temp: 'temp', vaccine: 'vaccine',
+    illness: 'illness', medicine: 'medicine', doctor: 'doctor',
+    first: 'text', mood: 'text', funny: 'text', event: 'text',
+  };
+  const formId = 'diary-form-' + (formMap[type] || 'text');
+  const formEl = document.getElementById(formId);
+  if (formEl) {
+    formEl.style.display = 'block';
+    // Auto-focus first input
+    const first = formEl.querySelector('input, textarea');
+    if (first) setTimeout(() => first.focus(), 100);
+  }
+  // Update textarea placeholder based on type
+  if (formMap[type] === 'text') {
+    const placeholders = {
+      first: 'Опиши этот момент... 🌟',
+      mood: 'Какое настроение у малыша?',
+      funny: 'Что смешного случилось? 😂',
+      event: 'Что за событие?',
+    };
+    const ta = document.getElementById('diary-text');
+    if (ta) ta.placeholder = placeholders[type] || 'Опиши...';
   }
 }
 
@@ -1093,9 +1144,35 @@ function saveDiaryEntry() {
   if (type === 'height') {
     const h = document.getElementById('diary-height')?.value;
     const w = document.getElementById('diary-weight')?.value;
+    if (!h && !w) { showToast('Введи рост или вес'); return; }
     value = [h ? `Рост: ${h} см` : '', w ? `Вес: ${w} кг` : ''].filter(Boolean).join(', ');
+  } else if (type === 'temp') {
+    const t = document.getElementById('diary-temp')?.value;
+    if (!t) { showToast('Введи температуру'); return; }
+    value = `${t}°C`;
+  } else if (type === 'vaccine') {
+    const name = document.getElementById('diary-vaccine-name')?.value?.trim();
+    const note = document.getElementById('diary-vaccine-note')?.value?.trim();
+    if (!name) { showToast('Введи название прививки'); return; }
+    value = name + (note ? ` — ${note}` : '');
+  } else if (type === 'illness') {
+    const name = document.getElementById('diary-illness-name')?.value?.trim();
+    const note = document.getElementById('diary-illness-note')?.value?.trim();
+    if (!name && !note) { showToast('Опиши болезнь'); return; }
+    value = [name, note].filter(Boolean).join('\n');
+  } else if (type === 'medicine') {
+    const name = document.getElementById('diary-medicine-name')?.value?.trim();
+    const dose = document.getElementById('diary-medicine-dose')?.value?.trim();
+    if (!name) { showToast('Введи название лекарства'); return; }
+    value = name + (dose ? `, ${dose}` : '');
+  } else if (type === 'doctor') {
+    const name = document.getElementById('diary-doctor-name')?.value?.trim();
+    const note = document.getElementById('diary-doctor-note')?.value?.trim();
+    if (!name && !note) { showToast('Заполни данные визита'); return; }
+    value = [name, note].filter(Boolean).join('\n');
   } else {
-    value = document.getElementById('diary-text')?.value || '';
+    value = document.getElementById('diary-text')?.value?.trim() || '';
+    if (!value) { showToast('Напиши что-нибудь'); return; }
   }
 
   const entry = { type, title: label, value, date, id: Date.now() };

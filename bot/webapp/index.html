@@ -1381,34 +1381,122 @@
 <div class="diary-modal-overlay" id="add-diary-modal" onclick="closeDiaryModal()">
   <div class="diary-modal-sheet" onclick="event.stopPropagation()">
     <div class="modal-handle"></div>
-    <div class="modal-title">Добавить запись</div>
-    <div class="chips-scroll chips-wrap" id="diary-type-chips">
-      <button class="chip" onclick="selectDiaryType('height','📏 Рост/вес',this)">📏 Рост/вес</button>
-      <button class="chip" onclick="selectDiaryType('vaccine','💉 Прививка',this)">💉 Прививка</button>
-      <button class="chip" onclick="selectDiaryType('illness','😷 Болезнь',this)">😷 Болезнь</button>
-      <button class="chip" onclick="selectDiaryType('temp','🌡 Температура',this)">🌡 Температура</button>
-      <button class="chip" onclick="selectDiaryType('first','🌟 Первый раз',this)">🌟 Первый раз</button>
-      <button class="chip" onclick="selectDiaryType('mood','😊 Настроение',this)">😊 Настроение</button>
-      <button class="chip" onclick="selectDiaryType('medicine','💊 Лекарство',this)">💊 Лекарство</button>
-      <button class="chip" onclick="selectDiaryType('doctor','👨‍⚕️ Врач',this)">👨‍⚕️ Врач</button>
-      <button class="chip" onclick="selectDiaryType('funny','😂 Смешное',this)">😂 Смешное</button>
-      <button class="chip" onclick="selectDiaryType('event','🎉 Событие',this)">🎉 Событие</button>
+
+    <!-- Step 1: type grid -->
+    <div id="diary-step-type">
+      <div class="modal-title">Что записать?</div>
+      <div class="diary-type-grid">
+        <button class="diary-type-card" onclick="selectDiaryType('height','📏 Рост/вес',this)">
+          <span class="dtc-ico">📏</span><span class="dtc-lbl">Рост / вес</span>
+        </button>
+        <button class="diary-type-card" onclick="selectDiaryType('temp','🌡 Температура',this)">
+          <span class="dtc-ico">🌡</span><span class="dtc-lbl">Температура</span>
+        </button>
+        <button class="diary-type-card" onclick="selectDiaryType('vaccine','💉 Прививка',this)">
+          <span class="dtc-ico">💉</span><span class="dtc-lbl">Прививка</span>
+        </button>
+        <button class="diary-type-card" onclick="selectDiaryType('illness','😷 Болезнь',this)">
+          <span class="dtc-ico">😷</span><span class="dtc-lbl">Болезнь</span>
+        </button>
+        <button class="diary-type-card" onclick="selectDiaryType('medicine','💊 Лекарство',this)">
+          <span class="dtc-ico">💊</span><span class="dtc-lbl">Лекарство</span>
+        </button>
+        <button class="diary-type-card" onclick="selectDiaryType('doctor','👨‍⚕️ Врач',this)">
+          <span class="dtc-ico">👨‍⚕️</span><span class="dtc-lbl">Врач</span>
+        </button>
+        <button class="diary-type-card" onclick="selectDiaryType('first','🌟 Первый раз',this)">
+          <span class="dtc-ico">🌟</span><span class="dtc-lbl">Первый раз</span>
+        </button>
+        <button class="diary-type-card" onclick="selectDiaryType('mood','😊 Настроение',this)">
+          <span class="dtc-ico">😊</span><span class="dtc-lbl">Настроение</span>
+        </button>
+        <button class="diary-type-card" onclick="selectDiaryType('funny','😂 Смешное',this)">
+          <span class="dtc-ico">😂</span><span class="dtc-lbl">Смешное</span>
+        </button>
+        <button class="diary-type-card" onclick="selectDiaryType('event','🎉 Событие',this)">
+          <span class="dtc-ico">🎉</span><span class="dtc-lbl">Событие</span>
+        </button>
+      </div>
     </div>
-    <div id="diary-form-height" style="display:none">
-      <label class="field-label">Рост (см)</label>
-      <input type="number" class="field-input" id="diary-height" placeholder="65">
-      <label class="field-label">Вес (кг)</label>
-      <input type="number" class="field-input" id="diary-weight" placeholder="7.5" step="0.1">
-    </div>
-    <div id="diary-form-text" style="display:none">
-      <label class="field-label">Описание</label>
-      <textarea class="field-textarea" id="diary-text" placeholder="Опиши событие..."></textarea>
-    </div>
-    <label class="field-label">Дата</label>
-    <input type="date" class="field-input" id="diary-date">
-    <div class="form-btns">
-      <button class="btn-out" onclick="closeDiaryModal()">Отмена</button>
-      <button class="btn-pri" onclick="saveDiaryEntry()">Сохранить</button>
+
+    <!-- Step 2: fill in data -->
+    <div id="diary-step-form" style="display:none">
+      <div class="diary-form-header">
+        <button class="diary-back-btn" onclick="diaryBackToTypes()">← Назад</button>
+        <div class="modal-title" id="diary-form-type-label" style="margin-bottom:0"></div>
+      </div>
+
+      <!-- Рост/вес -->
+      <div id="diary-form-height" style="display:none">
+        <div class="diary-two-cols">
+          <div class="diary-field-unit">
+            <input type="number" class="field-input diary-unit-input" id="diary-height" placeholder="68" inputmode="decimal">
+            <span class="diary-unit-label">см</span>
+          </div>
+          <div class="diary-field-unit">
+            <input type="number" class="field-input diary-unit-input" id="diary-weight" placeholder="8.2" step="0.1" inputmode="decimal">
+            <span class="diary-unit-label">кг</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Температура -->
+      <div id="diary-form-temp" style="display:none">
+        <div class="diary-temp-row">
+          <input type="number" class="field-input diary-unit-input" id="diary-temp" placeholder="36.6" step="0.1" inputmode="decimal" style="max-width:140px">
+          <span class="diary-unit-label" style="font-size:20px">°C</span>
+        </div>
+        <div class="diary-temp-presets">
+          <button class="diary-preset-btn" onclick="document.getElementById('diary-temp').value='36.6'">36.6°</button>
+          <button class="diary-preset-btn" onclick="document.getElementById('diary-temp').value='37.0'">37.0°</button>
+          <button class="diary-preset-btn" onclick="document.getElementById('diary-temp').value='37.5'">37.5°</button>
+          <button class="diary-preset-btn" onclick="document.getElementById('diary-temp').value='38.0'">38.0°</button>
+          <button class="diary-preset-btn" onclick="document.getElementById('diary-temp').value='38.5'">38.5°</button>
+          <button class="diary-preset-btn" onclick="document.getElementById('diary-temp').value='39.0'">39.0°</button>
+        </div>
+      </div>
+
+      <!-- Прививка -->
+      <div id="diary-form-vaccine" style="display:none">
+        <input type="text" class="field-input" id="diary-vaccine-name" placeholder="Название прививки (АКДС, корь...)" style="margin-bottom:8px">
+        <textarea class="field-textarea" id="diary-vaccine-note" placeholder="Реакция, заметки..." style="min-height:60px"></textarea>
+      </div>
+
+      <!-- Болезнь -->
+      <div id="diary-form-illness" style="display:none">
+        <input type="text" class="field-input" id="diary-illness-name" placeholder="Что случилось (ОРВИ, отит...)" style="margin-bottom:8px">
+        <textarea class="field-textarea" id="diary-illness-note" placeholder="Симптомы, температура, лечение..." style="min-height:72px"></textarea>
+      </div>
+
+      <!-- Лекарство -->
+      <div id="diary-form-medicine" style="display:none">
+        <input type="text" class="field-input" id="diary-medicine-name" placeholder="Название лекарства" style="margin-bottom:8px">
+        <input type="text" class="field-input" id="diary-medicine-dose" placeholder="Доза (например: 5 мл, 1 таб.)">
+      </div>
+
+      <!-- Врач -->
+      <div id="diary-form-doctor" style="display:none">
+        <input type="text" class="field-input" id="diary-doctor-name" placeholder="Специалист (педиатр, ЛОР...)" style="margin-bottom:8px">
+        <textarea class="field-textarea" id="diary-doctor-note" placeholder="Что сказал врач, назначения..." style="min-height:72px"></textarea>
+      </div>
+
+      <!-- Текстовые типы: first, mood, funny, event -->
+      <div id="diary-form-text" style="display:none">
+        <textarea class="field-textarea" id="diary-text" placeholder="Опиши..." style="min-height:90px"></textarea>
+      </div>
+
+      <!-- Дата -->
+      <div class="diary-date-row">
+        <button class="diary-date-chip active" id="diary-date-today" onclick="diarySetDate('today',this)">Сегодня</button>
+        <button class="diary-date-chip" id="diary-date-yesterday" onclick="diarySetDate('yesterday',this)">Вчера</button>
+        <button class="diary-date-chip" id="diary-date-custom" onclick="diarySetDate('custom',this)">Другая</button>
+      </div>
+      <input type="date" class="field-input" id="diary-date" style="display:none;margin-top:6px">
+
+      <div class="form-btns" style="margin-top:16px">
+        <button class="btn-out" onclick="closeDiaryModal()">Отмена</button>
+        <button class="btn-pri" onclick="saveDiaryEntry()">Сохранить</button>
+      </div>
     </div>
   </div>
 </div>
