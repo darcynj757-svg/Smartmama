@@ -1987,10 +1987,10 @@ body.on-kbzhu .kbzhu-meal-item {
 }
 .msg.user {
   align-self: flex-end;
-  background: linear-gradient(90deg, #4AAAD8 0%, #C06ABE 52%, #8858D0 100%);
+  background: linear-gradient(135deg, #ADE8F4 0%, #F9A8C9 33%, #C9A0DC 66%, #8B6FD0 100%);
   color: #fff;
   border-bottom-right-radius: 5px;
-  box-shadow: 0 2px 8px rgba(136,88,208,0.30);
+  box-shadow: 0 2px 8px rgba(139,111,208,0.30);
 }
 .msg.ai {
   align-self: flex-start;
@@ -2069,10 +2069,10 @@ body.on-kbzhu .kbzhu-meal-item {
 }
 .chat-btn:active { transform: scale(0.88); }
 .btn-send {
-  background: linear-gradient(90deg, #4AAAD8 0%, #C06ABE 52%, #8858D0 100%);
+  background: linear-gradient(135deg, #ADE8F4 0%, #F9A8C9 33%, #C9A0DC 66%, #8B6FD0 100%);
   color: #fff;
   border: none;
-  box-shadow: 0 4px 14px rgba(136,88,208,0.35);
+  box-shadow: 0 4px 14px rgba(139,111,208,0.35);
 }
 .btn-cam {
   background: var(--surface-3);
