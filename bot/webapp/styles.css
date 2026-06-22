@@ -295,7 +295,7 @@ body {
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   padding: 0;
-  height: calc(var(--safe-top) + var(--tg-content-safe-top) + var(--topbar-h));
+  height: calc(var(--safe-top) + var(--topbar-h));
   display: block;
   border-bottom: none;
   overflow: visible;
@@ -356,7 +356,7 @@ body {
   letter-spacing: -0.3px;
   line-height: 1;
   position: absolute;
-  top: calc(var(--safe-top) + var(--tg-content-safe-top) + 13px);
+  top: calc(var(--safe-top) + 13px);
   left: 50%;
   transform: translateX(-50%);
   background: linear-gradient(90deg, #4AAAD8 0%, #C06ABE 52%, #8858D0 100%);
