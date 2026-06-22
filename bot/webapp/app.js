@@ -1049,6 +1049,7 @@ function setDiaryPane(pane, btn) {
   btn.classList.add('active');
   document.getElementById('diary-pane-entries').style.display = pane === 'entries' ? '' : 'none';
   document.getElementById('diary-pane-docs').style.display    = pane === 'docs'    ? '' : 'none';
+  if (pane === 'docs') renderDocsGrid();
 }
 
 function setDiaryTab(tab, btn) {
@@ -1184,11 +1185,54 @@ function saveDiaryEntry() {
 }
 
 // ─── Document modal ──────────────────────────────────────────────────────────
+function getDocsCache() {
+  try { return JSON.parse(localStorage.getItem('docs_cache') || '{}'); } catch(e) { return {}; }
+}
+
+function renderDocsGrid() {
+  const docs = getDocsCache();
+  document.querySelectorAll('#diary-docs-grid .doc-item').forEach(el => {
+    const key = el.dataset.doc;
+    const img = docs[key];
+    // Remove old thumbnail
+    el.querySelector('.doc-thumb')?.remove();
+    el.querySelector('.doc-check')?.remove();
+    if (img) {
+      el.classList.add('has-doc');
+      // Thumbnail overlay
+      const thumb = document.createElement('div');
+      thumb.className = 'doc-thumb';
+      thumb.style.backgroundImage = `url(${img})`;
+      el.insertBefore(thumb, el.firstChild);
+      // Check badge
+      const check = document.createElement('div');
+      check.className = 'doc-check';
+      check.textContent = '✓';
+      el.appendChild(check);
+    } else {
+      el.classList.remove('has-doc');
+    }
+  });
+}
+
 function openDocModal(name, ico) {
   state.docModalCategory = name;
   document.getElementById('doc-modal-title').textContent = ico + ' ' + name;
   document.getElementById('doc-modal').classList.add('open');
-  document.getElementById('doc-upload-area').innerHTML = `<p style="font-size:13px;color:var(--text-secondary)">📷 Загрузить фото документа</p>`;
+  document.getElementById('doc-photo-input').value = '';
+
+  const docs = getDocsCache();
+  const existing = docs[name];
+  const area = document.getElementById('doc-upload-area');
+  const delBtn = document.getElementById('doc-delete-btn');
+
+  if (existing) {
+    area.innerHTML = `<img src="${existing}" class="upload-preview" alt="doc">`;
+    if (delBtn) delBtn.style.display = 'block';
+  } else {
+    area.innerHTML = `<div class="doc-upload-placeholder"><span class="doc-upload-ico">📷</span><span class="doc-upload-hint">Нажми чтобы загрузить фото</span></div>`;
+    if (delBtn) delBtn.style.display = 'none';
+  }
 }
 
 function closeDocModal() {
@@ -1202,16 +1246,41 @@ function previewDoc(input) {
   const reader = new FileReader();
   reader.onload = e => {
     document.getElementById('doc-upload-area').innerHTML = `<img src="${e.target.result}" class="upload-preview" alt="doc">`;
+    const delBtn = document.getElementById('doc-delete-btn');
+    if (delBtn) delBtn.style.display = 'block';
   };
   reader.readAsDataURL(file);
 }
 
+function deleteDoc() {
+  if (!confirm('Удалить документ?')) return;
+  const docs = getDocsCache();
+  delete docs[state.docModalCategory];
+  localStorage.setItem('docs_cache', JSON.stringify(docs));
+  renderDocsGrid();
+  closeDocModal();
+  showToast('Документ удалён');
+}
+
 function saveDoc() {
   const input = document.getElementById('doc-photo-input');
-  const file = input.files[0];
-  if (!file) { showToast('Загрузи фото документа'); return; }
-  showToast(`${state.docModalCategory} сохранён ✅`);
+  const area = document.getElementById('doc-upload-area');
+  const img = area.querySelector('img.upload-preview');
+  if (!img) { showToast('Загрузи фото документа'); return; }
+
+  // Save base64 to localStorage
+  const docs = getDocsCache();
+  docs[state.docModalCategory] = img.src;
+  try {
+    localStorage.setItem('docs_cache', JSON.stringify(docs));
+  } catch(e) {
+    // If storage full, store smaller version
+    showToast('Ошибка: нет места в памяти');
+    return;
+  }
+  renderDocsGrid();
   closeDocModal();
+  showToast(`${state.docModalCategory} сохранён ✅`);
 }
 
 // ─── Fridge analysis ──────────────────────────────────────────────────────────

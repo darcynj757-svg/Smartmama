@@ -683,15 +683,15 @@
 
     <!-- ── Pane: Документы ── -->
     <div id="diary-pane-docs" style="display:none">
-      <div class="diary-docs-grid">
-        <div class="doc-item" onclick="openDocModal('Паспорт','📗')"><div class="doc-ico">📗</div><div class="doc-name">Паспорт</div></div>
-        <div class="doc-item" onclick="openDocModal('СНИЛС','🪪')"><div class="doc-ico">🪪</div><div class="doc-name">СНИЛС</div></div>
-        <div class="doc-item" onclick="openDocModal('Полис ОМС','🏥')"><div class="doc-ico">🏥</div><div class="doc-name">Полис ОМС</div></div>
-        <div class="doc-item" onclick="openDocModal('Свид. о рождении','📜')"><div class="doc-ico">📜</div><div class="doc-name">Свид. о рождении</div></div>
-        <div class="doc-item" onclick="openDocModal('Справка врача','👨‍⚕️')"><div class="doc-ico">👨‍⚕️</div><div class="doc-name">Справка врача</div></div>
-        <div class="doc-item" onclick="openDocModal('Рецепт','💊')"><div class="doc-ico">💊</div><div class="doc-name">Рецепт</div></div>
-        <div class="doc-item" onclick="openDocModal('Прививочная карта','💉')"><div class="doc-ico">💉</div><div class="doc-name">Прививки</div></div>
-        <div class="doc-item" onclick="openDocModal('Другое','📁')"><div class="doc-ico">📁</div><div class="doc-name">Другое</div></div>
+      <div class="diary-docs-grid" id="diary-docs-grid">
+        <div class="doc-item" data-doc="Паспорт" onclick="openDocModal('Паспорт','📗')"><div class="doc-ico">📗</div><div class="doc-name">Паспорт</div></div>
+        <div class="doc-item" data-doc="СНИЛС" onclick="openDocModal('СНИЛС','🪪')"><div class="doc-ico">🪪</div><div class="doc-name">СНИЛС</div></div>
+        <div class="doc-item" data-doc="Полис ОМС" onclick="openDocModal('Полис ОМС','🏥')"><div class="doc-ico">🏥</div><div class="doc-name">Полис ОМС</div></div>
+        <div class="doc-item" data-doc="Свид. о рождении" onclick="openDocModal('Свид. о рождении','📜')"><div class="doc-ico">📜</div><div class="doc-name">Свид. о рождении</div></div>
+        <div class="doc-item" data-doc="Справка врача" onclick="openDocModal('Справка врача','👨‍⚕️')"><div class="doc-ico">👨‍⚕️</div><div class="doc-name">Справка врача</div></div>
+        <div class="doc-item" data-doc="Рецепт" onclick="openDocModal('Рецепт','💊')"><div class="doc-ico">💊</div><div class="doc-name">Рецепт</div></div>
+        <div class="doc-item" data-doc="Прививочная карта" onclick="openDocModal('Прививочная карта','💉')"><div class="doc-ico">💉</div><div class="doc-name">Прививки</div></div>
+        <div class="doc-item" data-doc="Другое" onclick="openDocModal('Другое','📁')"><div class="doc-ico">📁</div><div class="doc-name">Другое</div></div>
       </div>
     </div>
 
@@ -1507,11 +1507,15 @@
   <div class="diary-modal-sheet" onclick="event.stopPropagation()">
     <div class="modal-handle"></div>
     <div class="modal-title" id="doc-modal-title">Документ</div>
-    <div class="upload-area" onclick="document.getElementById('doc-photo-input').click()" id="doc-upload-area">
-      <p style="font-size:13px;color:var(--text-secondary)">📷 Загрузить фото документа</p>
+    <div class="doc-upload-area" onclick="document.getElementById('doc-photo-input').click()" id="doc-upload-area">
+      <div class="doc-upload-placeholder">
+        <span class="doc-upload-ico">📷</span>
+        <span class="doc-upload-hint">Нажми чтобы загрузить фото</span>
+      </div>
     </div>
     <input type="file" id="doc-photo-input" accept="image/*" style="display:none" onchange="previewDoc(this)">
-    <div class="form-btns" style="margin-top:8px">
+    <button id="doc-delete-btn" class="doc-delete-btn" onclick="deleteDoc()" style="display:none">🗑 Удалить документ</button>
+    <div class="form-btns" style="margin-top:12px">
       <button class="btn-out" onclick="closeDocModal()">Отмена</button>
       <button class="btn-pri" onclick="saveDoc()">Сохранить</button>
     </div>
