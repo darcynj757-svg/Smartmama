@@ -35,7 +35,7 @@
   --safe-top:             env(safe-area-inset-top, 0px);
   --safe-bottom:          env(safe-area-inset-bottom, 16px);
   --tg-content-safe-top:  0px;
-  --topbar-h:             90px;
+  --topbar-h:             42px;
   --bottomnav-h: 64px;
 
   /* legacy compat */
@@ -356,7 +356,7 @@ body {
   letter-spacing: -0.3px;
   line-height: 1;
   position: absolute;
-  top: calc(var(--safe-top) + var(--tg-content-safe-top) + 10px);
+  top: calc(var(--safe-top) + var(--tg-content-safe-top) + 13px);
   left: 50%;
   transform: translateX(-50%);
   background: linear-gradient(90deg, #4AAAD8 0%, #C06ABE 52%, #8858D0 100%);
@@ -367,26 +367,7 @@ body {
 }
 
 .topbar-subtitle {
-  position: absolute;
-  left: 0; right: 0;
-  bottom: 14px;
-  text-align: center;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--text-muted, #999);
-  letter-spacing: 0.2px;
-  pointer-events: none;
-  opacity: 1;
-  transition: opacity 0.2s;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding: 0 60px;
-}
-
-#topbar.hero-mode .topbar-subtitle {
-  color: rgba(255,255,255,0.75);
-  text-shadow: 0 1px 4px rgba(0,0,0,0.25);
+  display: none;
 }
 
 #profile-btn {
