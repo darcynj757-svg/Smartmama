@@ -886,10 +886,7 @@
 
   <!-- ────────────── ТАРИФЫ ────────────── -->
   <section id="screen-pricing" class="screen">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-      <button class="back-btn" onclick="goBack()" style="position:static;width:36px;height:36px;font-size:22px;flex-shrink:0">‹</button>
-      <div class="page-title" style="margin-bottom:0">💎 Тарифы</div>
-    </div>
+    <div class="page-title">💎 Тарифы</div>
     <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px">Начни бесплатно, расширяй возможности когда нужно</p>
 
     <div class="period-toggle">
@@ -905,13 +902,14 @@
       <div class="price-name">Бесплатно</div>
       <div class="price-amount">0 ₽</div>
       <ul class="price-features">
-        <li>Все 8 разделов приложения</li>
-        <li>Трекеры сна и питания</li>
+        <li>Все разделы приложения</li>
+        <li>Трекеры сна, питания и КБЖУ</li>
         <li>Дневник малыша</li>
+        <li>Колыбельные и белый шум</li>
         <li>10 AI-ответов в день</li>
-        <li class="no">AI речь / игры / здоровье</li>
+        <li class="no">AI речь / игры / тренировки / здоровье</li>
         <li class="no">Нейрофото</li>
-        <li class="no">Гайд по пособиям</li>
+        <li class="no">Выплаты и пособия (AI)</li>
       </ul>
       <button class="price-btn current">Текущий тариф</button>
     </div>
@@ -926,11 +924,12 @@
       <ul class="price-features">
         <li>Всё из бесплатного</li>
         <li>20 AI-ответов в день в каждом чате</li>
-        <li>AI речь / игры / здоровье</li>
-        <li>5 анализов холодильника/день</li>
+        <li>AI речь / игры / тренировки / здоровье</li>
+        <li>5 анализов холодильника в день</li>
+        <li>Выплаты и пособия по вашему региону</li>
         <li>2 нейрофото в месяц</li>
+        <li class="no">Безлимитный AI</li>
         <li class="no">Гайд по пособиям (149 ₽ отдельно)</li>
-        <li class="no">Программа развития по неделям</li>
       </ul>
       <button class="price-btn starter-btn" onclick="buyPlan('starter')">Подключить Стартер</button>
     </div>
@@ -953,7 +952,7 @@
       <button class="price-btn prem-btn" onclick="buyPlan('premium')">Подключить Премиум</button>
     </div>
 
-    <p style="text-align:center;font-size:12px;color:var(--text-secondary);padding:12px 0;padding-bottom:calc(var(--bottomnav-h) + var(--safe-bottom) + 16px)">
+    <p style="text-align:center;font-size:12px;color:var(--text-secondary);padding:12px 0">
       💳 Оплата картой, СБП или Telegram Stars.<br>Поддержка: @polyakovalinka
     </p>
   </section>
