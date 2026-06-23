@@ -11,6 +11,8 @@ try {
     function applyTgSafeArea() {
       const contentTop = (tg.contentSafeAreaInset && tg.contentSafeAreaInset.top) || 0;
       document.documentElement.style.setProperty('--tg-content-safe-top', contentTop + 'px');
+      // Скрываем наши кнопки пока видна шапка Telegram (Закрыть / ···)
+      document.body.classList.toggle('tg-header-visible', contentTop > 0);
     }
     applyTgSafeArea();
     tg.onEvent('contentSafeAreaChanged', applyTgSafeArea);
