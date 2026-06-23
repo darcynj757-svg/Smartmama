@@ -332,7 +332,7 @@ body {
 #topbar-back-btn {
   position: absolute;
   left: 16px;
-  top: calc(var(--safe-top) + var(--tg-content-safe-top, 0px) + 8px);
+  top: calc(var(--safe-top) + 24px);
   width: 44px; height: 44px;
   border-radius: 50%;
   background: linear-gradient(180deg, #ffffff 0%, #e8f4fc 100%);
@@ -366,7 +366,7 @@ body {
   letter-spacing: -0.3px;
   line-height: 1;
   position: absolute;
-  top: calc(var(--safe-top) + var(--tg-content-safe-top, 0px) + 19px);
+  top: calc(var(--safe-top) + 13px);
   left: 50%;
   transform: translateX(-50%);
   background: linear-gradient(90deg, #4AAAD8 0%, #C06ABE 52%, #8858D0 100%);
@@ -382,9 +382,7 @@ body {
 
 #profile-btn {
   position: absolute;
-  right: 16px;
-  top: calc(var(--safe-top) + var(--tg-content-safe-top, 0px) + 8px);
-  bottom: auto;
+  right: 28px; bottom: -22px;
   width: 44px; height: 44px;
   background: linear-gradient(180deg, #ffffff 0%, #e8f4fc 100%);
   border-radius: 50%;
