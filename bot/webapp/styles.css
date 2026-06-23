@@ -2951,6 +2951,27 @@ body.on-kbzhu .kbzhu-meal-item {
 .price-btn.prem-btn:active     { transform: scale(0.97); }
 
 /* ── Children bar ── */
+/* ── Profile: swipe dots indicator ── */
+.profile-child-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 2px 0 10px;
+}
+.profile-child-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: rgba(192,132,232,0.28);
+  border: none; cursor: pointer; padding: 0;
+  transition: background 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+.profile-child-dot.active {
+  background: #C084E8;
+  transform: scale(1.3);
+}
+
 .home-children-bar, .children-bar {
   display: flex; gap: 7px; overflow-x: auto;
   padding: 2px 0 10px; scrollbar-width: none;

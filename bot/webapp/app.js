@@ -246,6 +246,111 @@ function initChildSwipe() {
   }, { passive: true });
 }
 
+function initProfileChildSwipe() {
+  const screen = document.getElementById('screen-profile');
+  if (!screen) return;
+  let startX = 0, startY = 0, startTime = 0, isDragging = false, deltaX = 0;
+
+  screen.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    startTime = Date.now();
+    isDragging = false;
+    deltaX = 0;
+  }, { passive: true });
+
+  screen.addEventListener('touchmove', e => {
+    if (state.children.length <= 1) return;
+    const dx = e.touches[0].clientX - startX;
+    const dy = e.touches[0].clientY - startY;
+    if (!isDragging && Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      isDragging = true;
+    }
+    if (isDragging) deltaX = dx;
+  }, { passive: true });
+
+  screen.addEventListener('touchend', () => {
+    if (!isDragging || state.children.length <= 1) return;
+    const elapsed = Date.now() - startTime;
+    const isFastSwipe = Math.abs(deltaX) > 35 && elapsed < 400;
+    const isBigSwipe  = Math.abs(deltaX) > screen.offsetWidth * 0.28;
+    if (!isFastSwipe && !isBigSwipe) return;
+
+    const dir = deltaX < 0 ? 1 : -1;
+    let next = state.currentChildIndex + dir;
+    if (next < 0) next = state.children.length - 1;
+    if (next >= state.children.length) next = 0;
+
+    // Save current form before switching
+    const cur = state.children[state.currentChildIndex];
+    if (cur) {
+      cur.childName   = document.getElementById('profile-child-name')?.value?.trim() || cur.childName;
+      cur.childAge    = parseInt(document.getElementById('profile-age')?.value) || cur.childAge;
+      cur.childGender = document.getElementById('profile-child-gender')?.value || cur.childGender;
+      cur.childDob    = document.getElementById('profile-dob')?.value || cur.childDob;
+      cur.region      = document.getElementById('profile-region')?.value?.trim() || cur.region;
+    }
+
+    // Slide out animation
+    const cards = screen.querySelectorAll('.form-card');
+    cards.forEach(c => {
+      c.style.transition = 'transform 0.18s ease, opacity 0.18s ease';
+      c.style.transform  = `translateX(${dir * -60}%)`;
+      c.style.opacity    = '0';
+    });
+
+    setTimeout(() => {
+      applyChild(next);
+      saveChildrenCache();
+      fillProfile();
+      renderChildrenBar();
+      renderProfileDots();
+      // Slide in from opposite side
+      cards.forEach(c => {
+        c.style.transition = 'none';
+        c.style.transform  = `translateX(${dir * 60}%)`;
+        c.style.opacity    = '0';
+      });
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        cards.forEach(c => {
+          c.style.transition = 'transform 0.22s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.22s ease';
+          c.style.transform  = '';
+          c.style.opacity    = '';
+        });
+        setTimeout(() => cards.forEach(c => { c.style.transition = ''; }), 250);
+      }));
+    }, 160);
+
+    isDragging = false;
+    screen.style.pointerEvents = 'none';
+    setTimeout(() => { screen.style.pointerEvents = ''; }, 400);
+  }, { passive: true });
+}
+
+function renderProfileDots() {
+  let dotsEl = document.getElementById('profile-child-dots');
+  if (state.children.length <= 1) {
+    if (dotsEl) dotsEl.remove();
+    return;
+  }
+  if (!dotsEl) {
+    dotsEl = document.createElement('div');
+    dotsEl.id = 'profile-child-dots';
+    dotsEl.className = 'profile-child-dots';
+    const bar = document.getElementById('profile-children-bar');
+    if (bar) bar.parentNode.insertBefore(dotsEl, bar.nextSibling);
+  }
+  dotsEl.innerHTML = '';
+  state.children.forEach((_, i) => {
+    const d = document.createElement('span');
+    d.className = 'profile-child-dot' + (i === state.currentChildIndex ? ' active' : '');
+    d.onclick = () => {
+      if (i !== state.currentChildIndex) switchToChild(i);
+    };
+    dotsEl.appendChild(d);
+  });
+}
+
 function getChildProfile() {
   return {
     childName:   state.childName  || 'малыш',
@@ -335,7 +440,7 @@ function go(name) {
   if (name === 'feed') loadFeedData();
   if (name === 'workout' || name === 'kbzhu') loadKbzhu();
   if (name === 'diary') loadDiaryData();
-  if (name === 'profile') fillProfile();
+  if (name === 'profile') { fillProfile(); renderProfileDots(); }
   if (name === 'referral') loadReferral();
   if (name === 'pricing') updatePricing();
   if (name === 'sounds') initSoundsScreen();
@@ -2618,6 +2723,7 @@ function initHeroPhoto() {
 
   // Init swipe between children
   initChildSwipe();
+  initProfileChildSwipe();
 
   // Topbar scroll effect + parallax on home screen
   const homeScreen = document.getElementById('screen-home');
