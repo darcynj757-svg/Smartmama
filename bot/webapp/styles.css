@@ -4252,6 +4252,44 @@ body.on-kbzhu .kbzhu-meal-item {
 }
 
 /* ── Support card ── */
+/* ── Profile: referral share card ── */
+.profile-ref-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(135deg, #FFF0FA 0%, #F3E8FF 100%);
+  border: 1.5px solid rgba(192,132,232,0.28);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 10px rgba(192,132,232,0.12);
+}
+.profile-ref-left {
+  display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0;
+}
+.profile-ref-ico { font-size: 28px; flex-shrink: 0; }
+.profile-ref-title {
+  font-size: 14px; font-weight: 700; color: var(--text-primary);
+}
+.profile-ref-sub {
+  font-size: 12px; color: var(--text-secondary); margin-top: 2px;
+}
+.profile-ref-btn {
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #C084E8 0%, #8858D0 100%);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(136,88,208,0.35);
+}
+.profile-ref-btn:active { opacity: 0.85; transform: scale(0.97); }
+
 .support-card {
   background: var(--surface-2);
   border: 1px solid var(--border);
