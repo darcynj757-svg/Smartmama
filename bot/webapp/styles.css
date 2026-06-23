@@ -6250,3 +6250,14 @@ body.on-pregnancy #screen-pregnancy { --screen-accent: #B44ABE; }
   letter-spacing: 0.2px;
 }
 
+
+/* Кнопка «Малыш родился» */
+.preg-born-btn {
+  width: 100%; margin: 10px 0 14px;
+  padding: 14px;
+  background: #fff0f0; color: #c62828;
+  border: 2px solid #e53e3e;
+  border-radius: 16px; font-size: 16px; font-weight: 700;
+  cursor: pointer; transition: all 0.15s;
+}
+.preg-born-btn:active { background: #fdecea; transform: scale(0.98); }
