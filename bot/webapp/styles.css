@@ -6187,3 +6187,66 @@ body.on-pregnancy #screen-pregnancy { --screen-accent: #B44ABE; }
   color: #4a148c; font-weight: 600;
 }
 
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ПРИКОРМ — category image banners
+   ═══════════════════════════════════════════════════════════════════════════ */
+.prikorм-cat-banner {
+  position: relative; height: 110px; overflow: hidden;
+  border-radius: 0; /* inside .prikorм-category which has border-radius */
+}
+.prikorм-cat-img {
+  width: 100%; height: 100%; object-fit: cover;
+  display: block;
+}
+.prikorм-cat-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.52) 100%);
+}
+.prikorм-cat-banner-content {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 10px 14px;
+  display: flex; align-items: flex-end; justify-content: space-between;
+}
+.prikorм-cat-banner-title {
+  font-size: 16px; font-weight: 800; color: #fff;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+.prikorм-cat-banner-stats {
+  display: flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: flex-end;
+}
+.prikorм-stat-badge {
+  font-size: 11px; font-weight: 700;
+  padding: 3px 8px; border-radius: 20px;
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  backdrop-filter: blur(4px);
+  white-space: nowrap;
+}
+.prikorм-stat-tried  { background: rgba(76,175,80,0.6); }
+.prikorм-stat-allergy { background: rgba(229,57,53,0.6); }
+.prikorм-stat-total  { background: rgba(255,255,255,0.25); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   БЕРЕМЕННОСТЬ — hero image banner
+   ═══════════════════════════════════════════════════════════════════════════ */
+.preg-hero-banner {
+  position: relative; height: 160px; overflow: hidden;
+  border-radius: 18px; margin: 12px 0 6px;
+  box-shadow: 0 6px 24px rgba(180,74,190,0.22);
+}
+.preg-hero-img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.preg-hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(180,74,190,0.25) 0%, rgba(100,20,160,0.45) 100%);
+}
+.preg-hero-text {
+  position: absolute; bottom: 14px; left: 0; right: 0;
+  text-align: center; color: #fff;
+  font-size: 14px; font-weight: 700;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  letter-spacing: 0.2px;
+}
+

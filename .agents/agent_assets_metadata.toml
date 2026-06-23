@@ -120,6 +120,42 @@ uri = "file://attached_assets/generated_images/tile-neuro-new.png"
 type = "image"
 title = "generated_image"
 
+[[generated]]
+id = "P6aAs5ST1g8KuDVrgfxVl"
+uri = "file://bot/webapp/assets/photos/prikorм-proteins.png"
+type = "image"
+title = "prikorм proteins banner"
+
+[[generated]]
+id = "iLbu-bXC6GoPSoub9ctdZ"
+uri = "file://bot/webapp/assets/photos/prikorм-carbs.png"
+type = "image"
+title = "prikorм carbs banner"
+
+[[generated]]
+id = "-B21Z-T3-NtqOE-8fUqxR"
+uri = "file://bot/webapp/assets/photos/prikorм-fats.png"
+type = "image"
+title = "prikorм fats banner"
+
+[[generated]]
+id = "7P54SIuvza926ShsRTIZr"
+uri = "file://bot/webapp/assets/photos/prikorм-veggies.png"
+type = "image"
+title = "prikorм veggies banner"
+
+[[generated]]
+id = "u5uDLDGE9TBk4CGliNGiF"
+uri = "file://bot/webapp/assets/photos/prikorм-fruits.png"
+type = "image"
+title = "prikorм fruits banner"
+
+[[generated]]
+id = "5ogTCskDz3gu-fD1sfuF2"
+uri = "file://bot/webapp/assets/photos/pregnancy-hero.png"
+type = "image"
+title = "pregnancy hero banner"
+
 [[outputs]]
 id = "UAXHlBxwgYbTMParWU9xV"
 uri = "file://attached_assets/stock_images/tarif_stock_2.jpg"
@@ -179,3 +215,39 @@ id = "bbc2GBBZkTrhNM1xpjcbc"
 uri = "file://attached_assets/stock_images/mom_workout.jpg"
 type = "image"
 title = "Новое фото для кнопки «Тренировки»"
+
+[[outputs]]
+id = "Zkt5QPy76I8YBxVauz9FJ"
+uri = "file://bot/webapp/assets/photos/prikorм-proteins.png"
+type = "image"
+title = "Белки — баннер категории прикорма"
+
+[[outputs]]
+id = "ZGozM8LdxefnzERZhCWRM"
+uri = "file://bot/webapp/assets/photos/prikorм-carbs.png"
+type = "image"
+title = "Углеводы — баннер категории прикорма"
+
+[[outputs]]
+id = "zFIEK_7M-UcEgMIhrskxb"
+uri = "file://bot/webapp/assets/photos/prikorм-fats.png"
+type = "image"
+title = "Жиры — баннер категории прикорма"
+
+[[outputs]]
+id = "3RBNz7gsSguzzYHRwMHru"
+uri = "file://bot/webapp/assets/photos/prikorм-veggies.png"
+type = "image"
+title = "Овощи и зелень — баннер категории прикорма"
+
+[[outputs]]
+id = "uHs5Twsc1Bly9yyKSpJ4a"
+uri = "file://bot/webapp/assets/photos/prikorм-fruits.png"
+type = "image"
+title = "Фрукты и ягоды — баннер категории прикорма"
+
+[[outputs]]
+id = "F52fpiBr6JpdzY0KrtLE1"
+uri = "file://bot/webapp/assets/photos/pregnancy-hero.png"
+type = "image"
+title = "Беременность — главный баннер"

@@ -2822,14 +2822,37 @@ function togglePrikorмFood(key) {
   renderPrikorм();
 }
 
+const PRIKORМ_IMAGES = {
+  'Белки 🥩':         'assets/photos/prikorм-proteins.png',
+  'Углеводы 🌾':      'assets/photos/prikorм-carbs.png',
+  'Жиры 🥑':          'assets/photos/prikorм-fats.png',
+  'Овощи и зелень 🥦':'assets/photos/prikorм-veggies.png',
+  'Фрукты и ягоды 🍎':'assets/photos/prikorм-fruits.png',
+};
+
 function renderPrikorм() {
   const container = document.getElementById('prikorм-content');
   if (!container) return;
   const s = getPrikorмState();
   let html = '';
   for (const cat of PRIKORМ_DATA) {
+    const imgSrc = PRIKORМ_IMAGES[cat.category] || '';
+    const triedCount = Object.entries(s).filter(([k,v]) => k.startsWith(cat.category.slice(0,6)) && v === 'tried').length;
+    const allergyCount = Object.entries(s).filter(([k,v]) => k.startsWith(cat.category.slice(0,6)) && v === 'allergy').length;
+    const totalCount = cat.groups.reduce((acc, g) => acc + g.foods.length, 0);
     html += `<div class="prikorм-category">
-      <div class="prikorм-category-title">${cat.category}</div>`;
+      <div class="prikorм-cat-banner">
+        ${imgSrc ? `<img src="${imgSrc}" class="prikorм-cat-img" alt="${cat.category}" loading="lazy">` : ''}
+        <div class="prikorм-cat-overlay"></div>
+        <div class="prikorм-cat-banner-content">
+          <div class="prikorм-cat-banner-title">${cat.category}</div>
+          <div class="prikorм-cat-banner-stats">
+            ${triedCount ? `<span class="prikorм-stat-badge prikorм-stat-tried">✅ ${triedCount}</span>` : ''}
+            ${allergyCount ? `<span class="prikorм-stat-badge prikorм-stat-allergy">🚨 ${allergyCount}</span>` : ''}
+            <span class="prikorм-stat-badge prikorм-stat-total">${triedCount}/${totalCount}</span>
+          </div>
+        </div>
+      </div>`;
     for (const group of cat.groups) {
       html += `<div class="prikorм-age-label">${group.age}</div>
         <div class="prikorм-foods-row">`;
@@ -2840,7 +2863,7 @@ function renderPrikorм() {
         let icon = '';
         if (status === 'tried')   { cls += ' prikorм-tried';   icon = '✅'; }
         if (status === 'allergy') { cls += ' prikorм-allergy'; icon = '🚨'; }
-        html += `<button class="${cls}" onclick="togglePrikorмFood(${JSON.stringify(key)})" title="Нажми чтобы отметить: → попробовали → аллергия → убрать">${icon ? icon + ' ' : ''}${food}</button>`;
+        html += `<button class="${cls}" onclick="togglePrikorмFood(${JSON.stringify(key)})" title="Нажми для отметки: → попробовали → аллергия → убрать">${icon ? icon + ' ' : ''}${food}</button>`;
       }
       html += `</div>`;
     }
