@@ -6009,3 +6009,181 @@ body.on-kbzhu .kbzhu-meal-item {
 .ref-share-btn::before, .ref-copy-btn::before {
   display: none;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   КБЖУ — Параметры тела
+   ═══════════════════════════════════════════════════════════════════════════ */
+.kbzhu-params-card { border-top: 3px solid var(--brand-primary); }
+.kbzhu-form-row { display: flex; gap: 10px; margin-bottom: 10px; }
+.kbzhu-form-col { flex: 1; min-width: 0; }
+.kbzhu-form-col-half { flex: 1; }
+.kbzhu-bf-row { margin-top: 10px; }
+.kbzhu-bf-label {
+  display: flex; align-items: center; gap: 8px;
+  cursor: pointer; font-size: 14px; color: var(--text-primary);
+  padding: 10px; background: var(--surface-2); border-radius: 10px;
+}
+.kbzhu-bf-label input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--brand-primary); }
+.kbzhu-bf-hint { font-size: 12px; color: var(--text-secondary); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ТРЕКЕР ПРИКОРМА
+   ═══════════════════════════════════════════════════════════════════════════ */
+body.on-prikorм #screen-prikorм { --screen-accent: #FF8C00; }
+
+.prikorм-legend {
+  display: flex; gap: 16px; align-items: center;
+  padding: 10px 14px; background: var(--surface-2);
+  border-radius: 12px; margin: 12px 0;
+  font-size: 13px; font-weight: 600;
+}
+.prikorм-legend-item { display: flex; align-items: center; gap: 4px; }
+
+.prikorм-category {
+  background: var(--surface-1); border-radius: 16px;
+  margin-bottom: 14px; overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.prikorм-category-title {
+  font-size: 15px; font-weight: 700;
+  padding: 12px 14px 8px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+}
+.prikorм-age-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.5px; color: var(--text-secondary);
+  padding: 8px 14px 4px;
+}
+.prikorм-foods-row {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  padding: 4px 14px 12px;
+}
+.prikorм-food-item {
+  font-size: 12px; font-weight: 500;
+  padding: 6px 11px; border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.prikorм-food-item:active { transform: scale(0.95); }
+.prikorм-food-item.prikorм-tried {
+  background: #e8f5e9; border-color: #4caf50; color: #2e7d32;
+}
+.prikorм-food-item.prikorм-allergy {
+  background: #fdecea; border-color: #e53935; color: #c62828;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   БЕРЕМЕННОСТЬ — экран
+   ═══════════════════════════════════════════════════════════════════════════ */
+body.on-pregnancy #screen-pregnancy { --screen-accent: #B44ABE; }
+
+.pregnancy-setup-card {
+  background: var(--surface-1); border-radius: 20px;
+  padding: 24px; margin: 16px 0;
+  box-shadow: 0 4px 20px rgba(180,74,190,0.12);
+}
+
+/* Week card */
+.preg-week-card {
+  background: linear-gradient(135deg, #f3e8ff, #fdf0ff);
+  border-radius: 20px; padding: 18px;
+  margin: 14px 0;
+  box-shadow: 0 4px 20px rgba(180,74,190,0.15);
+}
+.preg-week-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 14px;
+}
+.preg-week-label { font-size: 11px; font-weight: 600; color: #9c27b0; text-transform: uppercase; letter-spacing: 0.5px; }
+.preg-week-num { font-size: 24px; font-weight: 800; color: #6a1b9a; margin-top: 2px; }
+.preg-week-controls { display: flex; gap: 8px; }
+.preg-week-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 2px solid #ce93d8; background: #fff;
+  font-size: 20px; font-weight: 700; color: #7b1fa2;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.preg-week-btn:active { background: #f3e8ff; transform: scale(0.95); }
+.preg-fruit-row {
+  display: flex; align-items: center; gap: 14px;
+  background: rgba(255,255,255,0.6); border-radius: 12px;
+  padding: 12px; margin-bottom: 12px;
+}
+.preg-fruit-emoji { font-size: 44px; line-height: 1; }
+.preg-fruit-name { font-size: 14px; font-weight: 700; color: #4a148c; }
+.preg-fruit-size { font-size: 13px; color: #7b1fa2; margin-top: 2px; }
+.preg-dev-text { font-size: 14px; color: #4a148c; line-height: 1.5; }
+.preg-trimester { font-size: 12px; color: #9c27b0; font-weight: 600; margin-top: 8px; }
+
+/* Counter cards */
+.preg-counter-card {
+  background: var(--surface-1); border-radius: 18px;
+  padding: 16px; margin: 10px 0;
+  box-shadow: 0 2px 14px rgba(0,0,0,0.07);
+}
+.preg-counter-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.preg-counter-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 10px; }
+.preg-btn-row { display: flex; gap: 8px; margin-top: 10px; }
+.preg-counter-btn {
+  flex: 1; padding: 12px; border-radius: 14px;
+  font-size: 15px; font-weight: 700;
+  cursor: pointer; border: none;
+  transition: all 0.15s;
+}
+.preg-btn-main {
+  background: linear-gradient(135deg, #B44ABE, #E87ADE);
+  color: #fff; box-shadow: 0 4px 14px rgba(180,74,190,0.3);
+}
+.preg-btn-main:active { transform: scale(0.97); opacity: 0.88; }
+.preg-btn-reset {
+  background: var(--surface-2); color: var(--text-secondary);
+  border: 1.5px solid var(--border);
+}
+
+/* Contractions */
+.preg-contractions-list { margin: 8px 0; max-height: 180px; overflow-y: auto; }
+.preg-contraction-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 6px 10px; border-radius: 8px;
+  background: var(--surface-2); margin-bottom: 4px;
+  font-size: 13px; font-weight: 600;
+}
+.preg-cont-interval { font-size: 12px; color: var(--text-secondary); }
+
+/* Kicks */
+.preg-kicks-display {
+  display: flex; align-items: baseline; gap: 8px; justify-content: center;
+  padding: 10px 0 4px;
+}
+.preg-kicks-count { font-size: 52px; font-weight: 800; color: #B44ABE; line-height: 1; }
+.preg-kicks-unit { font-size: 16px; color: var(--text-secondary); }
+.preg-kicks-session { font-size: 12px; color: var(--text-secondary); text-align: center; margin-bottom: 4px; }
+
+/* UZI photos */
+.preg-uzi-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px;
+}
+.preg-uzi-item { position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 1; }
+.preg-uzi-img { width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
+.preg-uzi-week {
+  position: absolute; bottom: 4px; left: 4px;
+  background: rgba(0,0,0,0.55); color: #fff;
+  font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 6px;
+}
+.preg-uzi-empty { color: var(--text-secondary); font-size: 13px; padding: 10px 0; }
+
+/* Onboarding pregnancy week badge */
+.ob-preg-weeks-badge {
+  background: linear-gradient(135deg, #f3e8ff, #fdf0ff);
+  border: 2px solid #ce93d8;
+  border-radius: 16px; padding: 16px;
+  text-align: center; font-size: 18px;
+  color: #4a148c; font-weight: 600;
+}
+

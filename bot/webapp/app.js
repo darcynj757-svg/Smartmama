@@ -439,12 +439,14 @@ function go(name) {
   document.body.classList.toggle('on-referral',  name === 'referral');
   document.body.classList.toggle('on-pricing',   name === 'pricing');
   document.body.classList.toggle('on-sounds',    name === 'sounds');
-  document.body.classList.toggle('on-kbzhu',     name === 'kbzhu');
-  document.body.classList.toggle('on-workout',   name === 'workout');
-  document.body.classList.toggle('on-neuro',     name === 'neuro');
-  document.body.classList.toggle('on-sleep',     name === 'sleep');
-  document.body.classList.toggle('on-feed',      name === 'feed');
-  document.body.classList.toggle('on-diary',     name === 'diary');
+  document.body.classList.toggle('on-kbzhu',      name === 'kbzhu');
+  document.body.classList.toggle('on-workout',    name === 'workout');
+  document.body.classList.toggle('on-neuro',      name === 'neuro');
+  document.body.classList.toggle('on-sleep',      name === 'sleep');
+  document.body.classList.toggle('on-feed',       name === 'feed');
+  document.body.classList.toggle('on-diary',      name === 'diary');
+  document.body.classList.toggle('on-prikorм',    name === 'prikorм');
+  document.body.classList.toggle('on-pregnancy',  name === 'pregnancy');
 
   screenHistory.push(name);
   if (name === 'home') loadHomeStats();
@@ -456,6 +458,8 @@ function go(name) {
   if (name === 'referral') loadReferral();
   if (name === 'pricing') updatePricing();
   if (name === 'sounds') initSoundsScreen();
+  if (name === 'prikorм') loadPrikorм();
+  if (name === 'pregnancy') loadPregnancyScreen();
 }
 
 function goBack() {
@@ -1115,6 +1119,7 @@ function saveFeed() {
 
 // ─── КБЖУ ────────────────────────────────────────────────────────────────────
 const KBZHU_GOALS_KEY = 'kbzhu_goals';
+const KBZHU_PARAMS_KEY = 'kbzhu_params';
 const kbzhuDefaultGoals = { kcal: 2300, p: 90, f: 75, c: 310 };
 const mealEmojis = ['🍽','🥗','🥞','🍲','🥩','🐟','🥚','🧀','🫐','🍎','🥕','🥑','🫙','☕'];
 
@@ -1125,6 +1130,62 @@ function loadKbzhu() {
   updateKbzhuTotals();
   renderKbzhuList();
   fillKbzhuGoalInputs();
+  // Restore saved body params
+  const params = JSON.parse(localStorage.getItem(KBZHU_PARAMS_KEY) || 'null');
+  if (params) {
+    const w = document.getElementById('kbzhu-weight');
+    const h = document.getElementById('kbzhu-height');
+    const g = document.getElementById('kbzhu-goal-type');
+    const bf = document.getElementById('kbzhu-breastfeed');
+    if (w) w.value = params.weight || '';
+    if (h) h.value = params.height || '';
+    if (g) g.value = params.goal || 'maintain';
+    if (bf) bf.checked = !!params.breastfeed;
+  }
+}
+
+function onKbzhuBfChange() {
+  // Auto-recalculate if params already filled
+  const w = parseFloat(document.getElementById('kbzhu-weight')?.value);
+  const h = parseFloat(document.getElementById('kbzhu-height')?.value);
+  if (w > 0 && h > 0) calculateKbzhuFromParams();
+}
+
+function calculateKbzhuFromParams() {
+  const weight = parseFloat(document.getElementById('kbzhu-weight')?.value) || 0;
+  const height = parseFloat(document.getElementById('kbzhu-height')?.value) || 0;
+  const goalType = document.getElementById('kbzhu-goal-type')?.value || 'maintain';
+  const breastfeed = document.getElementById('kbzhu-breastfeed')?.checked || false;
+
+  if (!weight || !height) { showToast('Введи вес и рост'); return; }
+  if (weight < 35 || weight > 200) { showToast('Проверь значение веса'); return; }
+  if (height < 140 || height > 210) { showToast('Проверь значение роста'); return; }
+
+  // Mifflin-St Jeor for women, assumed age 28, light activity (1.375)
+  const bmr = 10 * weight + 6.25 * height - 5 * 28 + 161;
+  let kcal = Math.round(bmr * 1.375);
+  if (goalType === 'lose')  kcal -= 300;
+  if (goalType === 'gain')  kcal += 300;
+  if (breastfeed)           kcal += 500;
+
+  // Macros: 25% protein, 30% fat, 45% carbs
+  const p = Math.round(kcal * 0.25 / 4);
+  const f = Math.round(kcal * 0.30 / 9);
+  const c = Math.round(kcal * 0.45 / 4);
+
+  // Save params
+  localStorage.setItem(KBZHU_PARAMS_KEY, JSON.stringify({ weight, height, goal: goalType, breastfeed }));
+
+  // Apply as new goals
+  state.kbzhuGoals = { kcal, p, f, c };
+  localStorage.setItem(KBZHU_GOALS_KEY, JSON.stringify(state.kbzhuGoals));
+  fillKbzhuGoalInputs();
+  updateKbzhuTotals();
+  toggleForm('kbzhu-params-form');
+
+  const goalLabel = goalType === 'lose' ? 'похудение' : goalType === 'gain' ? 'набор' : 'поддержание';
+  const bfLabel = breastfeed ? ' + ГВ' : '';
+  showToast(`✅ Норма рассчитана: ${kcal} ккал (${goalLabel}${bfLabel})`);
 }
 
 function switchWorkoutTab(tab) {
@@ -2518,6 +2579,8 @@ function showToast(msg) {
 
 // ─── Onboarding overlay ──────────────────────────────────────────────────────
 let _obGender = '';
+let _obPregnant = false;
+let _obPregnancyWeeks = 0;
 
 function selectObGender(gender) {
   _obGender = gender;
@@ -2525,8 +2588,34 @@ function selectObGender(gender) {
   document.getElementById('ob-gender-girl')?.classList.toggle('selected', gender === 'girl');
 }
 
+function selectObPregnancy(isPregnant) {
+  _obPregnant = isPregnant;
+  document.getElementById('ob-preg-no')?.classList.toggle('selected', !isPregnant);
+  document.getElementById('ob-preg-yes')?.classList.toggle('selected', isPregnant);
+  const wrap = document.getElementById('ob-preg-week-wrap');
+  if (wrap) wrap.style.display = isPregnant ? 'block' : 'none';
+  // Update later steps text
+  const genderTitle = document.getElementById('ob-gender-title');
+  if (genderTitle) genderTitle.textContent = isPregnant ? 'Пол будущего малыша?' : 'Кто твой малыш?';
+  const nameTitle = document.getElementById('ob-childname-title');
+  if (nameTitle) nameTitle.textContent = isPregnant ? 'Как назовёшь малыша?' : 'Как зовут малыша?';
+  const nameSub = document.getElementById('ob-childname-sub');
+  if (nameSub) nameSub.textContent = isPregnant ? 'Можно придумать имя заранее' : 'Введи имя ребёнка';
+  // Update age step
+  const ageEmoji = document.getElementById('ob-age-emoji');
+  const ageTitle = document.getElementById('ob-age-title');
+  const ageSub   = document.getElementById('ob-age-sub');
+  const ageNorm  = document.getElementById('ob-age-normal');
+  const agePregn = document.getElementById('ob-age-pregnant');
+  if (ageEmoji) ageEmoji.textContent = isPregnant ? '🤰' : '🎂';
+  if (ageTitle) ageTitle.textContent = isPregnant ? 'Твой срок' : 'Сколько малышу?';
+  if (ageSub)   ageSub.textContent   = isPregnant ? 'Подтверди срок беременности' : 'Выбери возраст — подберём советы по возрасту';
+  if (ageNorm)  ageNorm.style.display  = isPregnant ? 'none' : '';
+  if (agePregn) agePregn.style.display = isPregnant ? 'block' : 'none';
+}
+
 let _obStep = 0;
-const OB_TOTAL = 5;
+const OB_TOTAL = 6;
 
 function _obGoTo(step) {
   document.getElementById('ob-step-' + _obStep)?.classList.remove('ob-step-active');
@@ -2534,8 +2623,7 @@ function _obGoTo(step) {
   const el = document.getElementById('ob-step-' + _obStep);
   if (el) {
     el.classList.add('ob-step-active');
-    // Auto-focus text input if present
-    const inp = el.querySelector('input');
+    const inp = el.querySelector('input[type="text"],input[type="number"]');
     if (inp) setTimeout(() => inp.focus(), 120);
   }
   const pct = Math.round((_obStep + 1) / OB_TOTAL * 100);
@@ -2543,12 +2631,29 @@ function _obGoTo(step) {
   if (fill) fill.style.width = pct + '%';
   const lbl = document.getElementById('ob-progress-label');
   if (lbl) lbl.textContent = (_obStep + 1) + ' / ' + OB_TOTAL;
+  // Sync pregnancy week display when reaching step 4
+  if (_obStep === 4 && _obPregnant) {
+    const weeksInput = document.getElementById('ob-preg-weeks');
+    const weeksDisplay = document.getElementById('ob-preg-weeks-display');
+    const w = parseInt(weeksInput?.value) || _obPregnancyWeeks;
+    _obPregnancyWeeks = w;
+    if (weeksDisplay) weeksDisplay.textContent = w || '—';
+  }
 }
 
 function obNext() {
-  if (_obStep === 2) {
+  // Step 1: pregnancy validation
+  if (_obStep === 1) {
+    if (_obPregnant) {
+      const w = parseInt(document.getElementById('ob-preg-weeks')?.value) || 0;
+      if (!w || w < 1 || w > 42) { showToast('Укажи срок (1–42 недели)'); return; }
+      _obPregnancyWeeks = w;
+    }
+  }
+  // Step 3: child name
+  if (_obStep === 3) {
     const childName = document.getElementById('ob-child-name')?.value?.trim();
-    if (!childName) { showToast('Введи имя малыша 🙏'); return; }
+    if (!childName && !_obPregnant) { showToast('Введи имя малыша 🙏'); return; }
   }
   if (_obStep < OB_TOTAL - 1) _obGoTo(_obStep + 1);
 }
@@ -2561,6 +2666,8 @@ function showOnboarding() {
   const overlay = document.getElementById('onboarding-overlay');
   if (!overlay) return;
   _obStep = 0;
+  _obPregnant = false;
+  _obPregnancyWeeks = 0;
   document.querySelectorAll('.ob-step').forEach((s, i) => {
     s.classList.toggle('ob-step-active', i === 0);
   });
@@ -2578,26 +2685,40 @@ function hideOnboarding() {
 
 async function submitOnboarding() {
   const mamaName  = document.getElementById('ob-mama-name')?.value?.trim() || '';
-  const childName = document.getElementById('ob-child-name')?.value?.trim() || '';
+  const childName = document.getElementById('ob-child-name')?.value?.trim() || (_obPregnant ? 'малыш' : '');
   const ageYears  = parseInt(document.getElementById('ob-child-age-years')?.value) || 0;
   const ageMonths = parseInt(document.getElementById('ob-child-age-months')?.value) || 0;
-  const childAge  = ageYears * 12 + ageMonths;
+  const childAge  = _obPregnant ? 0 : (ageYears * 12 + ageMonths);
   const region    = document.getElementById('ob-region')?.value?.trim() || '';
 
-  if (!childName) { showToast('Введи имя малыша 🙏'); return; }
+  if (!childName && !_obPregnant) { showToast('Введи имя малыша 🙏'); return; }
 
-  const btn = document.querySelector('.ob-btn-submit');
-  if (btn) { btn.disabled = true; btn.textContent = 'Сохраняем…'; }
+  const finishBtn = document.querySelector('.ob-btn-finish');
+  if (finishBtn) { finishBtn.disabled = true; finishBtn.textContent = 'Сохраняем…'; }
 
   try {
     const profileData = {
       mama_name:        mamaName,
-      child_name:       childName,
+      child_name:       childName || 'малыш',
       child_age_months: childAge,
       child_gender:     _obGender,
       region:           region,
     };
     await apiCall('POST', '/user/save', profileData);
+
+    // Save pregnancy data
+    if (_obPregnant && _obPregnancyWeeks > 0) {
+      const pregData = {
+        is_pregnant: true,
+        week: _obPregnancyWeeks,
+        started_at: new Date().toISOString(),
+        contractions: [],
+        kicks: 0,
+        kicks_session_start: null,
+        uzi_photos: [],
+      };
+      localStorage.setItem('pregnancy_data', JSON.stringify(pregData));
+    }
 
     // Apply to state
     state.mamaName    = mamaName;
@@ -2619,11 +2740,387 @@ async function submitOnboarding() {
     loadHomeStats();
     renderChildDots();
     applyChild(0);
-    showToast('Добро пожаловать! 🎉');
+    updatePregnancyHomeTile();
+    showToast(_obPregnant ? 'Добро пожаловать, будущая мама! 🤰' : 'Добро пожаловать! 🎉');
   } catch(e) {
     showToast('Ошибка: ' + e.message);
-    if (btn) { btn.disabled = false; btn.textContent = 'Начать 🚀'; }
+    if (finishBtn) { finishBtn.disabled = false; finishBtn.textContent = 'Начать 🚀'; }
   }
+}
+
+// ─── ТРЕКЕР ПРИКОРМА ──────────────────────────────────────────────────────────
+const PRIKORМ_DATA = [
+  {
+    category: 'Белки 🥩',
+    groups: [
+      { age: '5–7 мес', foods: ['Говядина','Индейка','Кролик','Перепёлка','Телятина'] },
+      { age: '8–10 мес', foods: ['Яйцо (желток)','Кефир','Творог','Сыр','Печень говяжья','Рыба белая','Рыба речная'] },
+      { age: 'от 12 мес', foods: ['Рыба морская красная','Баранина','Субпродукты','Молоко','Белые грибы','Свинина','Орехи'] },
+    ],
+  },
+  {
+    category: 'Углеводы 🌾',
+    groups: [
+      { age: '5–7 мес', foods: ['Гречневая крупа','Кукурузная крупа','Рисовая крупа','Овсяная крупа','Пшеничная крупа','Картофель'] },
+      { age: '8–9 мес', foods: ['Батат','Чечевица','Цельнозерновой хлеб'] },
+      { age: 'от 12 мес', foods: ['Кускус','Макароны'] },
+      { age: 'от 24 мес', foods: ['Белая фасоль','Булгур','Горох','Киноа','Перловая крупа','Ячневая крупа'] },
+    ],
+  },
+  {
+    category: 'Жиры 🥑',
+    groups: [
+      { age: '6–7 мес', foods: ['Авокадо','Оливковое масло','Сливочное масло','Подсолнечное масло'] },
+      { age: 'от 12 мес', foods: ['Жирные сорта рыб','Семена чиа','Кунжут','Арахис','Тыквенные семечки','Орехи','Кунжутное масло'] },
+    ],
+  },
+  {
+    category: 'Овощи и зелень 🥦',
+    groups: [
+      { age: '4–6 мес', foods: ['Брокколи','Кабачок','Капуста цветная','Тыква','Брюссельская капуста','Морковь','Репа'] },
+      { age: '8–10 мес', foods: ['Капуста белокочанная','Баклажан','Зелёная фасоль','Зелёный горошек','Свёкла','Перец','Помидор','Петрушка','Укроп','Шпинат','Кинза'] },
+      { age: 'от 12 мес', foods: ['Огурец','Лук','Редис','Лук зелёный','Чеснок'] },
+    ],
+  },
+  {
+    category: 'Фрукты и ягоды 🍎',
+    groups: [
+      { age: '4–6 мес', foods: ['Яблоко','Черника'] },
+      { age: '7–8 мес', foods: ['Груша','Абрикос','Слива','Банан'] },
+      { age: '9–11 мес', foods: ['Жимолость','Вишня','Манго','Дыня','Нектарин','Смородина','Земляника','Клубника'] },
+      { age: 'от 12 мес', foods: ['Ананас','Апельсин','Грейпфрут','Киви','Лимон','Арбуз','Виноград','Голубика','Брусника','Ежевика','Клюква','Малина','Черешня','Крыжовник'] },
+      { age: 'от 24 мес', foods: ['Мандарин','Помело','Финики','Курага','Гранат'] },
+    ],
+  },
+];
+
+const PRIKORМ_KEY_PREFIX = 'prikorм_v1_';
+
+function getPrikorмKey() {
+  return PRIKORМ_KEY_PREFIX + (state.currentChildIndex || 0);
+}
+
+function loadPrikorм() {
+  renderPrikorм();
+}
+
+function getPrikorмState() {
+  return JSON.parse(localStorage.getItem(getPrikorмKey()) || '{}');
+}
+
+function savePrikorмState(s) {
+  localStorage.setItem(getPrikorмKey(), JSON.stringify(s));
+}
+
+function togglePrikorмFood(key) {
+  const s = getPrikorмState();
+  if (s[key] === 'allergy') { s[key] = undefined; }
+  else if (s[key] === 'tried') { s[key] = 'allergy'; }
+  else { s[key] = 'tried'; }
+  if (s[key] === undefined) delete s[key];
+  savePrikorмState(s);
+  renderPrikorм();
+}
+
+function renderPrikorм() {
+  const container = document.getElementById('prikorм-content');
+  if (!container) return;
+  const s = getPrikorмState();
+  let html = '';
+  for (const cat of PRIKORМ_DATA) {
+    html += `<div class="prikorм-category">
+      <div class="prikorм-category-title">${cat.category}</div>`;
+    for (const group of cat.groups) {
+      html += `<div class="prikorм-age-label">${group.age}</div>
+        <div class="prikorм-foods-row">`;
+      for (const food of group.foods) {
+        const key = cat.category.slice(0, 6) + '_' + food;
+        const status = s[key] || '';
+        let cls = 'prikorм-food-item';
+        let icon = '';
+        if (status === 'tried')   { cls += ' prikorм-tried';   icon = '✅'; }
+        if (status === 'allergy') { cls += ' prikorм-allergy'; icon = '🚨'; }
+        html += `<button class="${cls}" onclick="togglePrikorмFood(${JSON.stringify(key)})" title="Нажми чтобы отметить: → попробовали → аллергия → убрать">${icon ? icon + ' ' : ''}${food}</button>`;
+      }
+      html += `</div>`;
+    }
+    html += `</div>`;
+  }
+  container.innerHTML = html;
+}
+
+// ─── БЕРЕМЕННОСТЬ ─────────────────────────────────────────────────────────────
+const FETAL_DATA = {
+  4:  { fruit:'🌱', name:'Маковое зёрнышко', size:'0.1 см', dev:'Формируется нервная трубка — будущий мозг и позвоночник' },
+  5:  { fruit:'🫘', name:'Кунжутное семечко', size:'0.2 см', dev:'Начинает биться сердечко' },
+  6:  { fruit:'🫘', name:'Чечевичное зёрнышко', size:'0.4 см', dev:'Формируются ручки и ножки — маленькие почки' },
+  7:  { fruit:'🫐', name:'Черника', size:'0.8 см', dev:'Мозг развивается стремительно — тысячи нейронов в секунду' },
+  8:  { fruit:'🍓', name:'Малина', size:'1.5 см', dev:'Все основные органы заложены, пальчики формируются' },
+  9:  { fruit:'🍇', name:'Виноград', size:'2.3 см', dev:'Малыш активно двигается, хотя ты ещё не чувствуешь' },
+  10: { fruit:'🍓', name:'Клубника', size:'3.1 см', dev:'Ноготки начинают расти, веки сформированы' },
+  11: { fruit:'🥝', name:'Инжир', size:'4.1 см', dev:'Малыш умеет зевать, сосать и глотать' },
+  12: { fruit:'🟢', name:'Лайм', size:'5.4 см', dev:'Завершается первый триместр! Риски снижаются, малыш активен' },
+  13: { fruit:'🫛', name:'Горох (стручок)', size:'7.4 см', dev:'Появляются отпечатки пальцев' },
+  14: { fruit:'🍑', name:'Персик', size:'8.7 см', dev:'Малыш слышит твой голос — говори с ним!' },
+  15: { fruit:'🍊', name:'Апельсин', size:'10.1 см', dev:'Можно узнать пол на УЗИ' },
+  16: { fruit:'🥑', name:'Авокадо', size:'11.6 см', dev:'Ты можешь почувствовать первые движения' },
+  17: { fruit:'✋', name:'Ладонь руки', size:'13 см', dev:'Жировая ткань начинает накапливаться, малыш теплее' },
+  18: { fruit:'🫑', name:'Сладкий перец', size:'14.2 см', dev:'Малыш реагирует на звуки и свет' },
+  19: { fruit:'🍅', name:'Помидор', size:'15.3 см', dev:'Активная фаза движений — ты точно чувствуешь малыша!' },
+  20: { fruit:'🍌', name:'Банан', size:'16.4 см', dev:'Половина пути! Малыш икает, ты это чувствуешь' },
+  21: { fruit:'🥕', name:'Морковь', size:'26.7 см', dev:'Малыш умеет смеяться и плакать (но без слёз)' },
+  22: { fruit:'🌽', name:'Кукуруза', size:'27.8 см', dev:'Веки стали различимы, бровки формируются' },
+  23: { fruit:'🥭', name:'Манго', size:'28.9 см', dev:'Малыш набирает вес активнее, слышит музыку' },
+  24: { fruit:'🌽', name:'Кукурузный початок', size:'30 см', dev:'Лёгкие развиваются — важный этап' },
+  25: { fruit:'🟤', name:'Репа', size:'34.6 см', dev:'Малыш узнаёт твой голос — он его запомнит' },
+  26: { fruit:'🥬', name:'Салат-латук', size:'35.6 см', dev:'Глаза открываются впервые' },
+  27: { fruit:'🥦', name:'Цветная капуста', size:'36.6 см', dev:'Мозг активно развивается, мышление формируется' },
+  28: { fruit:'🍆', name:'Баклажан', size:'37.6 см', dev:'Начало 3-го триместра! Малыш уже жизнеспособен' },
+  29: { fruit:'🟩', name:'Кабачок', size:'38.6 см', dev:'Малыш занимает всё больше места' },
+  30: { fruit:'🥬', name:'Кочан капусты', size:'39.9 см', dev:'Мозг растёт стремительно' },
+  31: { fruit:'🍍', name:'Ананас', size:'41.1 см', dev:'Малыш часто спит и видит сны' },
+  32: { fruit:'🎃', name:'Тыква (небольшая)', size:'42.4 см', dev:'Ноготки достигли кончиков пальцев' },
+  33: { fruit:'🍍', name:'Крупный ананас', size:'43.7 см', dev:'Малыш занимает всё больше места, движения заметнее' },
+  34: { fruit:'🍈', name:'Дыня', size:'45 см', dev:'Иммунная система укрепляется' },
+  35: { fruit:'🥥', name:'Кокос', size:'46.2 см', dev:'Лёгкие почти полностью готовы' },
+  36: { fruit:'🥥', name:'Крупный кокос', size:'47.4 см', dev:'Малыш опускается ниже, готовясь к родам' },
+  37: { fruit:'🧀', name:'Головка сыра', size:'48.6 см', dev:'Полная доношенность! Малыш готов к миру' },
+  38: { fruit:'🧅', name:'Большая луковица', size:'49.8 см', dev:'Ждём! Каждый день добавляет малышу зрелости' },
+  39: { fruit:'🍉', name:'Арбуз (небольшой)', size:'50.7 см', dev:'Финишная прямая! Малыш полностью готов' },
+  40: { fruit:'🎃', name:'Большая тыква', size:'51.2 см', dev:'ПДР наступил. Скоро встреча! 🎉' },
+};
+
+function getPregnancyData() {
+  return JSON.parse(localStorage.getItem('pregnancy_data') || 'null');
+}
+
+function savePregnancyData(data) {
+  localStorage.setItem('pregnancy_data', JSON.stringify(data));
+}
+
+function loadPregnancyScreen() {
+  const data = getPregnancyData();
+  const setup  = document.getElementById('pregnancy-setup');
+  const active = document.getElementById('pregnancy-active');
+  if (!setup || !active) return;
+  if (data && data.is_pregnant) {
+    setup.style.display  = 'none';
+    active.style.display = 'block';
+    renderPregnancyWeekCard(data.week || 12);
+    renderContractions(data.contractions || []);
+    renderKicks(data.kicks || 0, data.kicks_session_start);
+    renderUziPhotos(data.uzi_photos || []);
+  } else {
+    setup.style.display  = 'block';
+    active.style.display = 'none';
+  }
+}
+
+function renderPregnancyWeekCard(week) {
+  const w = Math.max(4, Math.min(40, week));
+  const data = FETAL_DATA[w] || FETAL_DATA[40];
+  document.getElementById('preg-current-week')?.setAttribute('data-week', w);
+  if (document.getElementById('preg-current-week')) document.getElementById('preg-current-week').textContent = w;
+  if (document.getElementById('preg-fruit-emoji'))  document.getElementById('preg-fruit-emoji').textContent  = data.fruit;
+  if (document.getElementById('preg-fruit-name'))   document.getElementById('preg-fruit-name').textContent   = 'Размер: ' + data.name;
+  if (document.getElementById('preg-fruit-size'))   document.getElementById('preg-fruit-size').textContent   = '≈ ' + data.size;
+  if (document.getElementById('preg-dev-text'))     document.getElementById('preg-dev-text').textContent     = data.dev;
+  const trimLabel = w <= 12 ? '🌱 I триместр' : w <= 27 ? '🌿 II триместр' : '🌺 III триместр';
+  if (document.getElementById('preg-trimester'))    document.getElementById('preg-trimester').textContent    = trimLabel;
+  const sub = document.getElementById('pregnancy-hdr-sub');
+  if (sub) sub.textContent = `Неделя ${w} · ${trimLabel}`;
+}
+
+function changePregnancyWeek(delta) {
+  const data = getPregnancyData();
+  if (!data) return;
+  data.week = Math.max(1, Math.min(42, (data.week || 12) + delta));
+  savePregnancyData(data);
+  renderPregnancyWeekCard(data.week);
+  updatePregnancyHomeTile();
+}
+
+function activatePregnancyMode() {
+  const w = parseInt(document.getElementById('preg-week-input')?.value) || 0;
+  if (!w || w < 1 || w > 42) { showToast('Введи срок от 1 до 42 недель'); return; }
+  const data = {
+    is_pregnant: true,
+    week: w,
+    started_at: new Date().toISOString(),
+    contractions: [],
+    kicks: 0,
+    kicks_session_start: null,
+    uzi_photos: [],
+  };
+  savePregnancyData(data);
+  loadPregnancyScreen();
+  updatePregnancyHomeTile();
+  showToast('🤰 Режим беременности включён!');
+}
+
+function updatePregnancyHomeTile() {
+  const data = getPregnancyData();
+  const titleEl  = document.getElementById('pregnancy-tile-title');
+  const subEl    = document.getElementById('pregnancy-tile-sub');
+  const emojiEl  = document.getElementById('pregnancy-home-emoji');
+  if (data && data.is_pregnant) {
+    const w = data.week || 1;
+    const fd = FETAL_DATA[Math.max(4, Math.min(40, w))] || {};
+    if (titleEl)  titleEl.textContent  = `Беременность ${w} нед.`;
+    if (subEl)    subEl.textContent    = fd.fruit ? fd.fruit + ' ' + (fd.name || '') : 'Счётчики · Развитие';
+    if (emojiEl)  emojiEl.textContent  = '🤰';
+  } else {
+    if (titleEl)  titleEl.textContent  = 'Беременность';
+    if (subEl)    subEl.textContent    = 'Счётчики · Развитие';
+    if (emojiEl)  emojiEl.textContent  = '🤰';
+  }
+}
+
+// Contractions counter
+function addContraction() {
+  const data = getPregnancyData();
+  if (!data) return;
+  if (!data.contractions) data.contractions = [];
+  const now = Date.now();
+  data.contractions.push(now);
+  if (data.contractions.length > 20) data.contractions = data.contractions.slice(-20);
+  savePregnancyData(data);
+  renderContractions(data.contractions);
+}
+
+function resetContractions() {
+  const data = getPregnancyData();
+  if (!data) return;
+  data.contractions = [];
+  savePregnancyData(data);
+  renderContractions([]);
+}
+
+function renderContractions(contractions) {
+  const list   = document.getElementById('contractions-list');
+  const status = document.getElementById('contractions-status');
+  if (!list) return;
+  if (!contractions.length) {
+    list.innerHTML = '';
+    if (status) status.textContent = 'Нажимай при начале каждой схватки';
+    return;
+  }
+  const intervals = [];
+  for (let i = 1; i < contractions.length; i++) {
+    intervals.push(Math.round((contractions[i] - contractions[i - 1]) / 1000));
+  }
+  const avgInterval = intervals.length ? Math.round(intervals.reduce((a,b)=>a+b,0) / intervals.length) : null;
+  let html = '';
+  const recent = contractions.slice(-6);
+  for (let i = recent.length - 1; i >= 0; i--) {
+    const t = new Date(recent[i]);
+    const hh = String(t.getHours()).padStart(2,'0');
+    const mm = String(t.getMinutes()).padStart(2,'0');
+    const ss = String(t.getSeconds()).padStart(2,'0');
+    const intv = (i > 0 && i < recent.length - 1)
+      ? Math.round((recent[i+1] - recent[i]) / 1000) + ' сек'
+      : (i === 0 && recent.length > 1 ? Math.round((recent[1] - recent[0]) / 1000) + ' сек' : '—');
+    html += `<div class="preg-contraction-row"><span>${hh}:${mm}:${ss}</span><span class="preg-cont-interval">${i < recent.length - 1 ? 'интервал: ' + Math.round((recent[i+1] - recent[i]) / 1000) + ' с' : '—'}</span></div>`;
+  }
+  list.innerHTML = html;
+  if (status) {
+    const cnt = contractions.length;
+    status.textContent = avgInterval
+      ? `${cnt} схваток · ср. интервал ${avgInterval} с`
+      : `${cnt} ${cnt === 1 ? 'схватка' : 'схватки'}`;
+  }
+}
+
+// Kicks counter
+function addKick() {
+  const data = getPregnancyData();
+  if (!data) return;
+  if (!data.kicks_session_start) {
+    data.kicks_session_start = Date.now();
+    data.kicks = 0;
+  }
+  data.kicks = (data.kicks || 0) + 1;
+  savePregnancyData(data);
+  renderKicks(data.kicks, data.kicks_session_start);
+}
+
+function resetKicks() {
+  const data = getPregnancyData();
+  if (!data) return;
+  data.kicks = 0;
+  data.kicks_session_start = null;
+  savePregnancyData(data);
+  renderKicks(0, null);
+}
+
+function renderKicks(kicks, sessionStart) {
+  const countEl   = document.getElementById('kicks-count');
+  const infoEl    = document.getElementById('kicks-session-info');
+  if (countEl) countEl.textContent = kicks || 0;
+  if (infoEl) {
+    if (sessionStart) {
+      const elapsed = Math.round((Date.now() - sessionStart) / 60000);
+      const norm = kicks >= 10 ? '✅ Норма достигнута!' : `Нужно ещё ${10 - kicks} для нормы`;
+      infoEl.textContent = `Сессия: ${elapsed} мин · ${norm}`;
+    } else {
+      infoEl.textContent = '';
+    }
+  }
+}
+
+// UZI photos
+function addUziPhoto(input) {
+  const file = input.files?.[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const data = getPregnancyData();
+    if (!data) return;
+    if (!data.uzi_photos) data.uzi_photos = [];
+    const w = data.week || 1;
+    data.uzi_photos.push({ url: e.target.result, week: w, date: new Date().toISOString() });
+    savePregnancyData(data);
+    renderUziPhotos(data.uzi_photos);
+    showToast('📸 Фото УЗИ сохранено');
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
+}
+
+function renderUziPhotos(photos) {
+  const grid = document.getElementById('preg-uzi-grid');
+  if (!grid) return;
+  if (!photos.length) { grid.innerHTML = '<div class="preg-uzi-empty">Фото УЗИ пока нет</div>'; return; }
+  grid.innerHTML = photos.map((p, i) =>
+    `<div class="preg-uzi-item">
+      <img src="${p.url}" alt="УЗИ" class="preg-uzi-img" onclick="viewUziPhoto(${i})">
+      <div class="preg-uzi-week">Нед. ${p.week}</div>
+    </div>`
+  ).join('');
+}
+
+function viewUziPhoto(idx) {
+  const data = getPregnancyData();
+  if (!data?.uzi_photos?.[idx]) return;
+  const p = data.uzi_photos[idx];
+  // Open in new tab or show in overlay
+  const win = window.open();
+  if (win) {
+    win.document.write(`<html><body style="margin:0;background:#000;display:flex;align-items:center;justify-content:center;height:100vh">
+      <img src="${p.url}" style="max-width:100%;max-height:100vh">
+    </body></html>`);
+  }
+}
+
+function confirmBabyBorn() {
+  if (!confirm('Малыш родился? 🎉 Это переведёт тебя в обычный режим.')) return;
+  const data = getPregnancyData() || {};
+  data.is_pregnant = false;
+  data.born_at = new Date().toISOString();
+  savePregnancyData(data);
+  updatePregnancyHomeTile();
+  go('home');
+  showToast('🎉 Поздравляем с рождением малыша!');
 }
 
 // ─── Init ─────────────────────────────────────────────────────────────────────
@@ -2655,6 +3152,7 @@ async function init() {
   loadHomeStats();
   renderChildDots();
   initHeroPhoto();
+  updatePregnancyHomeTile();
 
   // Try to sync from API
   try {
