@@ -1538,49 +1538,76 @@
 
 <!-- Onboarding overlay: shown when user has no profile in DB -->
 <div id="onboarding-overlay" style="display:none">
-  <div id="onboarding-card">
-    <div class="ob-emoji">🌸</div>
-    <h2 class="ob-title">Привет! Я — Смарт Мама</h2>
-    <p class="ob-sub">Заполни данные о себе и о своем ребенке!</p>
+  <!-- Progress bar -->
+  <div class="ob-progress-wrap">
+    <div class="ob-progress-bar"><div class="ob-progress-fill" id="ob-progress-fill" style="width:20%"></div></div>
+    <div class="ob-progress-label" id="ob-progress-label">1 / 5</div>
+  </div>
 
-    <div class="ob-field">
-      <label class="ob-label">Как тебя зовут, мамочка?</label>
-      <input id="ob-mama-name" class="ob-input" type="text" placeholder="Имя мамы" autocomplete="off">
+  <!-- Step 1: Имя мамы -->
+  <div class="ob-step ob-step-active" id="ob-step-0">
+    <div class="ob-step-emoji">👋</div>
+    <h2 class="ob-step-title">Как тебя зовут?</h2>
+    <p class="ob-step-sub">Это имя мы будем использовать в общении с тобой</p>
+    <input id="ob-mama-name" class="ob-input" type="text" placeholder="Твоё имя" autocomplete="off" autocapitalize="words" enterkeyhint="next" onkeydown="if(event.key==='Enter')obNext()">
+    <button class="ob-btn-next" onclick="obNext()">Далее →</button>
+    <button class="ob-btn-skip" onclick="obNext()">Пропустить</button>
+  </div>
+
+  <!-- Step 2: Пол малыша -->
+  <div class="ob-step" id="ob-step-1">
+    <div class="ob-step-emoji">👶</div>
+    <h2 class="ob-step-title">Кто твой малыш?</h2>
+    <p class="ob-step-sub">Выбери — и советы будут точнее</p>
+    <div class="ob-gender-row">
+      <button class="ob-gender-btn" id="ob-gender-boy" onclick="selectObGender('boy')">👦 Мальчик</button>
+      <button class="ob-gender-btn" id="ob-gender-girl" onclick="selectObGender('girl')">👧 Девочка</button>
     </div>
-    <div class="ob-field">
-      <label class="ob-label">Кто твой малыш?</label>
-      <div class="ob-gender-row">
-        <button class="ob-gender-btn" id="ob-gender-boy" onclick="selectObGender('boy')">👦 Мальчик</button>
-        <button class="ob-gender-btn" id="ob-gender-girl" onclick="selectObGender('girl')">👧 Девочка</button>
+    <button class="ob-btn-next" onclick="obNext()">Далее →</button>
+    <button class="ob-btn-back" onclick="obBack()">← Назад</button>
+  </div>
+
+  <!-- Step 3: Имя малыша -->
+  <div class="ob-step" id="ob-step-2">
+    <div class="ob-step-emoji">🌟</div>
+    <h2 class="ob-step-title">Как зовут малыша?</h2>
+    <p class="ob-step-sub">Введи имя ребёнка</p>
+    <input id="ob-child-name" class="ob-input" type="text" placeholder="Имя малыша" autocomplete="off" autocapitalize="words" enterkeyhint="next" onkeydown="if(event.key==='Enter')obNext()">
+    <button class="ob-btn-next" onclick="obNext()">Далее →</button>
+    <button class="ob-btn-back" onclick="obBack()">← Назад</button>
+  </div>
+
+  <!-- Step 4: Возраст -->
+  <div class="ob-step" id="ob-step-3">
+    <div class="ob-step-emoji">🎂</div>
+    <h2 class="ob-step-title">Сколько малышу?</h2>
+    <p class="ob-step-sub">Выбери возраст — подберём советы по возрасту</p>
+    <div class="ob-age-row">
+      <div class="ob-age-col">
+        <select id="ob-child-age-years" class="ob-input ob-select" onchange="if(this.value==='6'){var m=document.getElementById('ob-child-age-months');if(m){m.value='0';m.disabled=true;}}else{var m=document.getElementById('ob-child-age-months');if(m)m.disabled=false;}">
+          <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option>
+        </select>
+        <span class="ob-age-unit">лет</span>
+      </div>
+      <div class="ob-age-col">
+        <select id="ob-child-age-months" class="ob-input ob-select">
+          <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option>
+        </select>
+        <span class="ob-age-unit">мес.</span>
       </div>
     </div>
-    <div class="ob-field">
-      <label class="ob-label">Как зовут малыша?</label>
-      <input id="ob-child-name" class="ob-input" type="text" placeholder="Имя ребёнка" autocomplete="off">
-    </div>
-    <div class="ob-field">
-      <label class="ob-label">Возраст малыша</label>
-      <div class="ob-age-row">
-        <div class="ob-age-col">
-          <select id="ob-child-age-years" class="ob-input ob-select" onchange="if(this.value==='6'){var m=document.getElementById('ob-child-age-months');if(m){m.value='0';m.disabled=true;}}else{var m=document.getElementById('ob-child-age-months');if(m)m.disabled=false;}">
-            <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option>
-          </select>
-          <span class="ob-age-unit">лет</span>
-        </div>
-        <div class="ob-age-col">
-          <select id="ob-child-age-months" class="ob-input ob-select">
-            <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option>
-          </select>
-          <span class="ob-age-unit">мес.</span>
-        </div>
-      </div>
-    </div>
-    <div class="ob-field">
-      <label class="ob-label">Регион России</label>
-      <input id="ob-region" class="ob-input" type="text" placeholder="Например: Москва" autocomplete="off">
-    </div>
+    <button class="ob-btn-next" onclick="obNext()">Далее →</button>
+    <button class="ob-btn-back" onclick="obBack()">← Назад</button>
+  </div>
 
-    <button class="ob-btn-submit" onclick="submitOnboarding()">Начать 🚀</button>
+  <!-- Step 5: Регион -->
+  <div class="ob-step" id="ob-step-4">
+    <div class="ob-step-emoji">📍</div>
+    <h2 class="ob-step-title">Твой регион?</h2>
+    <p class="ob-step-sub">Нужно для подбора выплат и пособий</p>
+    <input id="ob-region" class="ob-input" type="text" placeholder="Например: Москва" autocomplete="off" autocapitalize="words" enterkeyhint="done" onkeydown="if(event.key==='Enter')submitOnboarding()">
+    <button class="ob-btn-next ob-btn-finish" onclick="submitOnboarding()">Начать 🚀</button>
+    <button class="ob-btn-back" onclick="obBack()">← Назад</button>
   </div>
 </div>
 

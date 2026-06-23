@@ -37,6 +37,18 @@ try {
       const safeBottom = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--safe-bottom') || '16', 10) || 16;
       const navH = 60 + safeBottom;
 
+      // Onboarding overlay: resize to visible area when keyboard opens
+      const obOverlay = document.getElementById('onboarding-overlay');
+      if (obOverlay && obOverlay.style.display !== 'none') {
+        if (kbH > 60) {
+          obOverlay.style.height = vvH + 'px';
+          obOverlay.style.top = vv.offsetTop + 'px';
+        } else {
+          obOverlay.style.height = '';
+          obOverlay.style.top = '';
+        }
+      }
+
       if (kbH > 60) {
         // Keyboard is open — shrink app, hide nav
         app.style.bottom = kbH + 'px';
@@ -2513,9 +2525,50 @@ function selectObGender(gender) {
   document.getElementById('ob-gender-girl')?.classList.toggle('selected', gender === 'girl');
 }
 
+let _obStep = 0;
+const OB_TOTAL = 5;
+
+function _obGoTo(step) {
+  document.getElementById('ob-step-' + _obStep)?.classList.remove('ob-step-active');
+  _obStep = Math.max(0, Math.min(step, OB_TOTAL - 1));
+  const el = document.getElementById('ob-step-' + _obStep);
+  if (el) {
+    el.classList.add('ob-step-active');
+    // Auto-focus text input if present
+    const inp = el.querySelector('input');
+    if (inp) setTimeout(() => inp.focus(), 120);
+  }
+  const pct = Math.round((_obStep + 1) / OB_TOTAL * 100);
+  const fill = document.getElementById('ob-progress-fill');
+  if (fill) fill.style.width = pct + '%';
+  const lbl = document.getElementById('ob-progress-label');
+  if (lbl) lbl.textContent = (_obStep + 1) + ' / ' + OB_TOTAL;
+}
+
+function obNext() {
+  if (_obStep === 2) {
+    const childName = document.getElementById('ob-child-name')?.value?.trim();
+    if (!childName) { showToast('Введи имя малыша 🙏'); return; }
+  }
+  if (_obStep < OB_TOTAL - 1) _obGoTo(_obStep + 1);
+}
+
+function obBack() {
+  if (_obStep > 0) _obGoTo(_obStep - 1);
+}
+
 function showOnboarding() {
   const overlay = document.getElementById('onboarding-overlay');
-  if (overlay) overlay.style.display = 'flex';
+  if (!overlay) return;
+  _obStep = 0;
+  document.querySelectorAll('.ob-step').forEach((s, i) => {
+    s.classList.toggle('ob-step-active', i === 0);
+  });
+  const fill = document.getElementById('ob-progress-fill');
+  if (fill) fill.style.width = Math.round(1 / OB_TOTAL * 100) + '%';
+  const lbl = document.getElementById('ob-progress-label');
+  if (lbl) lbl.textContent = '1 / ' + OB_TOTAL;
+  overlay.style.display = 'flex';
 }
 
 function hideOnboarding() {
