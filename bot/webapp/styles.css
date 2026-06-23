@@ -331,8 +331,8 @@ body {
 
 #topbar-back-btn {
   position: absolute;
-  left: 16px;
-  top: calc(var(--safe-top) + 39px);
+  left: 18px;
+  top: calc(var(--safe-top) + 44px);
   width: 44px; height: 44px;
   border-radius: 50%;
   background: linear-gradient(180deg, #ffffff 0%, #e8f4fc 100%);
@@ -382,7 +382,7 @@ body {
 
 #profile-btn {
   position: absolute;
-  right: 28px; bottom: -37px;
+  right: 26px; bottom: -42px;
   width: 44px; height: 44px;
   background: linear-gradient(180deg, #ffffff 0%, #e8f4fc 100%);
   border-radius: 50%;
