@@ -133,9 +133,9 @@ function applyChild(index) {
   state.childGender = c.childGender || '';
   state.childDob    = c.childDob    || '';
   state.region      = c.region      || state.region;
-  // Load that child's photo
+  // Load that child's photo (no cross-child fallback — each child has own photo or none)
   const photoKey = index === 0 ? 'heroBabyPhoto' : `heroBabyPhoto_${index}`;
-  const photo = localStorage.getItem(photoKey) || (index === 0 ? null : localStorage.getItem('heroBabyPhoto'));
+  const photo = localStorage.getItem(photoKey);
   const fixed = document.getElementById('hero-photo-fixed');
   const placeholder = document.getElementById('hero-photo-placeholder');
   const wrap = document.getElementById('hero-photo-wrap');
@@ -2718,7 +2718,7 @@ function initHeroPhoto() {
   // Restore saved photo for current child
   const idx = state.currentChildIndex;
   const key = idx === 0 ? 'heroBabyPhoto' : `heroBabyPhoto_${idx}`;
-  const saved = localStorage.getItem(key) || (idx !== 0 ? localStorage.getItem('heroBabyPhoto') : null);
+  const saved = localStorage.getItem(key);
   if (saved) applyHeroBabyPhoto(saved);
 
   // Init swipe between children
