@@ -2819,7 +2819,14 @@ function togglePrikorмFood(key) {
   else { s[key] = 'tried'; }
   if (s[key] === undefined) delete s[key];
   savePrikorмState(s);
-  renderPrikorм();
+  // Re-render whichever container is visible
+  const inline = document.getElementById('prikorм-content-inline');
+  const standalone = document.getElementById('prikorм-content');
+  if (inline && inline.closest('#feed-tab-prikorм') && inline.closest('#feed-tab-prikorм').style.display !== 'none') {
+    renderPrikorм('prikorм-content-inline');
+  } else {
+    renderPrikorм('prikorм-content');
+  }
 }
 
 const PRIKORМ_IMAGES = {
@@ -2830,8 +2837,21 @@ const PRIKORМ_IMAGES = {
   'Фрукты и ягоды 🍎':'assets/photos/prikorм-fruits.png',
 };
 
-function renderPrikorм() {
-  const container = document.getElementById('prikorм-content');
+function switchFeedTab(tab) {
+  const feedingsDiv = document.getElementById('feed-tab-feedings');
+  const prikorмDiv  = document.getElementById('feed-tab-prikorм');
+  const tabFeedings = document.getElementById('tab-feedings');
+  const tabPrikorм  = document.getElementById('tab-prikorм');
+  if (feedingsDiv) feedingsDiv.style.display = tab === 'feedings' ? '' : 'none';
+  if (prikorмDiv)  prikorмDiv.style.display  = tab === 'prikorм'  ? '' : 'none';
+  if (tabFeedings) tabFeedings.classList.toggle('active', tab === 'feedings');
+  if (tabPrikorм)  tabPrikorм.classList.toggle('active',  tab === 'prikorм');
+  if (tab === 'prikorм') renderPrikorм('prikorм-content-inline');
+}
+
+function renderPrikorм(containerId) {
+  const id = containerId || 'prikorм-content';
+  const container = document.getElementById(id);
   if (!container) return;
   const s = getPrikorмState();
   let html = '';
@@ -2863,7 +2883,8 @@ function renderPrikorм() {
         let icon = '';
         if (status === 'tried')   { cls += ' prikorм-tried';   icon = '✅'; }
         if (status === 'allergy') { cls += ' prikorм-allergy'; icon = '🚨'; }
-        html += `<button class="${cls}" onclick="togglePrikorмFood(${JSON.stringify(key)})" title="Нажми для отметки: → попробовали → аллергия → убрать">${icon ? icon + ' ' : ''}${food}</button>`;
+        const safeKey = key.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        html += `<button class="${cls}" onclick="togglePrikorмFood('${safeKey}')" title="Нажми для отметки: → попробовали → аллергия → убрать">${icon ? icon + ' ' : ''}${food}</button>`;
       }
       html += `</div>`;
     }
@@ -2983,19 +3004,27 @@ function activatePregnancyMode() {
 
 function updatePregnancyHomeTile() {
   const data = getPregnancyData();
-  const titleEl  = document.getElementById('pregnancy-tile-title');
-  const subEl    = document.getElementById('pregnancy-tile-sub');
-  const emojiEl  = document.getElementById('pregnancy-home-emoji');
+  const titleEl   = document.getElementById('pregnancy-tile-title');
+  const subEl     = document.getElementById('pregnancy-tile-sub');
+  const emojiEl   = document.getElementById('pregnancy-home-emoji');
+  const bannerEl  = document.getElementById('pregnancy-home-banner');
+  const banTitleEl = document.getElementById('preg-banner-title');
+  const banSubEl   = document.getElementById('preg-banner-sub');
   if (data && data.is_pregnant) {
     const w = data.week || 1;
     const fd = FETAL_DATA[Math.max(4, Math.min(40, w))] || {};
-    if (titleEl)  titleEl.textContent  = `Беременность ${w} нед.`;
-    if (subEl)    subEl.textContent    = fd.fruit ? fd.fruit + ' ' + (fd.name || '') : 'Счётчики · Развитие';
-    if (emojiEl)  emojiEl.textContent  = '🤰';
+    const subText = fd.fruit ? fd.fruit + ' ' + (fd.name || '') : 'Счётчики · Развитие';
+    if (titleEl)    titleEl.textContent   = `Беременность ${w} нед.`;
+    if (subEl)      subEl.textContent     = subText;
+    if (emojiEl)    emojiEl.textContent   = '🤰';
+    if (bannerEl)   bannerEl.style.display = '';
+    if (banTitleEl) banTitleEl.textContent = `🤰 Беременность · ${w} нед.`;
+    if (banSubEl)   banSubEl.textContent   = subText;
   } else {
-    if (titleEl)  titleEl.textContent  = 'Беременность';
-    if (subEl)    subEl.textContent    = 'Счётчики · Развитие';
-    if (emojiEl)  emojiEl.textContent  = '🤰';
+    if (titleEl)    titleEl.textContent   = 'Беременность';
+    if (subEl)      subEl.textContent     = 'Счётчики · Развитие';
+    if (emojiEl)    emojiEl.textContent   = '🤰';
+    if (bannerEl)   bannerEl.style.display = 'none';
   }
 }
 

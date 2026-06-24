@@ -6031,6 +6031,42 @@ body.on-kbzhu .kbzhu-meal-item {
    ═══════════════════════════════════════════════════════════════════════════ */
 body.on-prikorм #screen-prikorм { --screen-accent: #FF8C00; }
 
+/* ── Feed tabs ── */
+.feed-tabs {
+  display: flex; gap: 8px;
+  margin: 0 16px 14px;
+}
+.feed-tab {
+  flex: 1; padding: 9px 6px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-secondary);
+  font-size: 13px; font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.feed-tab.active {
+  background: var(--brand-primary);
+  border-color: var(--brand-primary);
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(248,193,204,0.4);
+}
+
+/* ── Pregnancy home banner ── */
+.pregnancy-home-banner-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, #c06ad6 0%, #e896f0 50%, #f5c6fa 100%);
+}
+.pregnancy-home-banner-bg::after {
+  content: '🤰';
+  position: absolute; right: 52px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 36px; opacity: 0.35;
+  pointer-events: none;
+}
+
 .prikorм-legend {
   display: flex; gap: 16px; align-items: center;
   padding: 10px 14px; background: var(--surface-2);
