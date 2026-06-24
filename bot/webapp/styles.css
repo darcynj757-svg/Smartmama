@@ -881,7 +881,7 @@ body {
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
-  padding: calc(var(--safe-top) + var(--tg-content-safe-top) + var(--topbar-h) + 36px) 14px 20px;
+  padding: calc(var(--safe-top) + var(--tg-content-safe-top) + var(--topbar-h) + 36px) 14px calc(var(--bottomnav-h) + var(--safe-bottom) + 30px);
   background: transparent;
 }
 .screen.active { display: block; animation: fadeIn 0.18s ease; }
