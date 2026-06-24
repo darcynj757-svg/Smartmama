@@ -3004,26 +3004,17 @@ function activatePregnancyMode() {
 
 function updatePregnancyHomeTile() {
   const data = getPregnancyData();
-  const titleEl   = document.getElementById('pregnancy-tile-title');
-  const subEl     = document.getElementById('pregnancy-tile-sub');
-  const emojiEl   = document.getElementById('pregnancy-home-emoji');
-  const bannerEl  = document.getElementById('pregnancy-home-banner');
+  const bannerEl   = document.getElementById('pregnancy-home-banner');
   const banTitleEl = document.getElementById('preg-banner-title');
   const banSubEl   = document.getElementById('preg-banner-sub');
   if (data && data.is_pregnant) {
     const w = data.week || 1;
     const fd = FETAL_DATA[Math.max(4, Math.min(40, w))] || {};
     const subText = fd.fruit ? fd.fruit + ' ' + (fd.name || '') : 'Счётчики · Развитие';
-    if (titleEl)    titleEl.textContent   = `Беременность ${w} нед.`;
-    if (subEl)      subEl.textContent     = subText;
-    if (emojiEl)    emojiEl.textContent   = '🤰';
     if (bannerEl)   bannerEl.style.display = '';
     if (banTitleEl) banTitleEl.textContent = `🤰 Беременность · ${w} нед.`;
     if (banSubEl)   banSubEl.textContent   = subText;
   } else {
-    if (titleEl)    titleEl.textContent   = 'Беременность';
-    if (subEl)      subEl.textContent     = 'Счётчики · Развитие';
-    if (emojiEl)    emojiEl.textContent   = '🤰';
     if (bannerEl)   bannerEl.style.display = 'none';
   }
 }
