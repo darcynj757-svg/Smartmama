@@ -46,7 +46,7 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "echo 'API Server is managed by artifacts/api-server workflow. Ready.' && sleep infinity"
+args = "cd artifacts/api-server && node --enable-source-maps ./dist/index.mjs"
 waitForPort = 5000
 
 [agent]
@@ -61,10 +61,6 @@ timeoutMs = 20000
 [[ports]]
 localPort = 5000
 externalPort = 80
-
-[[ports]]
-localPort = 8082
-externalPort = 3002
 
 [userenv]
 
