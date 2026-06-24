@@ -62,16 +62,51 @@ router.post("/create", async (req: Request, res: Response): Promise<void> => {
 // POST /api/payment/webhook
 router.post("/webhook", async (req: Request, res: Response): Promise<void> => {
   try {
-    const event = req.body as {
-      event: string;
-      object?: { metadata?: { user_id?: string; plan?: string; period?: string } };
-    };
-    if (event.event !== "payment.succeeded") {
+    const shopId = process.env["YOOKASSA_SHOP_ID"];
+    const secretKey = process.env["YOOKASSA_SECRET_KEY"];
+    if (!shopId || !secretKey) {
+      res.status(503).json({ error: "Payment not configured" });
+      return;
+    }
+
+    const incoming = req.body as { event?: string; object?: { id?: string } };
+    if (incoming.event !== "payment.succeeded") {
       res.json({ ok: true });
       return;
     }
 
-    const metadata = event.object?.metadata;
+    const paymentId = incoming.object?.id;
+    if (!paymentId) {
+      res.status(400).json({ error: "No payment id" });
+      return;
+    }
+
+    // Проверяем платёж напрямую в YooKassa (защита от подделки вебхука)
+    const verifyResp = await fetch(`https://api.yookassa.ru/v3/payments/${paymentId}`, {
+      headers: {
+        Authorization: `Basic ${Buffer.from(`${shopId}:${secretKey}`).toString("base64")}`,
+      },
+    });
+    if (!verifyResp.ok) {
+      logger.error({ status: verifyResp.status, paymentId }, "YooKassa verify failed");
+      res.status(502).json({ error: "Verification failed" });
+      return;
+    }
+
+    const payment = await verifyResp.json() as {
+      status?: string;
+      paid?: boolean;
+      metadata?: { user_id?: string; plan?: string; period?: string };
+    };
+
+    // Доверяем только подтверждённому самой YooKassa платежу
+    if (payment.status !== "succeeded" || payment.paid !== true) {
+      logger.warn({ paymentId, status: payment.status }, "Payment not confirmed");
+      res.json({ ok: true });
+      return;
+    }
+
+    const metadata = payment.metadata;
     if (!metadata?.user_id || !metadata?.plan || !metadata?.period) {
       res.status(400).json({ error: "Invalid metadata" });
       return;
@@ -93,10 +128,9 @@ router.post("/webhook", async (req: Request, res: Response): Promise<void> => {
     const newDate = new Date(base.getTime() + days * 86400000).toISOString().split("T")[0];
     db.prepare("UPDATE users SET premium_until=?, plan=?, plan_period=? WHERE user_id=?").run(newDate, metadata.plan, period, userId);
 
-    logger.info({ userId, plan: metadata.plan, period, until: newDate }, "Payment succeeded");
     res.json({ ok: true });
   } catch (err) {
-    logger.error({ err }, "Payment webhook error");
+    logger.error({ err }, "Webhook error");
     res.status(500).json({ error: "Server error" });
   }
 });
